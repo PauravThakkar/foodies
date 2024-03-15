@@ -1,4 +1,35 @@
 body {
     background-color: white;
     color: wheat;
+    background: black;
+}
+
+.navigation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    font-size: 30px;
+    color: red;
+    align-items: center;
+    box-shadow: 0 4px 2px -2px gray;
+}
+
+.nav-left {
+    font-family: "Slackside One", cursive;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 40px;
+}
+
+.nav-right a {
+    margin-left: 20px;
+
+}
+
+.nav-right {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }

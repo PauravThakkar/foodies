@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block body_block %}
+    <div class="navigation">
+    <div class="nav-left">
+        Foodies
+    </div>
+    <div class="nav-right">
+        <a>Home</a>
+        {% if status == "signedIn" %}
+            <a>Account</a>
+        {% else %}
+            <a>Sign In</a>
+            <a>Register</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
