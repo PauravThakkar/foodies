@@ -4,4 +4,70 @@
 {% endblock %}
 {% block body_block %}
     <h1>Dashboard</h1>
+
+    {% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block navigation %}
+    {% include 'navbar.html' %}
+{% endblock %}
+{% block body_block %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="head">Welcome to Foodies!</h1>
+            <p>Discover delicious food from your favorite restaurants.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2 class="head">Featured Restaurants</h2>
+            <div class="card-deck">
+                <!-- Restaurant 1 -->
+                <div class="card order-block">
+                    <img src="{% static 'images/restaurant1.jpg' %}" class="card-img-top food-image" alt="Restaurant 1">
+                    <div class="card-body order-details">
+                        <h5 class="card-title">Restaurant 1</h5>
+                        <p class="card-text">Delicious cuisine from around the world.</p>
+                        <a href="#" class="btn btn-primary rate-order-btn">Visit Restaurant</a>
+                    </div>
+                    <img src="{% static 'images/restaurantlogo.jpg' %}" alt="Logo" class="logo">
+                    <div class="order-id">
+                        <h6>Order ID: ABC123</h6>
+                        <h6><strong>Total Price: $50.00</strong></h6>
+                    </div>
+                </div>
+                <!-- Restaurant 2 -->
+                <div class="card order-block">
+                    <img src="{% static 'images/restaurant2.jpg' %}" class="card-img-top food-image" alt="Restaurant 2">
+                    <div class="card-body order-details">
+                        <h5 class="card-title">Restaurant 2</h5>
+                        <p class="card-text">Savor the flavors of local specialties.</p>
+                        <a href="#" class="btn btn-primary rate-order-btn">Visit Restaurant</a>
+                    </div>
+                    <img src="{% static 'images/restaurantlogo.jpg' %}" alt="Logo" class="logo">
+                    <div class="order-id">
+                        <h6>Order ID: DEF456</h6>
+                        <h6><strong>Total Price: $60.00</strong></h6>
+                    </div>
+                </div>
+                <!-- Restaurant 3 -->
+                <div class="card order-block">
+                    <img src="{% static 'images/restaurant3.jpg' %}" class="card-img-top food-image" alt="Restaurant 3">
+                    <div class="card-body order-details">
+                        <h5 class="card-title">Restaurant 3</h5>
+                        <p class="card-text">Experience fine dining with exquisite dishes.</p>
+                        <a href="#" class="btn btn-primary rate-order-btn">Visit Restaurant</a>
+                    </div>
+                    <img src="{% static 'images/restaurantlogo.jpg' %}" alt="Logo" class="logo">
+                    <div class="order-id">
+                        <h6>Order ID: GHI789</h6>
+                        <h6><strong>Total Price: $70.00</strong></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
 {% endblock %}
