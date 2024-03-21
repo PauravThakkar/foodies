@@ -100,7 +100,7 @@ class Review(models.Model):
 
 
 
-#Astha
+
 from django.db import models
 
 
