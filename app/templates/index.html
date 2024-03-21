@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foodie - Supper delicious Food in town!</title>
+
+  <!-- 
+    - custom css link
+  -->
+  <link rel="stylesheet" href="/app/static/style.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Rubik:wght@400;500;600;700&family=Shadows+Into+Light&display=swap"
+    rel="stylesheet">
+
+  <!-- 
+    - preload images
+  -->
+  <link rel="preload" as="image" href="/app/static/images/hero-banner.png" media="min-width(768px)">
+  <link rel="preload" as="image" href="/app/static/images/hero-banner-bg.png" media="min-width(768px)">
+  <link rel="preload" as="image" href="/app/static/images/hero-bg.jpg">
+
+</head>
+
+<body id="top">
+
+  <!-- 
+    - #HEADER
+  -->
+
+  <header class="header" data-header>
+    <div class="container">
+
+      <h1>
+        <a href="#" class="logo">Foodie<span class="span">.</span></a>
+      </h1>
+
+      <nav class="navbar" data-navbar>
+        <ul class="navbar-list">
+
+          <li class="nav-item">
+            <a href="#home" class="navbar-link" data-nav-link>Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#about" class="navbar-link" data-nav-link>About Us</a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="navbar-link" data-nav-link>Contact Us</a>
+          </li>
+
+        </ul>
+      </nav>
+
+
+        <button class="nav-toggle-btn" aria-label="Toggle Menu" data-menu-toggle-btn>
+          <span class="line top"></span>
+          <span class="line middle"></span>
+          <span class="line bottom"></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+
+
+
+
+  <!-- 
+    - #SEARCH BOX
+  -->
+
+  <div class="search-container" data-search-container>
+
+    <div class="search-box">
+      <input type="search" name="search" aria-label="Search here" placeholder="Type keywords here..."
+        class="search-input">
+
+      <button class="search-submit" aria-label="Submit search" data-search-submit-btn>
+        <ion-icon name="search-outline"></ion-icon>
+      </button>
+    </div>
+
+    <button class="search-close-btn" aria-label="Cancel search" data-search-close-btn></button>
+
+  </div>
+
+
+
+
+
+  <main>
+    <article>
+
+      <!-- 
+        - #HERO
+      -->
+
+      <section class="hero" id="home" style="background-image: url('./assets/images/hero-bg.jpg')">
+        <div class="container">
+
+          <div class="hero-content">
+
+            <p class="hero-subtitle">Eat Sleep And</p>
+
+            <h2 class="h1 hero-title">Supper delicious Food in town!</h2>
+
+          </div>
+
+          <figure class="hero-banner">
+            <img src="/app/static/images/hero-banner-bg.png" width="820" height="716" alt="" aria-hidden="true"
+              class="w-100 hero-img-bg">
+
+            <img src="/app/static/images/hero-banner.png" width="700" height="637" loading="lazy" alt="Burger"
+              class="w-100 hero-img">
+          </figure>
+
+        </div>
+      </section>
+
+
+
+
+
+      <!-- 
+        - #FOOD MENU
+      -->
+
+      <section class="section food-menu" id="food-menu">
+        <div class="container">
+
+          <p class="section-subtitle">Popular Dishes</p>
+
+          <h2 class="h2 section-title">
+            Our Delicious <span class="span">Foods</span>
+          </h2>
+
+          <p class="section-text">
+            UoW
+          </p>
+
+          <ul class="fiter-list">
+
+            <li>
+              <button class="filter-btn  active">All</button>
+            </li>
+
+            <li>
+              <button class="filter-btn">Pizza</button>
+            </li>
+
+            <li>
+              <button class="filter-btn">Burger</button>
+            </li>
+
+            <li>
+              <button class="filter-btn">Drinks</button>
+            </li>
+
+          </ul>
+
+          <ul class="food-menu-list">
+
+            <li>
+              <div class="food-menu-card">
+
+                <div class="card-banner">
+                  <img src="/app/static/images/food-menu-1.png" width="300" height="300" loading="lazy"
+                    alt="Fried Chicken Unlimited" class="w-100">
+
+                  <div class="badge">-15%</div>
+
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+
+                <div class="wrapper">
+                  <p class="category">Chicken</p>
+                </div>
+
+                <h3 class="h3 card-title">Fried Chicken Unlimited</h3>
+
+                <div class="price-wrapper">
+
+                  <p class="price-text">Price:</p>
+
+                  <data class="price">$49.00</data>
+
+                  <del class="del" value="69.00">$69.00</del>
+
+                </div>
+
+              </div>
+            </li>
+
+            <li>
+              <div class="food-menu-card">
+
+                <div class="card-banner">
+                  <img src="./assets/images/food-menu-2.png" width="300" height="300" loading="lazy"
+                    alt="Burger King Whopper" class="w-100">
+
+                  <div class="badge">-10%</div>
+
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+
+                <div class="wrapper">
+                  <p class="category">Noddles</p>
+                </div>
+
+                <h3 class="h3 card-title">Burger King Whopper</h3>
+
+                <div class="price-wrapper">
+
+                  <p class="price-text">Price:</p>
+
+                  <data class="price" value="29.00">$29.00</data>
+
+                  <del class="del">$39.00</del>
+
+                </div>
+
+              </div>
+            </li>
+
+            <li>
+              <div class="food-menu-card">
+
+                <div class="card-banner">
+                  <img src="./assets/images/food-menu-3.png" width="300" height="300" loading="lazy"
+                    alt="White Castle Pizzas" class="w-100">
+
+                  <div class="badge">-25%</div>
+
+                  <button class="btn food-menu-btn">Order Now</button>
+                </div>
+
+                </div>
+
+                <h3 class="h3 card-title">White Castle Pizzas</h3>
+
+                <div class="price-wrapper">
+
+                  <p class="price-text">Price:</p>
+
+                  <data class="price" value="49.00">$49.00</data>
+
+                  <del class="del">$69.00</del>
+
+                </div>
+
+              </div>
+            </li>
+            </li>
+
+          </ul>
+
+
+        </div>
+      </section>
+
+
+
+
+
+
+      <section class="section section-divider white blog" id="blog">
+        <div class="container">
+
+          <p class="section-subtitle">Latest Blog Posts</p>
+
+          <h2 class="h2 section-title">
+            This Is All About <span class="span">Foods</span>
+          </h2>
+
+          <ul class="blog-list">
+
+            <li>
+              <div class="blog-card">
+
+                <div class="card-banner">
+                  <img src="/app/static/images/blog-1.jpg" width="600" height="390" loading="lazy"
+                    alt="What Do You Think About Cheese Pizza Recipes?" class="w-100">
+
+                  <div class="badge">Pizza</div>
+                </div>
+
+                <div class="card-content">
+
+                  <div class="card-meta-wrapper">
+
+                    <a href="#" class="card-meta-link">
+                      <ion-icon name="calendar-outline"></ion-icon>
+
+                      <time class="meta-info" datetime="March 2024">MAR 2024</time>
+                    </a>
+
+                    <a href="#" class="card-meta-link">
+                      <ion-icon name="person-outline"></ion-icon>
+
+                      <p class="meta-info">Vinit Chauhan</p>
+                    </a>
+
+                  </div>
+
+                  <h3 class="h3">
+                    <a href="#" class="card-title">What Do You Think About Cheese Pizza Recipes?</a>
+                  </h3>
+
+                  <p class="card-text">
+                    Financial experts support or help you to to find out which way you can raise your funds more...
+                  </p>
+
+                  <a href="#" class="btn-link">
+                    <span>Read More</span>
+
+                    <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+                  </a>
+
+                </div>
+
+              </div>
+            </li>
+
+            <li>
+              <div class="blog-card">
+
+                <div class="card-banner">
+                  <img src="/app/static/images/blog-2.jpg" width="600" height="390" loading="lazy"
+                    alt="Making Chicken Strips With New Delicious Ingridents." class="w-100">
+
+                  <div class="badge">Burger</div>
+                </div>
+
+                <div class="card-content">
+
+                  <div class="card-meta-wrapper">
+
+                    <a href="#" class="card-meta-link">
+                      <ion-icon name="calendar-outline"></ion-icon>
+
+                      <time class="meta-info" datetime="March 2024">MAR 2024</time>
+                    </a>
+
+                    <a href="#" class="card-meta-link">
+                      <ion-icon name="person-outline"></ion-icon>
+
+                      <p class="meta-info">Paurav Thakkar</p>
+                    </a>
+
+                  </div>
+
+                  <h3 class="h3">
+                    <a href="#" class="card-title">Making Chicken Strips With New Delicious Ingridents.</a>
+                  </h3>
+
+                  <p class="card-text">
+                    Financial experts support or help you to to find out which way you can raise your funds more...
+                  </p>
+
+                  <a href="#" class="btn-link">
+                    <span>Read More</span>
+
+                    <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+                  </a>
+
+                </div>
+
+              </div>
+            </li>
+
+            <li>
+              <div class="blog-card">
+
+                <div class="card-banner">
+                  <img src="/app/static/images/blog-3.jpg" width="600" height="390" loading="lazy"
+                    alt="Innovative Hot Chessyraw Pasta Make Creator Fact." class="w-100">
+
+                  <div class="badge">Chicken</div>
+                </div>
+
+                <div class="card-content">
+
+                  <div class="card-meta-wrapper">
+
+                    <a href="#" class="card-meta-link">
+                      <ion-icon name="calendar-outline"></ion-icon>
+
+                      <time class="meta-info" datetime="March 2024">MAR 2024</time>
+                    </a>
+
+                    <a href="#" class="card-meta-link">
+                      <ion-icon name="person-outline"></ion-icon>
+
+                      <p class="meta-info">Astha Barot</p>
+                    </a>
+
+                  </div>
+
+                  <h3 class="h3">
+                    <a href="#" class="card-title">Innovative Hot Chessyraw Pasta Make Creator Fact.</a>
+                  </h3>
+
+                  <p class="card-text">
+                    Financial experts support or help you to to find out which way you can raise your funds more...
+                  </p>
+
+                  <a href="#" class="btn-link">
+                    <span>Read More</span>
+
+                    <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+                  </a>
+
+                </div>
+
+              </div>
+            </li>
+
+          </ul>
+
+        </div>
+      </section>
+
+
+
+
+
+    </article>
+  </main>
+
+
+  <!-- 
+    - #BACK TO TOP
+  -->
+
+  <a href="#top" class="back-top-btn" aria-label="Back to top" data-back-top-btn>
+    <ion-icon name="chevron-up"></ion-icon>
+  </a>
+
+
+</body>
+
+</html>

@@ -35,8 +35,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.restaurant_list, name='restaurant_list'),
-    path('menu/<int:restaurant_id>/', views.menu_items, name='menu_items'),
-    path('add_menu_item/', views.add_menu_item, name='add_menu_item'),
+    path('cuisines/', views.cuisine_list, name='cuisine_list'),
+    path('cuisines/<int:cuisine_id>/', views.cuisine_detail, name='cuisine_detail'),
+    path('restaurants/', views.restaurant_list, name='restaurant_list'),
+    path('restaurants/<int:restaurant_id>/', views.restaurant_detail, name='restaurant_detail'),
 ]
+
 

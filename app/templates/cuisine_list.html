@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuisine List</title>
+</head>
+<body>
+    <h1>Cuisines</h1>
+    <ul>
+        {% for cuisine in cuisines %}
+            <li><a href="{% url 'cuisine_detail' cuisine.id %}">{{ cuisine.name }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
