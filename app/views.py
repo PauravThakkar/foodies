@@ -10,8 +10,18 @@ from .forms import LoginForm, FilterForm
 from .forms import ReviewForm, UserProfileForm
 from .forms import SignUpForm
 from .models import Order
-from .models import Restaurant
+from .models import Restaurant, MenuItem
 from .models import UserProfile
+
+from django.views import View
+
+
+
+# cart 
+from django.shortcuts import render, redirect
+from .models import MenuItem
+from django.contrib.auth.decorators import login_required
+from cart.cart import Cart
 
 
 def restaurant_list(request):
@@ -180,3 +190,113 @@ def ask_money(request):
     # Create the instance.
     form = PayPalPaymentsForm(initial=paypal_dict)
     return render(request, "payments.html", {"form": form})
+
+
+
+
+class GetOneMenuByIdView(View):
+
+    def get_obj(self, id):
+    
+        try:
+            obj = MenuItem.objects.get(id = id)
+        except:
+            raise ValueError(f"Menu item not exist with id: {id}")
+        
+        return obj
+    
+
+    def get(self, request, id):
+
+        menu_item_details = self.get_obj(id = id)
+
+        context = {
+            "menu_details": menu_item_details
+        }
+
+        return render(request,"one_menu.html", context=context)
+
+
+
+class GetOneRestaurantByIdView(View):
+
+    def get_obj(self, id):
+
+        try:
+            obj = Restaurant.objects.get(id = id)
+        except:
+            raise ValueError(f"Restaurant not exist with id: {id}")
+        
+        return obj
+    
+
+    def get(self, request, id):
+
+        restaurant_details = self.get_obj(id = id)
+        
+
+        context = {
+            'restaurant_details': restaurant_details
+        }
+
+        return render(request,"one_restaurant.html", context=context)
+        
+
+
+
+
+
+
+def homeview(request):
+    return render(request, "home.html")
+
+# cart 
+    
+# @login_required(login_url="/users/login")
+def cart_add(request, id):
+    cart = Cart(request)
+    menu_item = MenuItem.objects.get(id=id)
+    cart.add(product=menu_item)
+    return redirect("cart_detail")
+
+
+# @login_required(login_url="/users/login")
+def item_clear(request, id):
+    cart = Cart(request)
+    menu_item = MenuItem.objects.get(id=id)
+    cart.remove(product=menu_item)
+    return redirect("cart_detail")
+
+
+# @login_required(login_url="/users/login")
+def item_increment(request, id):
+    cart = Cart(request)
+    menu_item = MenuItem.objects.get(id=id)
+    cart.add(product=menu_item)
+    return redirect("cart_detail")
+
+
+# @login_required(login_url="/users/login")
+def item_decrement(request, id):
+    cart = Cart(request)
+    menu_item = MenuItem.objects.get(id=id)
+    cart.decrement(product=menu_item)
+    return redirect("cart_detail")
+
+
+# @login_required(login_url="/users/login")
+def cart_clear(request):
+    cart = Cart(request)
+    cart.clear()
+    return redirect("cart_detail")
+
+
+# @login_required(login_url="/users/login")
+# def cart_detail(request):
+#     return render(request, 'cart/cart_detail.html')
+
+
+
+# @login_required(login_url="/users/login")
+def cart_detail(request):
+    return render(request, "cart_details.html")
