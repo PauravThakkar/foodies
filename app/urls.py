@@ -30,3 +30,12 @@ urlpatterns = [
     path('payment_successful/', payment_successful, name='payment_successful'),
     path('payment/', ask_money, name='payment'),
 ]
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.restaurant_list, name='restaurant_list'),
+    path('menu/<int:restaurant_id>/', views.menu_items, name='menu_items'),
+    path('add_menu_item/', views.add_menu_item, name='add_menu_item'),
+]
