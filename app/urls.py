@@ -25,7 +25,7 @@ urlpatterns = [
     path('', sign_up, name='sign_up'),
     path('signup/', sign_up, name='sign_up'),
     path('home/', home, name='home'),
-    path('login/', login, name='login'),
+    path('login/', logedIn, name='login'),
     path('paypal/', include("paypal.standard.ipn.urls")),
     path('payment_successful/', payment_successful, name='payment_successful'),
     path('payment/', ask_money, name='payment'),

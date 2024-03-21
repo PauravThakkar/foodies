@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
@@ -54,14 +55,13 @@ def temp_review_view(request, restaurant_id):
 def user_settings(request):
     if request.user.is_authenticated:
         try:
-            customer = Customer.objects.get(user_ptr=request.user)
+            customer = Customer.objects.get(username=request.user.username)
         except Customer.DoesNotExist:
             # Create a new Customer instance if it doesn't exist
             customer = Customer.objects.create(user_ptr=request.user)
     else:
         # Create a temporary anonymous user for development
-        default_user = User.objects.get(username='jk94')
-        customer = Customer.objects.get_or_create(user_ptr=default_user)[0]
+        return redirect('/login')
 
     if request.method == 'POST':
         password_form = PasswordChangeForm(request.user, request.POST)
@@ -129,13 +129,16 @@ def sign_up(request):
 
 
 
-def login(request):
+def logedIn(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
+
         if form.is_valid():
+            myuser = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
             # Process login data
             # Example: Check credentials and log the user in
-            return redirect('home')  # Redirect to home page after successful login
+            login(request, myuser)
+            return redirect('Settings')  # Redirect to home page after successful login
     else:
         form = LoginForm()
     return render(request, 'sign_in.html', {'form': form})
