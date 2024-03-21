@@ -39,3 +39,4 @@ urlpatterns = [
     path('menu/<int:restaurant_id>/', views.menu_items, name='menu_items'),
     path('add_menu_item/', views.add_menu_item, name='add_menu_item'),
 ]
+
