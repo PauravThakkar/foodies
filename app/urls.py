@@ -1,20 +1,7 @@
-"""
-URL configuration for Foodies project.
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.urls import path, include
+from django.urls import include
+from django.urls import path
+from . import views
 
 from .views import *
 
@@ -28,6 +15,24 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('paypal/', include("paypal.standard.ipn.urls")),
     path('payment_successful/', payment_successful, name='payment_successful'),
+    path('payment_failed/', payment_failed, name='payment_failed'),
     path('payment/', ask_money, name='payment'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('payment_successful/', payment_successful, name='payment_successful'),
+    path('temp_filter/', filter_temp, name='temp_filter'),
+    
+    path('menu/<int:id>/', views.GetOneMenuByIdView.as_view(), name = "get_one_menu"),
+    path('restaurant/<int:id>/', views.GetOneRestaurantByIdView.as_view(), name = "get_one_restaurant"),
+    
+    
+    # Cart 
+    path('cart/add/<int:id>/', views.cart_add, name='cart_add'),
+    path('cart/item_clear/<int:id>/', views.item_clear, name='item_clear'),
+    path('cart/item_increment/<int:id>/',
+         views.item_increment, name='item_increment'),
+    path('cart/item_decrement/<int:id>/',
+         views.item_decrement, name='item_decrement'),
+    path('cart/cart_clear/', views.cart_clear, name='cart_clear'),
+    path('cart/cart-detail/',views.cart_detail,name='cart_detail'),
+
 ]

@@ -1,29 +1,13 @@
 {% extends 'base.html' %}
+{% block navigation %}
+    {% include 'navbar.html' %}
+{% endblock %}
+{% block filter %}
+    <div class="filters">
+        <form class="filters-form" method="get" action="{% url 'temp_filter' %}">
+            {{ form.as_p }}
+            <button class="btn btn-primary" type="submit">Filter</button>
+        </form>
 
-{% block body_block %}
-<form method="get" action="{% url 'restaurant_list' %}">
-    <label for="category">Category:</label>
-    <select name="category">
-        <option value="" selected>All Categories</option>
-        <option value="Italian">Italian</option>
-        <option value="Mexican">Mexican</option>
-    </select>
-
-    <label for="rating">Rating:</label>
-    <select name="rating">
-        <option value="" selected>All Ratings</option>
-        <option value="5">5</option>
-        <option value="4.5">4.5</option>
-        <option value="4">4</option>
-        <option value="3.5">3.5</option>
-        <option value="3">3</option>
-        <option value="2.5">2.5</option>
-        <option value="2">2</option>
-        <option value="1.5">1.5</option>
-        <option value="1">1</option>
-    </select>
-
-    <button type="submit">Filter</button>
-</form>
-
+    </div>
 {% endblock %}
