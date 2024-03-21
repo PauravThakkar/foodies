@@ -9,7 +9,7 @@ from paypal.standard.forms import PayPalPaymentsForm
 from .forms import LoginForm, FilterForm
 from .forms import ReviewForm, UserProfileForm
 from .forms import SignUpForm
-from .models import Restaurant
+from .models import Restaurant, Customer
 from .models import UserProfile
 
 
@@ -51,10 +51,11 @@ def temp_review_view(request, restaurant_id):
                       {'review_from': form, 'restaurant_id': restaurant_id, 'restaurant_name': restaurant.name,
                        'message': ''})
 
+
 @login_required(login_url='/login/')
 def user_settings(request):
     user = 1
-    user_profile = UserProfile.objects.get_or_create(user=user)[0]
+    user_profile = Customer.objects.get_or_create(user=user)[0]
     if request.method == 'POST':
         password_form = PasswordChangeForm(user, request.POST)
         profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
