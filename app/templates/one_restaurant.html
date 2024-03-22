@@ -17,24 +17,38 @@
     <style>
         /* Custom styles for Restaurant theme */
         body {
-            background-color: #f8f9fa; /* Light gray background */
+            background-color: #f8f9fa;
+            /* Light gray background */
         }
+
         .menu-item {
-            background-color: #fff3cd; /* Light yellow background for menu items */
-            border: 1px solid #ffeeba; /* Border color */
-            border-radius: 0.25rem; /* Rounded corners */
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Shadow */
+            background-color: #fff3cd;
+            /* Light yellow background for menu items */
+            border: 1px solid #ffeeba;
+            /* Border color */
+            border-radius: 0.25rem;
+            /* Rounded corners */
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            /* Shadow */
         }
+
         .menu-item h5 {
-            color: #007bff; /* Blue color for menu item name */
+            color: #007bff;
+            /* Blue color for menu item name */
         }
+
         .btn-add-to-cart {
-            background-color: #28a745; /* Green background for Add to Cart button */
-            border-color: #28a745; /* Green border color */
+            background-color: #28a745;
+            /* Green background for Add to Cart button */
+            border-color: #28a745;
+            /* Green border color */
         }
+
         .btn-add-to-cart:hover {
-            background-color: #218838; /* Darker green on hover */
-            border-color: #1e7e34; /* Darker green border on hover */
+            background-color: #218838;
+            /* Darker green on hover */
+            border-color: #1e7e34;
+            /* Darker green border on hover */
         }
     </style>
 </head>
@@ -60,22 +74,24 @@
                 <!-- Menu Items -->
                 <h2>Menu Items</h2>
                 {% for menu in restaurant_details.menus.all %}
-                <div class="menu-item row mb-3 p-3">
-                    <!-- Menu Item Details -->
-                    <div class="col-md-10">
-                        <h5>{{ menu.name }}</h5>
-                        <!-- Truncated Description -->
-                        <p class="text-truncate">{{ menu.description }}</p>
-                        <!-- Adjust max-width as needed -->
-                        <p><strong>Price:</strong> ${{ menu.price }}</p>
-                    </div>
-                    <!-- Add to Cart Button -->
-                    <div class="col-md-2 align-self-center">
-                        <div class="text-center">
-                            <button class="btn btn-add-to-cart btn-block">Add to Cart</button>
+                <a href="{% url 'get_one_menu' id=menu.id %}">
+                    <div class="menu-item row mb-3 p-3">
+                        <!-- Menu Item Details -->
+                        <div class="col-md-10">
+                            <h5>{{ menu.name }}</h5>
+                            <!-- Truncated Description -->
+                            <p class="text-truncate">{{ menu.description }}</p>
+                            <!-- Adjust max-width as needed -->
+                            <p><strong>Price:</strong> ${{ menu.price }}</p>
+                        </div>
+                        <!-- Add to Cart Button -->
+                        <div class="col-md-2 align-self-center">
+                            <div class="text-center">
+                                <button class="btn btn-add-to-cart btn-block">Add to Cart</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
                 {% endfor %}
             </div>
         </div>

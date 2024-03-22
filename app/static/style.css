@@ -1,0 +1,233 @@
+body {
+    background-color: white;
+    color: wheat;
+}
+
+.navigation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    font-size: 30px;
+    color: red;
+    align-items: center;
+    box-shadow: 0 4px 2px -2px red;
+}
+
+.nav-left {
+    font-family: "Slackside One", cursive;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 40px;
+}
+
+.nav-right a {
+    margin-left: 20px;
+
+}
+
+.nav-right {
+    font-size: 20px;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.navigation i{
+    font-size: 25px;
+}
+
+.payment-image {
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+}
+
+.payment-image img {
+    width: 40vw;
+}
+
+.payment-image .success {
+    margin-bottom: 10px;
+    text-align: center;
+    color: #81bb81;
+}
+
+.payment-image .failure {
+    margin-bottom: 10px;
+    text-align: center;
+    color: #bf4343;
+}
+
+.filters {
+    padding: 10px;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.filters-form {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.filters-form p {
+    display: inline;
+    margin: 0;
+}
+
+.filters-form .form-select {
+    width: 200px !important;
+    border: 2px solid red !important;
+    border-radius: 10px !important;
+    color: red;
+}
+
+.filters-form .form-control {
+    width: 200px !important;
+    border: 2px solid red !important;
+    border-radius: 10px !important;
+}
+
+.filters-form {
+    color: red;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+
+.form-select, .form-control {
+    display: inline !important;
+    width: fit-content !important;
+}
+
+.btn-primary {
+    background-color: red !important;
+    padding: 10px 20px !important;
+    border: red !important;
+}
+
+.filters-form .form-select select {
+    background: transparent;
+    width: 170px;
+    padding: 5px;
+    border: 0;
+    border-radius: 0;
+    height: 35px;
+}
+
+.head {
+    text-align: center;
+    font-family: "fantasy";
+    font-style: italic;
+    margin-top: 40px;
+}
+
+/* Styling for order blocks */
+.order-block {
+    position: relative;
+    display:inline-block;
+    justify-content: space-between;
+    margin-right: 20px;
+    width: 400px;
+    height: 450px;
+    margin-right: 20px;
+    color: black;
+    text-align: center;
+    line-height: 100px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 30px;
+    font-size: larger;
+    margin-bottom: 35px;
+
+}
+
+.order-block:nth-child(even) {
+    background-color: snow;
+    color: black;
+}
+
+.order-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.order-details {
+    flex: 1;
+    padding: 20px;
+}
+
+.order-details h6 {
+    margin: 8px 0;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.order-details p {
+    margin: 8px 0;
+    font-size: 14px;
+    text-align: left;
+
+}
+
+.order-id {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 20px;
+    color: black;
+
+}
+
+.rate-order-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    background-color: red;
+    border: none;
+    color: black;
+    width: 7rem;
+    height: 3rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    line-height: 3rem;
+    cursor: pointer;
+    border-radius: 10px;
+
+
+}
+
+.rate-order-btn:hover {
+    background-color: #e6e6e6;
+}
+
+.logo {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.food-image {
+    width: 100%; /* Adjust the width to fit the container */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 120px; /* Limit the maximum height */
+    object-fit: cover; /* Maintain aspect ratio and cover the container */
+    border-radius: 15px; /* Add rounded corners */
+}

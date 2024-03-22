@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block navigation %}
+    {% include 'navbar.html' %}
+{% endblock %}
+{% block body_block %}
+    <div class="payment-image">
+        <div><h2 class="failure">Payment Failed!! <i class="fa-regular fa-circle-xmark"></i></h2></div>
+        <img src="{% static 'images/payment_failed.jpg' %}" alt="payment failed"/>
+    </div>
+{% endblock %}

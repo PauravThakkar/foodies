@@ -1,0 +1,16 @@
+<div class="navigation">
+    <div class="nav-left">
+        Foodies
+    </div>
+    <div class="nav-right">
+        <a>Home</a>
+        <a><i size="30px" class="fas fa-cart-shopping"></i></a>
+        {% if status == "signedIn" %}
+            <a><i class="fas fa-user-circle"></i></a>
+            <a><i class="fas fa-sign-out-alt"></i></a>
+        {% else %}
+            <a>Sign In</a>
+            <a>Register</a>
+        {% endif %}
+    </div>
+</div>

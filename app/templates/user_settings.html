@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block body_block %}
+    <h1>User Settings</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <h2>Change Password</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Change Password</button>
+    </form>
+{% endblock %}
