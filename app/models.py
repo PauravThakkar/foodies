@@ -34,12 +34,12 @@ class Category(models.Model):
         return self.name
 
 
-
 class Customer(User):
     date_of_birth = models.DateField(null=True, blank=True, default=None)
     contact_number = models.CharField(max_length=15, null=True, blank=True, default=None)
+
     def __str__(self):
-       return self.username
+        return self.username
 
 
 class MenuItem(models.Model):
@@ -48,14 +48,21 @@ class MenuItem(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2)
 
 
+class Cuisine(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
 class Restaurant(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
     address = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=15)
     website = models.URLField(blank=True, null=True)
-
-    menus = models.ManyToManyField(MenuItem, null=True, blank=True)
+    cuisines = models.ManyToManyField(Cuisine)
+    menus = models.ManyToManyField(MenuItem)
 
     def __str__(self):
         return self.name
@@ -97,24 +104,3 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review for {self.restaurant} by {self.user.username} ({self.ratings} stars)"
-
-
-from django.db import models
-
-class Cuisine(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
-class Restaurant(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-    cuisines = models.ManyToManyField(Cuisine)
-    address = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.name
-
-

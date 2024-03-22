@@ -20,4 +20,5 @@ admin.site.register(UserProfile)
 admin.site.register(Restaurant)
 admin.site.register(Review)
 admin.site.register(MenuItem)
+admin.site.register(Cuisine)
 

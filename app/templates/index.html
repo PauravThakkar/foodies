@@ -8,9 +8,20 @@
   <title>Foodie - Supper delicious Food in town!</title>
 
   <!-- 
+    - favicon
+  -->
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+
+  <!-- 
     - custom css link
   -->
-  <link rel="stylesheet" href="/app/static/style.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Rubik:wght@400;500;600;700&family=Shadows+Into+Light&display=swap"
     rel="stylesheet">
@@ -18,9 +29,9 @@
   <!-- 
     - preload images
   -->
-  <link rel="preload" as="image" href="/app/static/images/hero-banner.png" media="min-width(768px)">
-  <link rel="preload" as="image" href="/app/static/images/hero-banner-bg.png" media="min-width(768px)">
-  <link rel="preload" as="image" href="/app/static/images/hero-bg.jpg">
+  <link rel="preload" as="image" href="./assets/images/hero-banner.png" media="min-width(768px)">
+  <link rel="preload" as="image" href="./assets/images/hero-banner-bg.png" media="min-width(768px)">
+  <link rel="preload" as="image" href="./assets/images/hero-bg.jpg">
 
 </head>
 
@@ -112,10 +123,10 @@
           </div>
 
           <figure class="hero-banner">
-            <img src="/app/static/images/hero-banner-bg.png" width="820" height="716" alt="" aria-hidden="true"
+            <img src="./assets/images/hero-banner-bg.png" width="820" height="716" alt="" aria-hidden="true"
               class="w-100 hero-img-bg">
 
-            <img src="/app/static/images/hero-banner.png" width="700" height="637" loading="lazy" alt="Burger"
+            <img src="./assets/images/hero-banner.png" width="700" height="637" loading="lazy" alt="Burger"
               class="w-100 hero-img">
           </figure>
 
@@ -166,19 +177,28 @@
           <ul class="food-menu-list">
 
             <li>
+              {% for items in menu %}
               <div class="food-menu-card">
 
                 <div class="card-banner">
-                  <img src="/app/static/images/food-menu-1.png" width="300" height="300" loading="lazy"
+                  <img src="{{items.img}}" width="300" height="300" loading="lazy"
                     alt="Fried Chicken Unlimited" class="w-100">
 
                   <div class="badge">-15%</div>
 
-                  <button class="btn food-menu-btn">Order Now</button>
+                  <button class="btn food-menu-btn">View Restaurant</button>
                 </div>
 
                 <div class="wrapper">
                   <p class="category">Chicken</p>
+
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
                 </div>
 
                 <h3 class="h3 card-title">Fried Chicken Unlimited</h3>
@@ -195,7 +215,7 @@
 
               </div>
             </li>
-
+            {% endfor %}
             <li>
               <div class="food-menu-card">
 
@@ -210,6 +230,14 @@
 
                 <div class="wrapper">
                   <p class="category">Noddles</p>
+
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
                 </div>
 
                 <h3 class="h3 card-title">Burger King Whopper</h3>
@@ -239,6 +267,16 @@
                   <button class="btn food-menu-btn">Order Now</button>
                 </div>
 
+                <div class="wrapper">
+                  <p class="category">Pizzas</p>
+
+                  <div class="rating-wrapper">
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                    <ion-icon name="star"></ion-icon>
+                  </div>
                 </div>
 
                 <h3 class="h3 card-title">White Castle Pizzas</h3>
@@ -283,7 +321,7 @@
               <div class="blog-card">
 
                 <div class="card-banner">
-                  <img src="/app/static/images/blog-1.jpg" width="600" height="390" loading="lazy"
+                  <img src="./assets/images/blog-1.jpg" width="600" height="390" loading="lazy"
                     alt="What Do You Think About Cheese Pizza Recipes?" class="w-100">
 
                   <div class="badge">Pizza</div>
@@ -330,7 +368,7 @@
               <div class="blog-card">
 
                 <div class="card-banner">
-                  <img src="/app/static/images/blog-2.jpg" width="600" height="390" loading="lazy"
+                  <img src="./assets/images/blog-2.jpg" width="600" height="390" loading="lazy"
                     alt="Making Chicken Strips With New Delicious Ingridents." class="w-100">
 
                   <div class="badge">Burger</div>
@@ -377,7 +415,7 @@
               <div class="blog-card">
 
                 <div class="card-banner">
-                  <img src="/app/static/images/blog-3.jpg" width="600" height="390" loading="lazy"
+                  <img src="./assets/images/blog-3.jpg" width="600" height="390" loading="lazy"
                     alt="Innovative Hot Chessyraw Pasta Make Creator Fact." class="w-100">
 
                   <div class="badge">Chicken</div>

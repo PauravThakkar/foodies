@@ -1,54 +1,127 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Homepage</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f2f2f2;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
-        nav {
-            background-color: #444;
-            padding: 10px 0;
-            text-align: center;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 20px;
-        }
-        nav a:hover {
-            background-color: #555;
-        }
-        .container {
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .restaurant {
-            border-bottom: 1px solid #ccc;
-            padding: 20px 0;
-            text-align: center;
-        }
-        .restaurant h2 {
-            margin-bottom: 5px;
-        }
-        .restaurant p {
-            margin-top: 5px;
-            color: #666;
-        }
-    </style>
-</head>
-</html>
+{% extends 'base.html' %}
+
+{% block custom_imports %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Rubik:wght@400;500;600;700&family=Shadows+Into+Light&display=swap"
+            rel="stylesheet">
+
+    {% load static %}
+    <!--
+      - preload images
+    -->
+    <link rel="preload" as="image" href="{% static 'images/hero-banner.png' %}" media="min-width(768px)">
+    <link rel="preload" as="image" href="{% static 'images/hero-banner-bg.png' %}" media="min-width(768px)">
+    <link rel="preload" as="image" href="{% static 'images/hero-bg.jpg' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'home.css' %}">
+
+{% endblock %}
+
+{% block title %}
+    Supper delicious Food in town!
+{% endblock %}
+<body id="top">
+
+
+{% block body_block %}
+
+    <header class="header" data-header>
+        <div class="container">
+
+            <h1>
+                <a href="#" class="logo">Foodie<span class="span">.</span></a>
+            </h1>
+
+            <nav class="navbar" data-navbar>
+                <ul class="navbar-list">
+
+                    <li class="nav-item">
+                        <a href="#home" class="navbar-link" data-nav-link>Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#about" class="navbar-link" data-nav-link>About Us</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="navbar-link" data-nav-link>Contact Us</a>
+                    </li>
+
+                </ul>
+            </nav>
+
+
+            <button class="nav-toggle-btn" aria-label="Toggle Menu" data-menu-toggle-btn>
+                <span class="line top"></span>
+                <span class="line middle"></span>
+                <span class="line bottom"></span>
+            </button>
+        </div>
+
+        </div>
+    </header>
+
+    <!--
+     - #HERO
+   -->
+
+    <section class="hero" id="home" style="background-image:{% static 'images/hero-bg.jpg' %}"
+    <div class="container">
+
+        <div class="hero-content">
+
+            <h2 class="h1 hero-title">Super delicious Food in town!</h2>
+
+        </div>
+
+        <figure class="hero-banner">
+            <img src="{% static 'images/hero-banner-bg.png' %}" width="820" height="716" alt="" aria-hidden="true"
+                 class="w-100 hero-img-bg">
+
+            <img src="{% static 'images/hero-banner.png' %}" width="700" height="637" loading="lazy" alt="Burger"
+                 class="w-100 hero-img">
+        </figure>
+
+    </div>
+    </section>
+
+
+    <!--
+     - #FOOD MENU
+   -->
+
+    <section class="section food-menu" id="food-menu">
+        <div class="container">
+
+            <p class="section-subtitle">Popular Restaurants</p>
+
+            <ul class="food-menu-list">
+                {% for restaurant in restaurants %}
+                    <li>
+                    <div class="food-menu-card">
+
+                        <div class="card-banner">
+                            <img src="{% static 'images/food-menu-4.png' %}" width="300" height="300" loading="lazy"
+                                 alt="Balista" class="w-100">
+
+
+                            <button class="btn food-menu-btn">View Restaurant</button>
+
+                        </div>
+
+                        <h3 class="h3 card-title">{{ restaurant.name }}</h3>
+                        <h5 class="h5 card-content">{{ restaurant.address }}</h5>
+                        <h5 class="h5 card-content">{{ restaurant.description }}</h5>
+
+
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </section>
+
+{% endblock %}

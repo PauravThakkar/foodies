@@ -31,14 +31,3 @@ urlpatterns = [
     path('payment/', ask_money, name='payment'),
 ]
 
-from django.urls import path
-from . import views
-
-urlpatterns = [
-    path('cuisines/', views.cuisine_list, name='cuisine_list'),
-    path('cuisines/<int:cuisine_id>/', views.cuisine_detail, name='cuisine_detail'),
-    path('restaurants/', views.restaurant_list, name='restaurant_list'),
-    path('restaurants/<int:restaurant_id>/', views.restaurant_detail, name='restaurant_detail'),
-]
-
-
