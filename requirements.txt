@@ -9,7 +9,7 @@ crashtest==0.4.1
 cryptography==41.0.4
 Cython==0.29.37
 distlib==0.3.7
-Django==5.0.3
+django==5.0.3
 django-paypal==2.0
 django-shopping-cart==0.1
 dulwich==0.21.6

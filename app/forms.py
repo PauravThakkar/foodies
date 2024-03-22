@@ -90,13 +90,7 @@ class SignUpForm(UserCreationForm):
                                                       'style': 'margin-left:15px ; padding:10px'})
         }
         help_texts = {
-            'username': '',
-            'password1': '',
-            'password2': '',
-            'email': '',
-            'date_of_birth': '',
-            'contact_number': '',
-            'profile_picture': ''
+            'username': None,
         },
 
 
