@@ -1,5 +1,5 @@
 from django import forms
-
+from django.contrib.auth.forms import UserCreationForm
 from app.models import *
 
 
@@ -17,18 +17,17 @@ class ReviewForm(forms.ModelForm):
         }
 
 
-class SignUpForm(forms.ModelForm):
+class SignUpForm(UserCreationForm):
     class Meta:
         model = Customer
-        fields = ['username', 'password', 'email', 'date_of_birth', 'contact_number']
+        fields = ['username', 'email', 'date_of_birth', 'contact_number']
         widgets = {
-            'password': forms.PasswordInput(),
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
         }
 
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(label="Email")
+    username = forms.CharField(label="User Name")
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
 
 
