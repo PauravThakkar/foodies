@@ -134,23 +134,21 @@ def user_history(request):
 
 def sign_up(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Redirect to login page after successful sign-up
+            return redirect('app_login')  # Redirect to login page after successful sign-up
     else:
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
 
 
-def logedIn(request):
+def app_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
 
         if form.is_valid():
             myuser = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-            # Process login data
-            # Example: Check credentials and log the user in
             login(request, myuser)
             return redirect('Settings')  # Redirect to home page after successful login
     else:
