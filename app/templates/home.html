@@ -1,54 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Homepage</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f2f2f2;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
-        nav {
-            background-color: #444;
-            padding: 10px 0;
-            text-align: center;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 20px;
-        }
-        nav a:hover {
-            background-color: #555;
-        }
-        .container {
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .restaurant {
-            border-bottom: 1px solid #ccc;
-            padding: 20px 0;
-            text-align: center;
-        }
-        .restaurant h2 {
-            margin-bottom: 5px;
-        }
-        .restaurant p {
-            margin-top: 5px;
-            color: #666;
-        }
-    </style>
-</head>
-</html>
+{% extends 'base.html' %}
+{% block navigation %}
+    {% include 'navbar.html' %}
+{% endblock %}
+{% block body_block %}
+    <h1>Dashboard</h1>
+{% endblock %}
