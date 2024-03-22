@@ -54,7 +54,7 @@ class MenuItem(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     review = models.ForeignKey("Review", on_delete=models.CASCADE, blank=True, null=True)
 
-    image = models.ImageField(upload_to='media/products/')
+    image = models.ImageField(upload_to='products/')
     price = models.FloatField()
 
     def __str__(self):
