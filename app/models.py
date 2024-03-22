@@ -63,6 +63,7 @@ class Restaurant(models.Model):
     website = models.URLField(blank=True, null=True)
     cuisines = models.ManyToManyField(Cuisine)
     menus = models.ManyToManyField(MenuItem)
+    respicture = models.ImageField(null=True, blank=True, upload_to='images/')
 
     def __str__(self):
         return self.name

@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block navigation %}
+    {% include 'navbar.html' %}
+{% endblock %}
 {% block custom_imports %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Rubik:wght@400;500;600;700&family=Shadows+Into+Light&display=swap"
             rel="stylesheet">
-
-    {% load static %}
     <!--
       - preload images
     -->
@@ -22,52 +23,12 @@
 {% block title %}
     Supper delicious Food in town!
 {% endblock %}
-<body id="top">
 
 
 {% block body_block %}
 
-    <header class="header" data-header>
-        <div class="container">
 
-            <h1>
-                <a href="#" class="logo">Foodie<span class="span">.</span></a>
-            </h1>
-
-            <nav class="navbar" data-navbar>
-                <ul class="navbar-list">
-
-                    <li class="nav-item">
-                        <a href="#home" class="navbar-link" data-nav-link>Home</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="#about" class="navbar-link" data-nav-link>About Us</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="#" class="navbar-link" data-nav-link>Contact Us</a>
-                    </li>
-
-                </ul>
-            </nav>
-
-
-            <button class="nav-toggle-btn" aria-label="Toggle Menu" data-menu-toggle-btn>
-                <span class="line top"></span>
-                <span class="line middle"></span>
-                <span class="line bottom"></span>
-            </button>
-        </div>
-
-        </div>
-    </header>
-
-    <!--
-     - #HERO
-   -->
-
-    <section class="hero" id="home" style="background-image:{% static 'images/hero-bg.jpg' %}"
+    <section class="hero" id="home" style="background-image:{% static 'images/hero-bg.jpg' %}">
     <div class="container">
 
         <div class="hero-content">
@@ -103,10 +64,8 @@
                     <div class="food-menu-card">
 
                         <div class="card-banner">
-                            <img src="{% static 'images/food-menu-4.png' %}" width="300" height="300" loading="lazy"
+                            <img src="{% static restaurant.respicture %}" width="300" height="300" loading="lazy"
                                  alt="Balista" class="w-100">
-
-
                             <button class="btn food-menu-btn">View Restaurant</button>
 
                         </div>
