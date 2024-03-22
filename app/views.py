@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.urls.base import reverse
 from paypal.standard.forms import PayPalPaymentsForm
 from .forms import LoginForm
-from .forms import ReviewForm, CustomerForm
+from .forms import ReviewForm, CustomerForm, CustomPasswordChangeForm
 from .forms import SignUpForm
 from .models import Restaurant
 from .models import Customer
@@ -64,7 +64,7 @@ def user_settings(request):
         customer = Customer.objects.get_or_create(user_ptr=default_user)[0]
 
     if request.method == 'POST':
-        password_form = PasswordChangeForm(request.user, request.POST)
+        password_form = CustomPasswordChangeForm(request.user, request.POST)
         customer_form = CustomerForm(request.POST, request.FILES, instance=customer)
 
         if password_form.is_valid() and customer_form.is_valid():
@@ -72,7 +72,7 @@ def user_settings(request):
             customer_form.save()
             return redirect('user_settings')
     else:
-        password_form = PasswordChangeForm(request.user)
+        password_form = CustomPasswordChangeForm(request.user)
         customer_form = CustomerForm(instance=customer)
 
     return render(request, 'user_settings.html', {
@@ -94,7 +94,7 @@ class StaticOrder:
 
 def user_history(request):
     # Get the current user
-    user = User.objects.get()
+    user = Customer.objects.all()
 
     # Static order data
     static_orders = [

@@ -1,6 +1,7 @@
 from django import forms
 from app.models import Review
 from .models import Customer, UserProfile
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 class ReviewForm(forms.ModelForm):
@@ -46,3 +47,11 @@ class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = ('date_of_birth', 'contact_number', 'profile_picture')
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['old_password'].label = 'Old Password'
+        self.fields['new_password1'].label = 'New Password'
+        self.fields['new_password2'].label = 'Confirm New Password'

@@ -2,53 +2,44 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+<title> Foodies - {% block title %} Settings {% endblock %}</title>
 {% block navigation %}
     {% include 'navbar.html' %}
 {% endblock %}
 {% block body_block %}
     <div class="user-settings-container">
     <h1 class="user-settings-head">User Settings</h1>
-        <div class="profile-info">
+    <div class="profile-info">
         <div class="profile-picture-container">
             <img src="{% if customer.profile_picture %}{{ customer.profile_picture.url }}{% else %}{% static 'images/food.jpg' %}{% endif %}" alt="Profile Picture" class="profile-picture">
         </div>
         <div class="username-container">
-            <label for="username" class="user-settings-form-label">USERNAME</label>
+            <label for="username" class="user-settings-form-label">UserName</label>
             <span id="username" class="username">{{ customer.username }}</span>
         </div>
     </div>
     <form method="post" enctype="multipart/form-data" class="user-settings-form">
         {% csrf_token %}
-        <div class="user-settings-form-group">
-            <label for="date_of_birth">Date of Birth</label>
-            <input type="date" class="user-settings-form-control" id="date_of_birth" name="date_of_birth" value="{{ customer.date_of_birth|date:'Y-m-d' }}">
-        </div>
-        <div class="user-settings-form-group">
-            <label for="contact_number">Mobile Number</label>
-            <input type="text" class="user-settings-form-control" id="contact_number" name="contact_number" value="{{ customer.contact_number }}">
-        </div>
-        <div class="user-settings-form-group">
-            <label for="profile_picture">Profile Picture</label>
-            <input type="file" class="user-settings-form-control-file" id="profile_picture" name="profile_picture">
-        </div>
+        {{ customer_form.as_p }}
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+                <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                <script>
+                    $( function() {
+                        $( "#id_date_of_birth" ).datepicker({
+                            changeMonth: true,
+                            changeYear: true,
+                            yearRange: "-100:+0",
+                            dateFormat: "yy-mm-dd" 
+                        });
+                    });
+                </script>
         <button type="submit" class="user-settings-btn user-settings-btn-primary">Save Changes</button>
     </form>
-<hr>
-<h2 class="user-settings-head">Change Password</h2>
+    <hr>
+    <h2 class="user-settings-head">Change Password</h2>
     <form method="post" class="change-password-form">
         {% csrf_token %}
-        <div class="change-password-form-group">
-            <label for="old_password">Old Password</label>
-            <input type="password" class="change-password-form-control" id="old_password" name="old_password">
-        </div>
-        <div class="change-password-form-group">
-            <label for="new_password1">New Password</label>
-            <input type="password" class="change-password-form-control" id="new_password1" name="new_password1">
-        </div>
-        <div class="change-password-form-group">
-            <label for="new_password2">Confirm New Password</label>
-            <input type="password" class="change-password-form-control" id="new_password2" name="new_password2">
-        </div>
+        {{ password_form.as_p }}
         <button type="submit" class="change-password-btn change-password-btn-primary">Change Password</button>
     </form>
 </div>
