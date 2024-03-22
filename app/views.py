@@ -134,7 +134,7 @@ def user_history(request):
 
 def sign_up(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('login')  # Redirect to login page after successful sign-up
@@ -143,7 +143,7 @@ def sign_up(request):
     return render(request, 'sign_up.html', {'form': form})
 
 
-def logedIn(request):
+def app_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
 
