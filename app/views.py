@@ -137,7 +137,7 @@ def sign_up(request):
         form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Redirect to login page after successful sign-up
+            return redirect('app_login')  # Redirect to login page after successful sign-up
     else:
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})

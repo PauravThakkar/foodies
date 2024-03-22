@@ -54,7 +54,7 @@
 
     <div class="login-container">
             <h1>Welcome to Foodies</h1>
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" action="{% url 'app_login' %}" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit"> SIGN IN</button>
