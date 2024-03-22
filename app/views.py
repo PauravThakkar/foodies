@@ -149,8 +149,6 @@ def app_login(request):
 
         if form.is_valid():
             myuser = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-            # Process login data
-            # Example: Check credentials and log the user in
             login(request, myuser)
             return redirect('Settings')  # Redirect to home page after successful login
     else:

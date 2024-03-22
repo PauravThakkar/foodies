@@ -1,14 +1,14 @@
+import re
+from datetime import date
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from app.models import *
+from django.core.exceptions import ValidationError
 
+from app.models import *
 from app.models import Review
 from .models import Customer, UserProfile
-import re
-from django import forms
-from django.core.exceptions import ValidationError
-from datetime import date
-from django.contrib.auth import authenticate
+
 
 class ReviewForm(forms.ModelForm):
     class Meta:
@@ -29,8 +29,9 @@ class SignUpForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.label = ''
-    def clean_password(self):
-        password = self.cleaned_data.get('password')
+
+    def clean_password1(self):
+        password = self.cleaned_data.get('password1')
         if len(password) < 8:
             raise forms.ValidationError("Password must be at least 8 characters long.")
         if not any(char.isdigit() for char in password):
@@ -40,6 +41,19 @@ class SignUpForm(UserCreationForm):
         if not re.search("[!@#$%^&*(),.?\":{}|<>]", password):
             raise forms.ValidationError("Password must contain at least one special character.")
         return password
+
+    def clean_password2(self):
+        password = self.cleaned_data.get('password2')
+        if len(password) < 8:
+            raise forms.ValidationError("Password must be at least 8 characters long.")
+        if not any(char.isdigit() for char in password):
+            raise forms.ValidationError("Password must contain at least one digit.")
+        if not any(char.isupper() for char in password):
+            raise forms.ValidationError("Password must contain at least one uppercase letter.")
+        if not re.search("[!@#$%^&*(),.?\":{}|<>]", password):
+            raise forms.ValidationError("Password must contain at least one special character.")
+        return password
+
     def clean_contact_number(self):
         contact_number = self.cleaned_data.get('contact_number')
         if not contact_number.isdigit():
@@ -53,17 +67,37 @@ class SignUpForm(UserCreationForm):
         if dob and dob >= date.today():
             raise ValidationError("The date of birth must be in the past.")
         return dob
+
     class Meta:
         model = Customer
-        fields = ['username', 'email', 'date_of_birth', 'contact_number']
+        fields = ['username', 'password1', 'password2', 'email', 'date_of_birth', 'contact_number', 'profile_picture']
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'username-class', 'placeholder': 'Username','style': 'border: 1px solid #000' }),
-            'password': forms.PasswordInput(attrs={'class': 'password-class', 'placeholder': 'Password', 'style': 'border: 1px solid #000'}),
-            'email': forms.EmailInput(attrs={'class': 'email-class', 'placeholder': 'Email', 'style': 'border: 1px solid #000'}),
-            'date_of_birth': forms.DateInput(attrs={'class': 'dob-class', 'type': 'date', 'placeholder': 'Date of Birth', 'style': 'border: 1px solid #000'}),
-            'contact_number': forms.TextInput(attrs={'class': 'contact-class', 'placeholder': 'Contact Number', 'style':'border: 1px solid #000'}),
-            'profile_picture': forms.FileInput(attrs={'class': 'pro-class', 'placeholder': 'Upload your image', 'style': 'margin-left:15px ; padding:10px'})
+            'username': forms.TextInput(
+                attrs={'class': 'username-class', 'placeholder': 'Username', 'style': 'border: 1px solid #000'}),
+            'password1': forms.PasswordInput(
+                attrs={'class': 'password-class', 'placeholder': 'Password', 'style': 'border: 1px solid #000'},
+            ),
+            'password2': forms.PasswordInput(
+                attrs={'class': 'password-class', 'placeholder': 'Password', 'style': 'border: 1px solid #000'}),
+            'email': forms.EmailInput(
+                attrs={'class': 'email-class', 'placeholder': 'Email', 'style': 'border: 1px solid #000'}),
+            'date_of_birth': forms.DateInput(
+                attrs={'class': 'dob-class', 'type': 'date', 'placeholder': 'Date of Birth',
+                       'style': 'border: 1px solid #000'}),
+            'contact_number': forms.TextInput(
+                attrs={'class': 'contact-class', 'placeholder': 'Contact Number', 'style': 'border: 1px solid #000'}),
+            'profile_picture': forms.FileInput(attrs={'class': 'pro-class', 'placeholder': 'Upload your image',
+                                                      'style': 'margin-left:15px ; padding:10px'})
         }
+        help_texts = {
+            'username': '',
+            'password1': '',
+            'password2': '',
+            'email': '',
+            'date_of_birth': '',
+            'contact_number': '',
+            'profile_picture': ''
+        },
 
 
 class LoginForm(forms.Form):
