@@ -42,14 +42,22 @@ def temp_review_view(request, restaurant_id):
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
     # TODO: Fetch user form request and add its ID
     user = get_object_or_404(User, pk=1)
+    
+    # Need login required decorator for request.user otherwise getting error 
+    # user = request.user
+    
     form = ReviewForm()
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
-            review.restaurant = restaurant
             review.user = user
             review.save()
+            
+            restaurant.review = review
+            restaurant.save()
+           
+            
             return render(request, 'review_block.html',
                           {'restaurant_id': restaurant_id, 'message': 'Review Submitted Successfully'})
     else:
@@ -134,23 +142,21 @@ def user_history(request):
 
 def sign_up(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Redirect to login page after successful sign-up
+            return redirect('app_login')  # Redirect to login page after successful sign-up
     else:
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
 
 
-def logedIn(request):
+def app_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
 
         if form.is_valid():
             myuser = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-            # Process login data
-            # Example: Check credentials and log the user in
             login(request, myuser)
             return redirect('Settings')  # Redirect to home page after successful login
     else:
@@ -238,8 +244,10 @@ class GetOneRestaurantByIdView(View):
 
         restaurant_details = self.get_obj(id=id)
 
+       
         context = {
-            'restaurant_details': restaurant_details
+            'restaurant_details': restaurant_details,
+           
         }
 
         return render(request, "one_restaurant.html", context=context)
