@@ -96,7 +96,7 @@ class SignUpForm(UserCreationForm):
 
 
 class LoginForm(forms.Form):
-    username = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'email-class', 'placeholder': 'Email'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'email-class', 'placeholder': 'Email'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'password-class', 'placeholder': 'Password'}))
 
     def __init__(self, *args, **kwargs):
@@ -137,7 +137,7 @@ class FilterForm(forms.Form):
 
 
 class CustomerForm(forms.ModelForm):
-    profile_picture = forms.ImageField(required=False)
+
     date_of_birth = forms.DateField(label='Date of Birth')
 
     class Meta:

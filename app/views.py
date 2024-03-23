@@ -71,11 +71,11 @@ def user_settings(request):
         return redirect('/login')
 
     if request.method == 'POST':
+        print('abc')
         password_form = CustomPasswordChangeForm(request.user, request.POST)
         customer_form = CustomerForm(request.POST, request.FILES, instance=customer)
 
-        if password_form.is_valid() and customer_form.is_valid():
-            password_form.save()
+        if customer_form.is_valid() and customer_form in request.POST:
             customer_form.save()
             return redirect('user_settings')
     else:
