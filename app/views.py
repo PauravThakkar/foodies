@@ -177,31 +177,17 @@ def ask_money(request):
     if request.POST:
         price = 0.0
         items = []
-        item_name = ''
-
-        for key, value in request.session['cart'].items():
-            print(key, "->", value)
 
         for item in request.session['cart'].values():
             items.append(item['name'])
             price += float(item['price']) * float(item['quantity'])
 
-        print(price)
-        print(items)
-
-        for item in items:
-            item_name += item + ", "
-
         paypal_dict = {
             "business": "sb-pkdqf30042076@business.example.com",
             "amount": price,
-            "item_name": item_name,
-            "invoice": "123213",
             "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
             "return": request.build_absolute_uri(reverse('payment_successful')),
-            # TODO: Add cancel return URL
             "cancel_return": request.build_absolute_uri(reverse('payment_failed')),
-            "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
         }
 
         # Create the instance.
