@@ -1,64 +1,51 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block navigation %}
     {% include 'navbar.html' %}
 {% endblock %}
-{% block title %}Home{% endblock %}
+{% block custom_imports %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Rubik:wght@400;500;600;700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <!-- Preload images -->
+    <link rel="preload" as="image" href="{% static 'images/hero-banner.png' %}" media="min-width(768px)">
+    <link rel="preload" as="image" href="{% static 'images/hero-banner-bg.png' %}" media="min-width(768px)">
+    <link rel="preload" as="image" href="{% static 'images/hero-bg.jpg' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'home.css' %}">
+{% endblock %}
+{% block title %}
+    Supper delicious Food in town!
+{% endblock %}
 {% block body_block %}
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <h1 class="head">Welcome to Foodies!</h1>
-            <p>Discover delicious food from your favorite restaurants.</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h2 class="head">Featured Restaurants</h2>
-            <div class="card-deck">
-                <!-- Restaurant 1 -->
-                <div class="card order-block">
-                    <img src="{% static 'images/restaurant1.jpg' %}" class="card-img-top food-image" alt="Restaurant 1">
-                    <div class="card-body order-details">
-                        <h5 class="card-title">Restaurant 1</h5>
-                        <p class="card-text">Delicious cuisine from around the world.</p>
-                        <a href="#" class="btn btn-primary rate-order-btn">Visit Restaurant</a>
-                    </div>
-                    <img src="{% static 'images/restaurantlogo.jpg' %}" alt="Logo" class="logo">
-                    <div class="order-id">
-                        <h6>Order ID: ABC123</h6>
-                        <h6><strong>Total Price: $50.00</strong></h6>
-                    </div>
-                </div>
-                <!-- Restaurant 2 -->
-                <div class="card order-block">
-                    <img src="{% static 'images/restaurant2.jpg' %}" class="card-img-top food-image" alt="Restaurant 2">
-                    <div class="card-body order-details">
-                        <h5 class="card-title">Restaurant 2</h5>
-                        <p class="card-text">Savor the flavors of local specialties.</p>
-                        <a href="#" class="btn btn-primary rate-order-btn">Visit Restaurant</a>
-                    </div>
-                    <img src="{% static 'images/restaurantlogo.jpg' %}" alt="Logo" class="logo">
-                    <div class="order-id">
-                        <h6>Order ID: DEF456</h6>
-                        <h6><strong>Total Price: $60.00</strong></h6>
-                    </div>
-                </div>
-                <!-- Restaurant 3 -->
-                <div class="card order-block">
-                    <img src="{% static 'images/restaurant3.jpg' %}" class="card-img-top food-image" alt="Restaurant 3">
-                    <div class="card-body order-details">
-                        <h5 class="card-title">Restaurant 3</h5>
-                        <p class="card-text">Experience fine dining with exquisite dishes.</p>
-                        <a href="#" class="btn btn-primary rate-order-btn">Visit Restaurant</a>
-                    </div>
-                    <img src="{% static 'images/restaurantlogo.jpg' %}" alt="Logo" class="logo">
-                    <div class="order-id">
-                        <h6>Order ID: GHI789</h6>
-                        <h6><strong>Total Price: $70.00</strong></h6>
-                    </div>
-                </div>
+    <section class="hero" id="home" style="background-image:url('{% static 'images/hero-bg.jpg' %}')">
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="h1 hero-title">Super delicious Food in town!</h2>
             </div>
+            <figure class="hero-banner">
+                <img src="{% static 'images/hero-banner-bg.png' %}" width="820" height="716" alt="" aria-hidden="true" class="w-100 hero-img-bg">
+                <img src="{% static 'images/hero-banner.png' %}" width="700" height="637" loading="lazy" alt="Burger" class="w-100 hero-img">
+            </figure>
         </div>
-    </div>
-</div>
+    </section>
+    <section class="section food-menu" id="food-menu">
+        <div class="container">
+            <p class="section-subtitle">Popular Restaurants</p>
+            <ul class="food-menu-list">
+                {% for restaurant in restaurants %}
+                <li>
+                    <div class="food-menu-card">
+                        <div class="card-banner">
+                            <img src="{% static restaurant.respicture %}" width="300" height="300" loading="lazy" alt="Balista" class="w-100">
+                            <button class="btn food-menu-btn">View Restaurant</button>
+                        </div>
+                        <h3 class="h3 card-title">{{ restaurant.name }}</h3>
+                        <h5 class="h5 card-content">{{ restaurant.address }}</h5>
+                        <h5 class="h5 card-content">{{ restaurant.description }}</h5>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
 {% endblock %}

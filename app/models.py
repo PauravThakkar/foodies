@@ -62,6 +62,13 @@ class MenuItem(models.Model):
         return self.name
 
 
+class Cuisine(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
 class Restaurant(models.Model):
     type_choices = [('1', 'Indian'),
                     ('2', 'Mexican'),
@@ -72,8 +79,10 @@ class Restaurant(models.Model):
     address = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=15)
     website = models.URLField(blank=True, null=True)
-    type = models.CharField(choices=type_choices, default='1', max_length=2)
+    cuisines = models.ManyToManyField(Cuisine)
     menus = models.ManyToManyField(MenuItem, null=True, blank=True)
+    respicture = models.ImageField(null=True, blank=True, upload_to='images/')
+    type = models.CharField(choices=type_choices, default='1', max_length=2)
 
     def __str__(self):
         return self.name
