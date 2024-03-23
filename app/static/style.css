@@ -1,7 +1,6 @@
 body {
     background-color: white;
     color: wheat;
-    background: black;
 }
 
 .navigation {
@@ -12,7 +11,7 @@ body {
     font-size: 30px;
     color: red;
     align-items: center;
-    box-shadow: 0 4px 2px -2px gray;
+    box-shadow: 0 4px 2px -2px red;
 }
 
 .nav-left {
@@ -53,12 +52,77 @@ body {
     width: 40vw;
 }
 
-.payment-image h2 {
+.payment-image .success {
     margin-bottom: 10px;
     text-align: center;
     color: #81bb81;
 }
 
+.payment-image .failure {
+    margin-bottom: 10px;
+    text-align: center;
+    color: #bf4343;
+}
+
+.filters {
+    padding: 10px;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.filters-form {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.filters-form p {
+    display: inline;
+    margin: 0;
+}
+
+.filters-form .form-select {
+    width: 200px !important;
+    border: 2px solid red !important;
+    border-radius: 10px !important;
+    color: red;
+}
+
+.filters-form .form-control {
+    width: 200px !important;
+    border: 2px solid red !important;
+    border-radius: 10px !important;
+}
+
+.filters-form {
+    color: red;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+
+.form-select, .form-control {
+    display: inline !important;
+    width: fit-content !important;
+}
+
+.btn-primary {
+    background-color: red !important;
+    padding: 10px 20px !important;
+    border: red !important;
+}
+
+.filters-form .form-select select {
+    background: transparent;
+    width: 170px;
+    padding: 5px;
+    border: 0;
+    border-radius: 0;
+    height: 35px;
+}
 
 .head {
     text-align: center;
@@ -71,7 +135,7 @@ body {
 /* Styling for order blocks */
 .order-block {
     position: relative;
-    display:inline-block;
+    display: inline-block;
     justify-content: space-between;
     margin-right: 20px;
     width: 400px;
@@ -173,7 +237,6 @@ body {
 }
 
 
-
 .user-settings-container {
     width: 800px; /* Reduced width for better readability */
     margin: 40px auto;
@@ -200,8 +263,20 @@ label {
     margin-bottom: 10px; /* Added margin for better spacing */
     font-weight: bold;
     font-style: italic;
-    font-size: 16px; /* Reduced font size for better fit */
-    color: #555; /* Slightly darker color for labels */
+    font-size: large;
+    color: #555; 
+}
+
+.user-settings-form-group label[for="contact_number"] {
+    font-weight: bold;
+    font-style: italic;
+    font-size: large;
+}
+
+.user-settings-form-group label[for="profile_picture"] {
+    font-weight: bold;
+    font-style: italic;
+    font-size: large;
 }
 
 input[type="text"],
