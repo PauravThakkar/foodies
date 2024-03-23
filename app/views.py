@@ -206,6 +206,7 @@ def home(request):
             if search != '':
                 restaurants = restaurants.filter(name__icontains=search)
             restaurants = restaurants.filter(cuisines=Cuisince)
+            restaurants = restaurants.filter(avg_rating__gte=Ratings)
             return render(request, 'home.html', {'restaurants': restaurants, 'form': form})
     else:
         return render(request, 'home.html', {'restaurants': restaurants, 'form': form})
