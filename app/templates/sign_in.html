@@ -5,88 +5,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            background-image: url("{% static 'images/food.jpg' %}");
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            width: 80%;
-            max-width: 400px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            font-weight: bold;
-        }
-        .heading {
-            text-align: center;
-            color: black /* Green color */
-        }
-        h2 {
-            text-align: center;
-        }
-        form {
-            margin-top: 20px;
-        }
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            background-color: orangered;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .error-message {
-            color: red;
-        }
-        .linktosignup {
-            text-align: center;
-        }
-        .msg {
-            text-align: center;
-            color: orangered;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'signup_style.css' %}"/>
+<style>
+
+        body, html {
+    font-family: Arial, sans-serif;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+    background-image: url("{% static 'images/login-image.jpg' %}");
+    background-size: 100% 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+.login-container h1 {
+    font-family: "Slackside One", cursive;
+    font-style: normal;
+    font-size: 40px;
+    padding-left: 150px;
+    color: red;
+    font-weight: bolder;
+    padding-top: 50px;
+    animation: fadeInOut 3s infinite;
+
+}
+.login-container {
+    padding-left: 800px;
+    padding-top: 100px;
+}
+
+.login-container form {
+    position: relative;
+  height: 50px;
+  width: 400px;
+  padding-left: 30px;
+}
+.forgot-password{
+    color: midnightblue;
+    text-decoration: none;
+   float: right;
+}
+.link-to-login{
+    text-decoration: none;
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1 class ="msg">WELCOME BACK</h1>
-        <form method="post">
-            {% csrf_token %}
-            <div>
-                <label for="email">Email:</label><br>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div>
-                <label for="password">Password:</label><br>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Login</button>
-        </form>
-        <p class="linktosignup">Don't have an account? <a href="{% url 'sign_up' %}">Sign Up </a></p>
+
+    <div class="login-container">
+            <h1>Welcome to Foodies</h1>
+            <form method="post" action="{% url 'app_login' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit"> SIGN IN</button>
+                 <a href="{% url 'sign_up' %}" class="link-to-login">New to foodies?</a>
+                  <a href = "#" class="forgot-password" > Forgot password?</a>
+
+    </form>
     </div>
 </body>
 </html>

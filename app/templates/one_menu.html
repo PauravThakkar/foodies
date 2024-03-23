@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Item</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add custom styles here */
+        .menu-details {
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .menu-details h2 {
+            font-size: 24px;
+            color: #007bff;
+        }
+
+        .menu-details p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .add-to-cart-btn {
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container" style="margin-top: 10%;">
+    <div class="row p-3" style="background-color: rgb(218, 180, 132); box-shadow:3px 3px 10px 2px black">
+        <div class="col-md-6 pt-4">
+
+            <img src="{{ menu_details.image }}"
+                 alt="Big Menu Item Image" class="img-fluid mb-4">
+        </div>
+
+
+        <div class="col-md-6 menu-details border" style="background-color: rgb(229, 229, 228);">
+            <div>
+                <div class="col-md-12 mt-3" style="letter-spacing: 3px;">
+                    <h2>{{ menu_details.name }}</h2>
+                </div>
+                <div class="col-md-12 mt-4">
+                    <div class="row mt-2">
+                        <p style="letter-spacing: 2px;">Description: {{ menu_details.description }}</p>
+                    </div>
+
+                    <div class="row mt-4">
+                        <p style="letter-spacing: 2px;">Price: $ {{ menu_details.price }}</p>
+                    </div>
+
+                    <div class="row mt-4">
+                        <p style="letter-spacing: 2px;">Ratings: {{ menu_details.review.ratings }}</p>
+                    </div>
+
+
+                    <div class="row mt-4 d-flex justify-content-center">
+                        <a href="{% url 'cart_add' menu_details.id %}">Add To Cart</a>
+                        <!-- <button type="button" class="btn btn-primary add-to-cart-btn w-100">Add to Cart</button> -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and jQuery (for responsive features) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
