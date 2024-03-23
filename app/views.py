@@ -1,17 +1,22 @@
+from cart.cart import Cart
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404, redirect
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls.base import reverse
+from django.views import View
 from paypal.standard.forms import PayPalPaymentsForm
 
-from .forms import LoginForm, FilterForm
-from .forms import ReviewForm, UserProfileForm
+from .forms import FilterForm
+from .forms import LoginForm
+from .forms import ReviewForm, CustomerForm
 from .forms import SignUpForm
+from .models import Customer
+from .models import MenuItem
 from .models import Order
 from .models import Restaurant
-from .models import UserProfile
 
 
 def restaurant_list(request):
@@ -55,22 +60,33 @@ def temp_review_view(request, restaurant_id):
 
 @login_required(login_url='/login/')
 def user_settings(request):
-    user = 1
-    user_profile = UserProfile.objects.get_or_create(user=user)[0]
-    if request.method == 'POST':
-        password_form = PasswordChangeForm(user, request.POST)
-        profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+    if request.user.is_authenticated:
+        try:
+            customer = Customer.objects.get(username=request.user.username)
+        except Customer.DoesNotExist:
+            # Create a new Customer instance if it doesn't exist
+            customer = Customer.objects.create(user_ptr=request.user)
+    else:
+        # Create a temporary anonymous user for development
+        return redirect('/login')
 
-        if password_form.is_valid() and profile_form.is_valid():
+    if request.method == 'POST':
+        password_form = PasswordChangeForm(request.user, request.POST)
+        customer_form = CustomerForm(request.POST, request.FILES, instance=customer)
+
+        if password_form.is_valid() and customer_form.is_valid():
             password_form.save()
-            profile_form.save()
+            customer_form.save()
             return redirect('user_settings')
     else:
-        password_form = PasswordChangeForm(user)
-        profile_form = UserProfileForm(instance=user_profile)
+        password_form = PasswordChangeForm(request.user)
+        customer_form = CustomerForm(instance=customer)
 
-    return render(request, 'user_settings.html',
-                  {'password_form': password_form, 'profile_form': profile_form, 'user_profile': user_profile})
+    return render(request, 'user_settings.html', {
+        'password_form': password_form,
+        'customer_form': customer_form,
+        'customer': customer,
+    })
 
 
 # Define a class to hold static order data
@@ -86,7 +102,7 @@ class StaticOrder:
 
 def user_history(request):
     # Get the current user
-    user_id = 1
+    user = User.objects.get()
 
     # Static order data
     static_orders = [
@@ -118,22 +134,23 @@ def user_history(request):
 
 def sign_up(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Redirect to login page after successful sign-up
+            return redirect('app_login')  # Redirect to login page after successful sign-up
     else:
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
 
 
-def login(request):
+def app_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
+
         if form.is_valid():
-            # Process login data
-            # Example: Check credentials and log the user in
-            return redirect('home')  # Redirect to home page after successful login
+            myuser = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            login(request, myuser)
+            return redirect('Settings')  # Redirect to home page after successful login
     else:
         form = LoginForm()
     return render(request, 'sign_in.html', {'form': form})
@@ -180,3 +197,102 @@ def ask_money(request):
     # Create the instance.
     form = PayPalPaymentsForm(initial=paypal_dict)
     return render(request, "payments.html", {"form": form})
+
+
+class GetOneMenuByIdView(View):
+
+    def get_obj(self, id):
+
+        try:
+            obj = MenuItem.objects.get(id=id)
+        except:
+            raise ValueError(f"Menu item not exist with id: {id}")
+
+        return obj
+
+    def get(self, request, id):
+
+        menu_item_details = self.get_obj(id=id)
+
+        context = {
+            "menu_details": menu_item_details
+        }
+
+        return render(request, "one_menu.html", context=context)
+
+
+class GetOneRestaurantByIdView(View):
+
+    def get_obj(self, id):
+
+        try:
+            obj = Restaurant.objects.get(id=id)
+        except:
+            raise ValueError(f"Restaurant not exist with id: {id}")
+
+        return obj
+
+    def get(self, request, id):
+
+        restaurant_details = self.get_obj(id=id)
+
+        context = {
+            'restaurant_details': restaurant_details
+        }
+
+        return render(request, "one_restaurant.html", context=context)
+
+
+def homeview(request):
+    return render(request, "home.html")
+
+
+# cart
+
+# @login_required(login_url="/users/login")
+def cart_add(request, id):
+    cart = Cart(request)
+    menu_item = MenuItem.objects.get(id=id)
+    cart.add(product=menu_item)
+    return redirect("cart_detail")
+
+
+# @login_required(login_url="/users/login")
+def item_clear(request, id):
+    cart = Cart(request)
+    menu_item = MenuItem.objects.get(id=id)
+    cart.remove(product=menu_item)
+    return redirect("cart_detail")
+
+
+# @login_required(login_url="/users/login")
+def item_increment(request, id):
+    cart = Cart(request)
+    menu_item = MenuItem.objects.get(id=id)
+    cart.add(product=menu_item)
+    return redirect("cart_detail")
+
+
+# @login_required(login_url="/users/login")
+def item_decrement(request, id):
+    cart = Cart(request)
+    menu_item = MenuItem.objects.get(id=id)
+    cart.decrement(product=menu_item)
+    return redirect("cart_detail")
+
+
+# @login_required(login_url="/users/login")
+def cart_clear(request):
+    cart = Cart(request)
+    cart.clear()
+    return redirect("cart_detail")
+
+
+# @login_required(login_url="/users/login")
+# def cart_detail(request):
+#     return render(request, 'cart/cart_detail.html')
+
+
+# @login_required(login_url="/users/login")
+def cart_detail(request):
+    return render(request, "cart_details.html")

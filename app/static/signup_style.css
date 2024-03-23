@@ -1,0 +1,34 @@
+.username-class, .password-class, .email-class, .dob-class, .contact-class {
+     /* Makes the background transparent */
+    border: 1px solid black; /* Adds a light border */
+    border-radius: 4px; /* Rounds the corners */
+    color: #333; /* Text color */
+    padding: 15px; /* Adds some padding inside the input fields */
+   width: 145%;
+    margin: 10px;
+
+}
+ p {
+    font-size: small;
+}
+
+input::placeholder {
+    color: #000; /* Lightens the placeholder text color */
+}
+
+button {
+    background-color: red; /* Blue background */
+    color: white; /* White text */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for background color change */
+    margin-left: 30rem;
+    padding: 20px;
+    margin: 20px;
+}
+
+button:hover {
+    background-color: darkred; /* Darker shade of blue on hover */
+}
+
