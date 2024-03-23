@@ -15,7 +15,6 @@ from .forms import ReviewForm, CustomerForm
 from .forms import SignUpForm
 from .models import Customer
 from .models import MenuItem
-from .models import Order
 from .models import Restaurant
 
 from django.shortcuts import render, get_object_or_404
@@ -174,28 +173,25 @@ def filter_temp(req):
 
 
 def ask_money(request):
-    # TODO: Fetch order details from the database
-    order_details = Order.objects.all().first()
+    if request.POST:
+        price = 0.0
+        items = []
 
-    # TODO: set price from order object
-    price = 15.00
-    item_name = "Manchurian"
+        for item in request.session['cart'].values():
+            items.append(item['name'])
+            price += float(item['price']) * float(item['quantity'])
 
-    paypal_dict = {
-        "business": "sb-pkdqf30042076@business.example.com",
-        "amount": price,
-        "item_name": item_name,
-        "invoice": order_details.order_id,
-        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
-        "return": request.build_absolute_uri(reverse('payment_successful')),
-        # TODO: Add cancel return URL
-        "cancel_return": request.build_absolute_uri(reverse('payment_failed')),
-        "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
-    }
+        paypal_dict = {
+            "business": "sb-pkdqf30042076@business.example.com",
+            "amount": price,
+            "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+            "return": request.build_absolute_uri(reverse('payment_successful')),
+            "cancel_return": request.build_absolute_uri(reverse('payment_failed')),
+        }
 
-    # Create the instance.
-    form = PayPalPaymentsForm(initial=paypal_dict)
-    return render(request, "payments.html", {"form": form})
+        # Create the instance.
+        form = PayPalPaymentsForm(initial=paypal_dict)
+        return render(request, "payments.html", {"form": form, 'cart': request.session['cart']})
 
 
 def home(request):
