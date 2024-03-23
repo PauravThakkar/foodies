@@ -41,15 +41,23 @@ def restaurant_list(request):
 def temp_review_view(request, restaurant_id):
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
     # TODO: Fetch user form request and add its ID
-    user = get_object_or_404(User, pk=1)
+    user = get_object_or_404(User, pk=2)
+    
+    # Need login required decorator for request.user otherwise getting error 
+    # user = request.user
+    
     form = ReviewForm()
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
-            review.restaurant = restaurant
             review.user = user
             review.save()
+            
+            restaurant.review = review
+            restaurant.save()
+           
+            
             return render(request, 'review_block.html',
                           {'restaurant_id': restaurant_id, 'message': 'Review Submitted Successfully'})
     else:
@@ -236,8 +244,10 @@ class GetOneRestaurantByIdView(View):
 
         restaurant_details = self.get_obj(id=id)
 
+       
         context = {
-            'restaurant_details': restaurant_details
+            'restaurant_details': restaurant_details,
+           
         }
 
         return render(request, "one_restaurant.html", context=context)

@@ -74,16 +74,45 @@ class Restaurant(models.Model):
     website = models.URLField(blank=True, null=True)
     type = models.CharField(choices=type_choices, default='1', max_length=2)
     menus = models.ManyToManyField(MenuItem, null=True, blank=True)
+    review = models.ForeignKey("Review", on_delete = models.CASCADE, null = True, blank = True)
 
     def __str__(self):
         return self.name
 
 
-class Order(models.Model):
-    order_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+class CartMenu(models.Model):
+    menu = models.ForeignKey(MenuItem, on_delete = models.CASCADE, null = True, blank = True)
+    quantity = models.IntegerField()
 
     def __str__(self):
+        return self.menu.name
+    
+    def get_total_price(self):
+        return self.menu.price * self.quantity
+    
+    
+    
+class Order(models.Model):
+    order_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
+    resturant = models.ForeignKey(Restaurant, on_delete = models.CASCADE, null = True, blank = True)
+    cartmenu = models.ManyToManyField(CartMenu, blank=True)
+    
+    
+    def get_total_price(self):
+        total_price  = 0
+        for item in self.cartmenu.all():
+            total_price += item.get_total_price()
+            
+        print(total_price, "-------") 
+        return total_price
+    
+        
+
+    def __str__(self):
+        
+        self.get_total_price()
+        
         return f"{self.order_id}"
 
 
@@ -100,9 +129,9 @@ class Review(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     # reference of the restaurant the review was given to
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=False)
+    # restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=False)
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
 
     # rating given to the restaurant
     ratings = models.IntegerField(default=0, choices=RATINGS_RANGE)
@@ -114,4 +143,4 @@ class Review(models.Model):
         ordering = ["-timestamp"]
 
     def __str__(self):
-        return f"Review for {self.restaurant} by {self.user.username} ({self.ratings} stars)"
+        return f" {self.user.username} ({self.ratings} stars)"
