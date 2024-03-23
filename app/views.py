@@ -18,6 +18,9 @@ from .models import MenuItem
 from .models import Order
 from .models import Restaurant
 
+from django.shortcuts import render, get_object_or_404
+from .models import Restaurant
+
 
 def restaurant_list(request):
     restaurants = Restaurant.objects.all()
@@ -134,23 +137,21 @@ def user_history(request):
 
 def sign_up(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Redirect to login page after successful sign-up
+            return redirect('app_login')  # Redirect to login page after successful sign-up
     else:
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
 
 
-def logedIn(request):
+def app_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
 
         if form.is_valid():
             myuser = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-            # Process login data
-            # Example: Check credentials and log the user in
             login(request, myuser)
             return redirect('Settings')  # Redirect to home page after successful login
     else:
@@ -170,10 +171,6 @@ def payment_failed(request):
 
 def filter_temp(req):
     return render(req, 'filters.html', {'form': FilterForm})
-
-
-def home(request):
-    return render(request, 'home.html')
 
 
 def ask_money(request):
@@ -200,6 +197,11 @@ def ask_money(request):
     form = PayPalPaymentsForm(initial=paypal_dict)
     return render(request, "payments.html", {"form": form})
 
+
+def home(request):
+    restaurants = Restaurant.objects.all()
+    print(restaurants)
+    return render(request, 'home.html', {'restaurants': restaurants})
 
 class GetOneMenuByIdView(View):
 

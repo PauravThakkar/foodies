@@ -36,6 +36,7 @@ class Category(models.Model):
 class Customer(User):
     date_of_birth = models.DateField(null=True, blank=True, default=None)
     contact_number = models.CharField(max_length=15, null=True, blank=True, default=None)
+    profile_picture = models.ImageField(upload_to='foodies/app/static/images/profile_pictures/', null=True, blank=True)
 
     def __str__(self):
         return self.username
@@ -61,6 +62,13 @@ class MenuItem(models.Model):
         return self.name
 
 
+class Cuisine(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
 class Restaurant(models.Model):
     type_choices = [('1', 'Indian'),
                     ('2', 'Mexican'),
@@ -71,8 +79,10 @@ class Restaurant(models.Model):
     address = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=15)
     website = models.URLField(blank=True, null=True)
-    type = models.CharField(choices=type_choices, default='1', max_length=2)
+    cuisines = models.ManyToManyField(Cuisine)
     menus = models.ManyToManyField(MenuItem, null=True, blank=True)
+    respicture = models.ImageField(null=True, blank=True, upload_to='images/')
+    type = models.CharField(choices=type_choices, default='1', max_length=2)
 
     def __str__(self):
         return self.name
@@ -106,6 +116,7 @@ class Review(models.Model):
     # rating given to the restaurant
     ratings = models.IntegerField(default=0, choices=RATINGS_RANGE)
 
+    # comment associated with the review
     comment = models.TextField(blank=True, null=True, help_text='Add your comment')
 
     class Meta:
