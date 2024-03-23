@@ -132,16 +132,14 @@ body {
     font-weight: bold;
 }
 
-/* Styling for order blocks */
 .order-block {
     position: relative;
     display: inline-block;
     justify-content: space-between;
-    margin-right: 20px;
     width: 400px;
     height: 450px;
-    margin-right: 10px;
-    margin-left: 15px;
+    margin-right: 5px;
+    margin-left: 5px;
     color: black;
     text-align: center;
     line-height: 100px;
@@ -149,7 +147,6 @@ body {
     border-radius: 30px;
     font-size: larger;
     margin-bottom: 35px;
-
 
 }
 
