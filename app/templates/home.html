@@ -1,66 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant 1 Homepage</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Include your CSS file here -->
-</head>
-<body>
-    <header>
-        <h1>Welcome to Our Restaurant</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#menu">Menu</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section id="about">
-        <h2>About Us</h2>
-        <p>Welcome to our restaurant! We pride ourselves on serving delicious meals made with fresh, locally-sourced ingredients.</p>
-    </section>
-
-    <section id="menu">
-        <h2>Our Menu</h2>
-        <div class="menu-item">
-            <h3>Appetizers</h3>
-            <ul>
-                <li>Bruschetta</li>
-                <li>Caesar Salad</li>
-                <li>Mozzarella Sticks</li>
-            </ul>
-        </div>
-        <div class="menu-item">
-            <h3>Main Courses</h3>
-            <ul>
-                <li>Spaghetti Carbonara</li>
-                <li>Grilled Salmon</li>
-                <li>Steak with Mushrooms</li>
-            </ul>
-        </div>
-        <div class="menu-item">
-            <h3>Desserts</h3>
-            <ul>
-                <li>Tiramisu</li>
-                <li>New York Cheesecake</li>
-                <li>Chocolate Lava Cake</li>
-            </ul>
-        </div>
-    </section>
-
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <p>If you have any questions or would like to make a reservation, please contact us:</p>
-        <p>Phone: 123-456-7890</p>
-        <p>Email: info@example.com</p>
-    </section>
-
-    <footer>
-        <p>&copy; 2024 Restaurant Name. All rights reserved.</p>
-    </footer>
-</body>
-</html>
-
+{% extends 'base.html' %}
+{% block navigation %}
+    {% include 'navbar.html' %}
+{% endblock %}
+{% block body_block %}
+    <h1>Dashboard</h1>
+{% endblock %}

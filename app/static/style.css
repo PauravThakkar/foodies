@@ -1,7 +1,6 @@
 body {
     background-color: white;
     color: wheat;
-    background: black;
 }
 
 .navigation {
@@ -12,7 +11,7 @@ body {
     font-size: 30px;
     color: red;
     align-items: center;
-    box-shadow: 0 4px 2px -2px gray;
+    box-shadow: 0 4px 2px -2px red;
 }
 
 .nav-left {
@@ -35,7 +34,7 @@ body {
     font-style: normal;
 }
 
-.navigation i{
+.navigation i {
     font-size: 25px;
 }
 
@@ -53,8 +52,349 @@ body {
     width: 40vw;
 }
 
-.payment-image h2 {
+.payment-image .success {
     margin-bottom: 10px;
     text-align: center;
     color: #81bb81;
+}
+
+.payment-image .failure {
+    margin-bottom: 10px;
+    text-align: center;
+    color: #bf4343;
+}
+
+.filters {
+    padding: 10px;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.filters-form {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.filters-form p {
+    display: inline;
+    margin: 0;
+}
+
+.filters-form .form-select {
+    width: 200px !important;
+    border: 2px solid red !important;
+    border-radius: 10px !important;
+    color: red;
+}
+
+.filters-form .form-control {
+    width: 200px !important;
+    border: 2px solid red !important;
+    border-radius: 10px !important;
+}
+
+.filters-form {
+    color: red;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+
+.form-select, .form-control {
+    display: inline !important;
+    width: fit-content !important;
+}
+
+.btn-primary {
+    background-color: red !important;
+    padding: 10px 20px !important;
+    border: red !important;
+}
+
+.filters-form .form-select select {
+    background: transparent;
+    width: 170px;
+    padding: 5px;
+    border: 0;
+    border-radius: 0;
+    height: 35px;
+}
+
+.head {
+    text-align: center;
+    font-family: "fantasy";
+    font-style: italic;
+    margin-top: 40px;
+}
+
+/* Styling for order blocks */
+.order-block {
+    position: relative;
+    display: inline-block;
+    justify-content: space-between;
+    margin-right: 20px;
+    width: 400px;
+    height: 450px;
+    margin-right: 20px;
+    color: black;
+    text-align: center;
+    line-height: 100px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 30px;
+    font-size: larger;
+    margin-bottom: 35px;
+
+}
+
+.order-block:nth-child(even) {
+    background-color: snow;
+    color: black;
+}
+
+.order-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.order-details {
+    flex: 1;
+    padding: 20px;
+}
+
+.order-details h6 {
+    margin: 8px 0;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.order-details p {
+    margin: 8px 0;
+    font-size: 14px;
+    text-align: left;
+
+}
+
+.order-id {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 20px;
+    color: black;
+
+}
+
+.rate-order-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    background-color: red;
+    border: none;
+    color: black;
+    width: 7rem;
+    height: 3rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    line-height: 3rem;
+    cursor: pointer;
+    border-radius: 10px;
+
+
+}
+
+.rate-order-btn:hover {
+    background-color: #e6e6e6;
+}
+
+.logo {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.food-image {
+    width: 100%; /* Adjust the width to fit the container */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 120px; /* Limit the maximum height */
+    object-fit: cover; /* Maintain aspect ratio and cover the container */
+    border-radius: 15px; /* Add rounded corners */
+}
+
+
+.user-settings-container {
+    width: 900px;
+    margin-left: 225px;
+    margin-right: 250px;
+    padding: 20px;
+    margin-top: 40px;
+    background-color: snow;
+    border-radius: 20px;
+}
+
+.user-settings-head {
+    margin-bottom: 20px;
+    font-weight: bolder;
+    text-align: center;
+    font-family: "Slackside One", cursive;
+    font-style: inherit;
+    margin-top: 20px;
+    color: red;
+}
+
+.user-settings-form-group {
+    margin-bottom: 20px;
+}
+
+.user-settings-form-group label[for="date_of_birth"] {
+    font-weight: bold;
+    font-style: italic;
+    font-size: large;
+}
+
+.user-settings-form-group label[for="contact_number"] {
+    font-weight: bold;
+    font-style: italic;
+    font-size: large;
+}
+
+.user-settings-form-group label[for="profile_picture"] {
+    font-weight: bold;
+    font-style: italic;
+    font-size: large;
+}
+
+.change-password-form-group label[for="old_password"] {
+    font-weight: bold;
+    font-style: italic;
+    font-size: large;
+}
+
+.change-password-form-group label[for="new_password1"] {
+    font-weight: bold;
+    font-style: italic;
+    font-size: large;
+}
+
+.change-password-form-group label[for="new_password2"] {
+    font-weight: bold;
+    font-style: italic;
+    font-size: large;
+}
+
+
+.user-settings-form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.user-settings-form-control-file {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.user-settings-btn {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.user-settings-btn:hover {
+    background-color: darkred;
+}
+
+.user-settings-btn-primary {
+    background-color: red;
+    transition: background-color 0.3s ease;
+}
+
+.change-password-form-group {
+    margin-bottom: 20px;
+}
+
+.change-password-form-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.change-password-form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.change-password-btn {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.change-password-btn-primary {
+    background-color: red;
+}
+
+.change-password-btn:hover {
+    background-color: darkred;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture-container {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.username-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: 600px;
+
+}
+
+.user-settings-form-label {
+    font-weight: bold;
+    font-style: italic;
+    font-size: larger;
+}
+
+.username {
+    font-weight: bold;
+    text-align: center;
 }
