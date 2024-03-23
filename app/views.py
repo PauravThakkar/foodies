@@ -2,9 +2,8 @@ from cart.cart import Cart
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
+from django.shortcuts import render, get_object_or_404
 from django.urls.base import reverse
 from django.views import View
 from paypal.standard.forms import PayPalPaymentsForm
@@ -13,12 +12,7 @@ from .forms import FilterForm
 from .forms import LoginForm
 from .forms import ReviewForm, CustomerForm
 from .forms import SignUpForm
-from .models import Customer
-from .models import MenuItem
-from .models import Restaurant
-
-from django.shortcuts import render, get_object_or_404
-from .models import Restaurant
+from .models import *
 
 
 def restaurant_list(request):
@@ -40,11 +34,12 @@ def restaurant_list(request):
     return ''
 
 
-def temp_review_view(request, restaurant_id):
+def review_view(request, restaurant_id):
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
-    # TODO: Fetch user form request and add its ID
-    user = get_object_or_404(User, pk=1)
+    user_id = request.user.id
+    user = get_object_or_404(User, pk=user_id)
     form = ReviewForm()
+
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
@@ -55,16 +50,17 @@ def temp_review_view(request, restaurant_id):
             return render(request, 'review_block.html',
                           {'restaurant_id': restaurant_id, 'message': 'Review Submitted Successfully'})
     else:
+        reviews = Review.objects.filter(restaurant=restaurant)
         return render(request, 'review_block.html',
                       {'review_from': form, 'restaurant_id': restaurant_id, 'restaurant_name': restaurant.name,
-                       'message': ''})
+                       'message': '', 'reviews': reviews})
 
 
 @login_required(login_url='/login/')
 def user_settings(request):
     if request.user.is_authenticated:
         try:
-            customer = Customer.objects.get(username=request.user.username)
+            customer = Customer.objects.get(username=request.user.email)
         except Customer.DoesNotExist:
             # Create a new Customer instance if it doesn't exist
             customer = Customer.objects.create(user_ptr=request.user)
@@ -198,6 +194,7 @@ def home(request):
     restaurants = Restaurant.objects.all()
     print(restaurants)
     return render(request, 'home.html', {'restaurants': restaurants})
+
 
 class GetOneMenuByIdView(View):
 
