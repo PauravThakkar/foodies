@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
+{% load cart_tag %}
 
 {% block body_block %}
-    <h1>Show me the money!</h1>
+    <h1>Order summary!</h1>
+    {% for item in cart.values %}
+        <div class="card">
+            <img src="{{ item.image }}" alt="{{ item.product.name }}" style="width: 100px; height: 100px;">
+            <p>{{ item.name }} - {{ item.quantity }} - ${{ item.price|multiply:item.quantity }}</p>
+        </div>
+    {% endfor %}
     {{ form.render }}
 {% endblock %}
