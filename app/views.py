@@ -15,7 +15,9 @@ from .forms import ReviewForm, CustomerForm
 from .forms import SignUpForm
 from .models import Customer
 from .models import MenuItem
-from .models import Order
+from .models import Restaurant
+
+from django.shortcuts import render, get_object_or_404
 from .models import Restaurant
 
 
@@ -178,34 +180,32 @@ def filter_temp(req):
     return render(req, 'filters.html', {'form': FilterForm})
 
 
-def home(request):
-    return render(request, 'home.html')
-
-
 def ask_money(request):
-    # TODO: Fetch order details from the database
-    order_details = Order.objects.all().first()
+    if request.POST:
+        price = 0.0
+        items = []
 
-    # TODO: set price from order object
-    price = 15.00
-    item_name = "Manchurian"
+        for item in request.session['cart'].values():
+            items.append(item['name'])
+            price += float(item['price']) * float(item['quantity'])
 
-    paypal_dict = {
-        "business": "sb-pkdqf30042076@business.example.com",
-        "amount": price,
-        "item_name": item_name,
-        "invoice": order_details.order_id,
-        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
-        "return": request.build_absolute_uri(reverse('payment_successful')),
-        # TODO: Add cancel return URL
-        "cancel_return": request.build_absolute_uri(reverse('payment_failed')),
-        "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
-    }
+        paypal_dict = {
+            "business": "sb-pkdqf30042076@business.example.com",
+            "amount": price,
+            "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+            "return": request.build_absolute_uri(reverse('payment_successful')),
+            "cancel_return": request.build_absolute_uri(reverse('payment_failed')),
+        }
 
-    # Create the instance.
-    form = PayPalPaymentsForm(initial=paypal_dict)
-    return render(request, "payments.html", {"form": form})
+        # Create the instance.
+        form = PayPalPaymentsForm(initial=paypal_dict)
+        return render(request, "payments.html", {"form": form, 'cart': request.session['cart']})
 
+
+def home(request):
+    restaurants = Restaurant.objects.all()
+    print(restaurants)
+    return render(request, 'home.html', {'restaurants': restaurants})
 
 class GetOneMenuByIdView(View):
 
@@ -259,7 +259,8 @@ def homeview(request):
 
 # cart
 
-# @login_required(login_url="/users/login")
+
+@login_required(login_url='/login/')
 def cart_add(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
@@ -267,7 +268,8 @@ def cart_add(request, id):
     return redirect("cart_detail")
 
 
-# @login_required(login_url="/users/login")
+
+@login_required(login_url='/login/')
 def item_clear(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
@@ -275,7 +277,8 @@ def item_clear(request, id):
     return redirect("cart_detail")
 
 
-# @login_required(login_url="/users/login")
+
+@login_required(login_url='/login/')
 def item_increment(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
@@ -283,7 +286,8 @@ def item_increment(request, id):
     return redirect("cart_detail")
 
 
-# @login_required(login_url="/users/login")
+
+@login_required(login_url='/login/')
 def item_decrement(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
@@ -291,18 +295,16 @@ def item_decrement(request, id):
     return redirect("cart_detail")
 
 
-# @login_required(login_url="/users/login")
+
+@login_required(login_url='/login/')
 def cart_clear(request):
     cart = Cart(request)
     cart.clear()
     return redirect("cart_detail")
 
 
-# @login_required(login_url="/users/login")
-# def cart_detail(request):
-#     return render(request, 'cart/cart_detail.html')
 
 
-# @login_required(login_url="/users/login")
+@login_required(login_url='/login/')
 def cart_detail(request):
     return render(request, "cart_details.html")
