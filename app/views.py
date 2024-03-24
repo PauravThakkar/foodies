@@ -186,6 +186,9 @@ def ask_money(request):
 def home(request):
     restaurants = Restaurant.objects.all()
     form = FilterForm()
+    status = ''
+    if request.user.is_authenticated:
+        status = 'signedIn'
     if request.method == "POST":
         form = FilterForm(request.POST)
         if form.is_valid():
@@ -196,15 +199,16 @@ def home(request):
                 restaurants = restaurants.filter(name__icontains=search)
             restaurants = restaurants.filter(cuisines=Cuisince)
             restaurants = restaurants.filter(avg_rating__gte=Ratings)
-            return render(request, 'home.html', {'restaurants': restaurants, 'form': form})
+            return render(request, 'home.html', {'restaurants': restaurants, 'form': form, 'status': status})
     else:
-        return render(request, 'home.html', {'restaurants': restaurants, 'form': form})
+        for restaurant in restaurants:
+            print(restaurant.respicture.url)
+        return render(request, 'home.html', {'restaurants': restaurants, 'form': form, 'status': status})
 
 
 class GetOneMenuByIdView(View):
-
     def get_obj(self, id):
-
+        status = ''
         try:
             obj = MenuItem.objects.get(id=id)
         except:
@@ -213,13 +217,14 @@ class GetOneMenuByIdView(View):
         return obj
 
     def get(self, request, id):
-
+        status = ''
+        if self.request.user.is_authenticated:
+            status = 'signedIn'
         menu_item_details = self.get_obj(id=id)
-
         context = {
-            "menu_details": menu_item_details
+            "menu_details": menu_item_details,
+            'status': status
         }
-
         return render(request, "one_menu.html", context=context)
 
 
@@ -298,4 +303,7 @@ def cart_clear(request):
 
 # @login_required(login_url="/login/?error=true")
 def cart_detail(request):
-    return render(request, "cart_details.html")
+    status = ''
+    if request.user.is_authenticated:
+        status = 'signedIn'
+    return render(request, "cart_details.html", {'status': status})
