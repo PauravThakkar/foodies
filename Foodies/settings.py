@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'app.apps.AppsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'paypal.standard.ipn',
-    'app.apps.AppsConfig',
     'fontawesomefree',
 
     # add to cart
@@ -143,3 +143,12 @@ STATICFILES_DIRS = [
 # media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'pauravthakkar252@gmail.com'
+EMAIL_HOST_PASSWORD = 'qzrz wlgd yqys zucv'
+EMAIL_USE_SSL = False
+

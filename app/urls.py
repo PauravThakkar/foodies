@@ -1,8 +1,11 @@
+import django.contrib.auth
+from django.contrib.auth.views import LoginView
 from django.urls import include
 from django.urls import path
 
 from . import views
 from .views import *
+from django.contrib.auth.views import PasswordChangeView
 
 urlpatterns = [
     path('ratings/<int:restaurant_id>/', temp_review_view, name='ratings'),
@@ -33,5 +36,8 @@ urlpatterns = [
     path('cart/cart-detail/', views.cart_detail, name='cart_detail'),
 
     path('accounts/', include('django.contrib.auth.urls')),
+    path('password-reset/', ResetPasswordView.as_view(), name='password_reset'),
+    path('reset_password_confirm/<uidb64>/<token>/', PasswordConfirmView.as_view(), name='password_reset_confirm'),
+    path('password-reset-done', PasswordResetDoneView, name='password_reset_done')
 ]
 

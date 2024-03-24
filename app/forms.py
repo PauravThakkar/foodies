@@ -2,7 +2,7 @@ import re
 from datetime import date
 
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, PasswordChangeForm
 from django.core.exceptions import ValidationError
 
 from app.models import *
@@ -142,3 +142,9 @@ class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = ('date_of_birth', 'contact_number', 'profile_picture')
+
+class ResetPasswordForm(PasswordResetForm):
+    model = Customer
+
+class ResetPasswordChangeForm(PasswordChangeForm):
+    model = Customer
