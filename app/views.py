@@ -17,7 +17,7 @@ from .models import *
 def review_view(request, restaurant_id):
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
     user_id = request.user.id
-    user = get_object_or_404(User, pk=user_id)
+    user = get_object_or_404(Customer, pk=user_id)
     form = ReviewForm()
 
     if request.method == 'POST':
@@ -25,10 +25,10 @@ def review_view(request, restaurant_id):
         if form.is_valid():
             review = form.save(commit=False)
             review.user = user
-            review.save()
+        
             
-            restaurant.review = review
-            restaurant.save()
+            review.restaurant = restaurant
+            review.save()
            
             
             return render(request, 'review_block.html',
@@ -124,7 +124,9 @@ def app_login(request):
 
         if form.is_valid():
             myuser = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            print('-----------',myuser)
             login(request, myuser)
+            print('------------',request.user)
             return redirect(next)  # Redirect to home page after successful login
     else:
         message = 'Welcome to Foodies'
@@ -293,11 +295,6 @@ def cart_clear(request):
     cart = Cart(request)
     cart.clear()
     return redirect("cart_detail")
-
-
-# @login_required(login_url="/users/login")
-# def cart_detail(request):
-#     return render(request, 'cart/cart_detail.html')
 
 
 # @login_required(login_url="/login/?error=true")
