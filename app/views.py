@@ -61,6 +61,7 @@ def user_settings(request):
     return render(request, 'user_settings.html', {
         'customer_form': customer_form,
         'customer': customer,
+        'status': 'signedIn'
     })
 
 
@@ -103,7 +104,7 @@ def user_history(request):
         order_details.append((order.order_id, order.items.all(), order.total))
 
     # Pass the order details to the template for rendering
-    return render(request, 'user_history.html', {'order_details': order_details, 'visit_count': visit_count})
+    return render(request, 'user_history.html', {'order_details': order_details, 'visit_count': visit_count, 'status': 'signedIn'})
 
 
 def sign_up(request):
@@ -198,7 +199,7 @@ def home(request):
             if search != '':
                 restaurants = restaurants.filter(name__icontains=search)
             restaurants = restaurants.filter(cuisines=Cuisince)
-            restaurants = restaurants.filter(avg_rating__gte=Ratings)
+            restaurants = restaurants.filter(avg_ratings__gte=Ratings)
             return render(request, 'home.html', {'restaurants': restaurants, 'form': form, 'status': status})
     else:
         for restaurant in restaurants:
