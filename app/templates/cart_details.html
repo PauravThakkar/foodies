@@ -1,14 +1,9 @@
-
-
-
 {% extends 'base.html' %}
 {% load static %}
 {% block navigation %}
     {% include 'navbar.html' %}
 {% endblock %}
 {% load cart_tag %}
-{% load static %}
-
 
 {% block body_block %}
 
@@ -85,9 +80,12 @@
                         <td><a href="{% url 'cart_clear' %}">
                             <button class="btn btn-default update">Clear Cart</button>
                         </a></td>
-                        <td><a href="#">
-                            <button class="btn btn-default update">Checkout</button>
-                        </a></td>
+                        <td>
+                            <form method="post" action="{% url 'checkout' %}">
+                                {% csrf_token %}
+                                <button class="btn btn-default update" type="submit">Checkout</button>
+                            </form>
+                        </td>
                         <td></td>
                         <td>
                             <hr>

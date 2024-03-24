@@ -1,0 +1,16 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ restaurant.name }} Menu</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h1>{{ restaurant.name }} Menu</h1>
+    <ul>
+        {% for item in menu_items %}
+            <li>{{ item.name }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

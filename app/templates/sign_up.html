@@ -2,21 +2,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="{% static 'carapp/style.css' %}"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Sign-up</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'signup_style.css' %}"/>
+<style>
+
+        body, html {
+    font-family: Arial, sans-serif;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+    background-image: url("{% static 'images/signup-image.jpg' %}");
+    background-size: 100% 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+.login-container h1 {
+    font-family: "Slackside One", cursive;
+    font-style: normal;
+    font-size: 40px;
+    padding-left: 150px;
+    color: red;
+    font-weight: bolder;
+    padding-top: 50px;
+    animation: fadeInOut 3s infinite;
+
+}
+.login-container {
+    padding-left: 800px;
+}
+
+.login-container form {
+    position: relative;
+  height: 50px;
+  width: 400px;
+  padding-left: 30px;
+}
+</style>
 </head>
 <body>
-<div class="container">
-    <h1 class="heading">FOOD IS OUR EMOTION </h1>
-    <h2> SIGN UP</h2>
-    <form method="post">
+
+    <div class="login-container">
+            <h1>Welcome to Foodies</h1>
+            <form method="post" action="{% url 'sign_up' %}" >
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit"> SIGN UP</button>
-        <a href="{% url 'login' %}" class="linktologin">Already have an account?</a>
+                <a href="{% url 'app_login' %}" class="linktologin">Already a foodie?</a>
     </form>
-</div>
+    </div>
 </body>
 </html>
