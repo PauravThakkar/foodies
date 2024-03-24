@@ -83,10 +83,14 @@
 
     <div class="row">
         <div class="col-md-3">
-            <button class="btn btn-danger"> Clear </button>
+            <a href="cart_clear"> <button class="btn btn-danger"> Clear </button></a>
         </div>
         <div class="col-md-3">
-            <button class="btn btn-danger"> Checkout </button>
+            <form method="post" action="{% url 'checkout' %}">
+                {% csrf_token %}
+                <button class="btn btn-danger"> Checkout </button>
+            </form>
+
         </div>
 
         <div class="col-md d-flex border justify-content-center">
