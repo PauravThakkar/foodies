@@ -8,6 +8,7 @@ from django.core.exceptions import ValidationError
 from app.models import *
 from app.models import Review
 from .models import Customer, UserProfile
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 class ReviewForm(forms.ModelForm):
@@ -134,9 +135,17 @@ class FilterForm(forms.Form):
 
 
 class CustomerForm(forms.ModelForm):
-    profile_picture = forms.ImageField(required=False)
+
     date_of_birth = forms.DateField(label='Date of Birth')
 
     class Meta:
         model = Customer
         fields = ('date_of_birth', 'contact_number', 'profile_picture')
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['old_password'].label = 'Old Password'
+        self.fields['new_password1'].label = 'New Password'
+        self.fields['new_password2'].label = 'Confirm New Password'

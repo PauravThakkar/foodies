@@ -10,7 +10,7 @@ from paypal.standard.forms import PayPalPaymentsForm
 
 from .forms import FilterForm
 from .forms import LoginForm
-from .forms import ReviewForm, CustomerForm
+from .forms import ReviewForm, CustomerForm, CustomPasswordChangeForm
 from .forms import SignUpForm
 from .models import *
 
@@ -69,15 +69,15 @@ def user_settings(request):
         return redirect('/login')
 
     if request.method == 'POST':
-        password_form = PasswordChangeForm(request.user, request.POST)
+        print('abc')
+        password_form = CustomPasswordChangeForm(request.user, request.POST)
         customer_form = CustomerForm(request.POST, request.FILES, instance=customer)
 
-        if password_form.is_valid() and customer_form.is_valid():
-            password_form.save()
+        if customer_form.is_valid() and customer_form in request.POST:
             customer_form.save()
             return redirect('user_settings')
     else:
-        password_form = PasswordChangeForm(request.user)
+        password_form = CustomPasswordChangeForm(request.user)
         customer_form = CustomerForm(instance=customer)
 
     return render(request, 'user_settings.html', {
@@ -99,24 +99,24 @@ class StaticOrder:
 
 
 def user_history(request):
-    # Get the current user
-    user = User.objects.get()
+    # Initialize visit count to 0
+    visit_count = 0
 
-    # Static order data
-    static_orders = [
-        StaticOrder(order_id=1, restaurant_name='Restaurant A', item_name='Italian', cuisine_price='$20',
-                    cuisine_quantity='1', totalprice='40'),
-        StaticOrder(order_id=2, restaurant_name='Restaurant B', item_name='Mexican', cuisine_price='$50',
-                    cuisine_quantity='2', totalprice='100'),
-        StaticOrder(order_id=3, restaurant_name='Restaurant C', item_name='Indian', cuisine_price='$15',
-                    cuisine_quantity='1', totalprice='15'),
-        StaticOrder(order_id=4, restaurant_name='Restaurant C', item_name='Indian', cuisine_price='$15',
-                    cuisine_quantity='1', totalprice='15'),
-        # Add more static orders as needed
-    ]
+    # Check if 'visit_count' is already stored in session
+    if 'visit_count' in request.session:
+        visit_count = request.session['visit_count']
+
+    # Increment visit count
+    visit_count += 1
+
+    # Update session with new visit count
+    request.session['visit_count'] = visit_count
+    # Get the current user
+    #user = Customer.objects.all()
+    current_user = request.user
 
     # Filter orders made by the current user
-    user_orders = [order for order in static_orders]
+    user_orders = Order.objects.filter(user=current_user)
 
     # Create a list to hold order details (restaurant name and order ID)
     order_details = []
@@ -127,7 +127,7 @@ def user_history(request):
                               order.quantity, order.totalprice))
 
     # Pass the order details to the template for rendering
-    return render(request, 'user_history.html', {'order_details': order_details})
+    return render(request, 'user_history.html', {'order_details': order_details, 'visit_count': visit_count})
 
 
 def sign_up(request):
