@@ -124,9 +124,8 @@ def app_login(request):
 
         if form.is_valid():
             myuser = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-            print('-----------',myuser)
             login(request, myuser)
-            print('------------',request.user)
+            
             return redirect(next)  # Redirect to home page after successful login
     else:
         message = 'Welcome to Foodies'
