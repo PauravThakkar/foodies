@@ -35,12 +35,5 @@
                 </script>
         <button type="submit" class="user-settings-btn user-settings-btn-primary">Save Changes</button>
     </form>
-    <hr>
-    <h2 class="user-settings-head">Change Password</h2>
-    <form method="post" class="change-password-form">
-        {% csrf_token %}
-        {{ password_form.as_p }}
-        <button type="submit" class="change-password-btn change-password-btn-primary">Change Password</button>
-    </form>
     </div>
 {% endblock %}

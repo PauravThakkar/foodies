@@ -17,7 +17,6 @@ urlpatterns = [
     path('payment_failed/', payment_failed, name='payment_failed'),
     path('checkout/', ask_money, name='checkout'),
     path('payment_successful/', payment_successful, name='payment_successful'),
-    path('temp_filter/', filter_temp, name='temp_filter'),
 
     path('menu/<int:id>/', views.GetOneMenuByIdView.as_view(), name="get_one_menu"),
     path('restaurant/<int:id>/', views.GetOneRestaurantByIdView.as_view(), name="get_one_restaurant"),
