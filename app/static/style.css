@@ -190,31 +190,6 @@ body {
 
 }
 
-.rate-order-btn {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    background-color: red;
-    border: none;
-    color: white;
-    width: 7rem;
-    height: 3rem;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    line-height: 3rem;
-    cursor: pointer;
-    border-radius: 10px;
-
-
-}
-
-.rate-order-btn:hover {
-    background-color: whitesmoke;
-    color: black;
-}
-
 .logo {
     position: absolute;
     top: 15px;
