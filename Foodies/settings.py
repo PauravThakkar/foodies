@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 DJANGO_ICONS = {
     "ICONS": {
         "cart": {"name": "fas fa-shopping-cart"},
+
     },
 }
 MIDDLEWARE = [
