@@ -24,9 +24,13 @@ def review_view(request, restaurant_id):
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
-            review.restaurant = restaurant
             review.user = user
             review.save()
+            
+            restaurant.review = review
+            restaurant.save()
+           
+            
             return render(request, 'review_block.html',
                           {'restaurant_id': restaurant_id, 'message': 'Review Submitted Successfully'})
     else:
@@ -233,8 +237,10 @@ class GetOneRestaurantByIdView(View):
 
         restaurant_details = self.get_obj(id=id)
 
+       
         context = {
-            'restaurant_details': restaurant_details
+            'restaurant_details': restaurant_details,
+           
         }
 
         return render(request, "one_restaurant.html", context=context)
@@ -254,7 +260,8 @@ def cart_add(request, id):
     return redirect("cart_detail")
 
 
-# @login_required(login_url="/users/login")
+
+# @login_required(login_url='/login/')
 def item_clear(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
@@ -262,7 +269,8 @@ def item_clear(request, id):
     return redirect("cart_detail")
 
 
-# @login_required(login_url="/users/login")
+
+# @login_required(login_url='/login/')
 def item_increment(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
@@ -270,7 +278,8 @@ def item_increment(request, id):
     return redirect("cart_detail")
 
 
-# @login_required(login_url="/users/login")
+
+# @login_required(login_url='/login/')
 def item_decrement(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
@@ -278,7 +287,8 @@ def item_decrement(request, id):
     return redirect("cart_detail")
 
 
-# @login_required(login_url="/users/login")
+
+# @login_required(login_url='/login/')
 def cart_clear(request):
     cart = Cart(request)
     cart.clear()
@@ -290,6 +300,6 @@ def cart_clear(request):
 #     return render(request, 'cart/cart_detail.html')
 
 
-@login_required(login_url="/login/?error=true")
+# @login_required(login_url="/login/?error=true")
 def cart_detail(request):
     return render(request, "cart_details.html")
