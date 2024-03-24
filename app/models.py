@@ -94,7 +94,7 @@ class Order(models.Model):
         ordering = ['-timestamp']
 
     def __str__(self):
-        return self.menu.name
+        return self.order_id
     
     def get_total_price(self):
         return self.menu.price * self.quantity
