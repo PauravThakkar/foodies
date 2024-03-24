@@ -1,0 +1,66 @@
+.restaurant-box {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.restaurant-box img {
+    width: 100%;
+    height: auto;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.restaurant-details {
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+@media (max-width: 767.98px) {
+    .restaurant-box img {
+        border-radius: 10px;
+    }
+
+    .restaurant-details {
+        border-top-left-radius: 0;
+        border-top-right-radius: 10px;
+    }
+}
+
+.menu-item {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.menu-item img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.details {
+ 
+    margin-bottom: 20px;
+}
+
+.img-medium {
+    max-width: 600px;
+    /* Define your desired width */
+    max-height: 600px;
+    /* Maintain aspect ratio */
+}
+
+.text-spacing{
+    letter-spacing: 2px;
+}
+
+.add-to-cart-btn {
+    transition: all 0.3s ease; /* Add transition for smooth animation */
+  
+}
+
+.add-to-cart-btn:hover {
+    transform: scale(1.1); /* Increase box size on hover */
+   
+}
