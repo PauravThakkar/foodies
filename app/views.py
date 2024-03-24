@@ -118,14 +118,18 @@ def sign_up(request):
 def app_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
+        next = '/home/'
 
         if form.is_valid():
             myuser = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
             login(request, myuser)
-            return redirect('Settings')  # Redirect to home page after successful login
+            return redirect(next)  # Redirect to home page after successful login
     else:
+        message = 'Welcome to Foodies'
+        if request.GET.get('error') is not None:
+            message = 'Please sign in to continue'
         form = LoginForm()
-    return render(request, 'sign_in.html', {'form': form})
+    return render(request, 'sign_in.html', {'form': form, 'message': message})
 
 
 def payment_successful(request):
@@ -229,7 +233,7 @@ def homeview(request):
 
 # cart
 
-# @login_required(login_url="/users/login")
+# @login_required(login_url="login/?error=true&next=/cart/cart_detail/")
 def cart_add(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
@@ -273,6 +277,6 @@ def cart_clear(request):
 #     return render(request, 'cart/cart_detail.html')
 
 
-# @login_required(login_url="/users/login")
+@login_required(login_url="/login/?error=true")
 def cart_detail(request):
     return render(request, "cart_details.html")
