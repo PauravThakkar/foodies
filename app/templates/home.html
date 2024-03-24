@@ -31,6 +31,7 @@
     <section class="section food-menu" id="food-menu">
         <div class="container">
             <p class="section-subtitle">Popular Restaurants</p>
+        {% include 'filters.html' %}
             <ul class="food-menu-list">
                 {% for restaurant in restaurants %}
                 <li>

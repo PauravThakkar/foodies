@@ -95,7 +95,7 @@ class SignUpForm(UserCreationForm):
 
 
 class LoginForm(forms.Form):
-    username = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'email-class', 'placeholder': 'Email'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'email-class', 'placeholder': 'Email'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'password-class', 'placeholder': 'Password'}))
 
     def __init__(self, *args, **kwargs):
@@ -126,13 +126,11 @@ class UserProfileForm(forms.ModelForm):
 
 
 class FilterForm(forms.Form):
-    Cuisines = Restaurant.objects.all()
-    choices = [('1', 'Indian'), ('2', 'Mexican'), ('3', 'Italian')]
-    Search = forms.CharField(label='Search', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    Cuisine = forms.ChoiceField(choices=choices, widget=forms.Select(attrs={'class': 'form-select'}))
+    Cuisines = Cuisine.objects.values_list('id', 'name').all()
+    Search = forms.CharField(required=False, label='Search', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    Cuisine = forms.ChoiceField(required=False, choices=Cuisines, widget=forms.Select(attrs={'class': 'form-select'}))
     ratings_choice = [('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')]
-    Ratings = forms.ChoiceField(
-        widget=forms.NumberInput(attrs={'type': 'range', 'class': 'form-range', 'min': '1', 'max': '5'}))
+    Ratings = forms.ChoiceField(choices=ratings_choice, widget=forms.NumberInput(attrs={'type': 'range', 'class': 'form-range', 'min': '1', 'max': '5'}))
 
 
 class CustomerForm(forms.ModelForm):

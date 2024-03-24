@@ -196,8 +196,21 @@ def ask_money(request):
 
 def home(request):
     restaurants = Restaurant.objects.all()
-    print(restaurants)
-    return render(request, 'home.html', {'restaurants': restaurants})
+    form = FilterForm()
+    if request.method == "POST":
+        form = FilterForm(request.POST)
+        if form.is_valid():
+            search = form.cleaned_data['Search']
+            Cuisince = form.cleaned_data['Cuisine']
+            Ratings = form.cleaned_data['Ratings']
+            if search != '':
+                restaurants = restaurants.filter(name__icontains=search)
+            restaurants = restaurants.filter(cuisines=Cuisince)
+            restaurants = restaurants.filter(avg_rating__gte=Ratings)
+            return render(request, 'home.html', {'restaurants': restaurants, 'form': form})
+    else:
+        return render(request, 'home.html', {'restaurants': restaurants, 'form': form})
+
 
 class GetOneMenuByIdView(View):
 
