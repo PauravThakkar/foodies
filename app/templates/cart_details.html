@@ -88,10 +88,7 @@
             </a>
         </div>
         <div class="col-md-3">
-            <form method="post" action="{% url 'checkout' %}">
-                {% csrf_token %}
-                <button class="btn btn-danger"> Checkout </button>
-            </form>
+            <a href="{% url 'checkout' %}"> <button class="btn btn-danger"> Checkout </button> </a>
 
         </div>
 
