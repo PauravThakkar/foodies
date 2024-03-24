@@ -96,8 +96,6 @@ def user_history(request):
 
     # Iterate through each order to extract restaurant name and order ID
     for order in user_orders.all():
-        for item in order.items.all():
-            print(item.image)
         order_details.append((order.order_id, order.items.all(), order.total))
 
     # Pass the order details to the template for rendering
@@ -138,12 +136,8 @@ def payment_successful(request):
     items = set()
 
     for item in request.session['cart'].values():
-        print(item)
         price += float(item['price']) * float(item['quantity'])
         items.add(MenuItem.objects.get(id=item['product_id']))
-
-    print(items)
-    print(price)
 
     order = Order.objects.create(
         payer_id=payer_id,
@@ -152,11 +146,9 @@ def payment_successful(request):
     )
     order.items.set(items)
 
-    print(order)
-
     order.save()
 
-    # TODO: Clear the cart
+    request.session['cart'] = {}
 
     return render(request, 'payment_successful.html')
 
@@ -183,8 +175,7 @@ def ask_money(request):
         # Create the instance.
         form = PayPalPaymentsForm(initial=paypal_dict)
 
-        # return render(request, "payments.html", {"form": form, 'cart': request.session['cart']})
-        return redirect('payment_successful')
+        return render(request, "payments.html", {"form": form, 'cart': request.session['cart']})
 
 
 def home(request):
@@ -283,9 +274,6 @@ def item_increment(request, id):
 def item_decrement(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
-
-    print(cart)
-
     cart.decrement(product=menu_item)
     return redirect("cart_detail")
 
