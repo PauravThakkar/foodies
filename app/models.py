@@ -53,7 +53,6 @@ class MenuItem(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    review = models.ForeignKey("Review", on_delete=models.CASCADE, blank=True, null=True)
 
     image = models.ImageField(upload_to='products/')
     price = models.FloatField()
@@ -104,7 +103,7 @@ class Review(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     # reference of the restaurant the review was given to
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=False)
+    restaurant = models.ForeignKey("Restaurant", on_delete=models.CASCADE, null=False)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
