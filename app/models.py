@@ -53,7 +53,6 @@ class MenuItem(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-
     image = models.ImageField(upload_to='products/')
     price = models.FloatField()
 
@@ -75,20 +74,24 @@ class Restaurant(models.Model):
     phone_number = models.CharField(max_length=15)
     website = models.URLField(blank=True, null=True)
     cuisines = models.ForeignKey(Cuisine, on_delete=models.CASCADE)
-    menus = models.ManyToManyField(MenuItem, null=True, blank=True)
-    review = models.ForeignKey("Review", on_delete = models.CASCADE, null = True, blank = True, related_name = "review_of_restaurant")
+    menus = models.ManyToManyField(MenuItem)
     respicture = models.ImageField(null=True, blank=True, upload_to='images/')
     avg_ratings = models.FloatField(default=1)
+
     def __str__(self):
         return self.name
 
 
-class CartMenu(models.Model):
-    """Ths model is map with Order model.
-        This model storing each menu with quentity, and returning CartMenu Object.
-    """
-    menu = models.ForeignKey(MenuItem, on_delete = models.CASCADE, null = True, blank = True)
-    quantity = models.IntegerField()
+class Order(models.Model):
+    order_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    payer_id = models.CharField(max_length=100, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    items = models.ManyToManyField(MenuItem)
+    total = models.FloatField(null=True, blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-timestamp']
 
     def __str__(self):
         return self.menu.name
@@ -98,33 +101,6 @@ class CartMenu(models.Model):
     
     
     
-class Order(models.Model):
-    """ This model is use for Order history.
-    It will store all the order data which user have placed.
-    """
-    order_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
-    resturant = models.ForeignKey(Restaurant, on_delete = models.CASCADE, null = True, blank = True)
-    cartmenu = models.ManyToManyField(CartMenu, blank=True)
-    
-    
-    def get_total_price(self):
-        total_price  = 0
-        for item in self.cartmenu.all():
-            total_price += item.get_total_price()
-            
-        print(total_price, "-------") 
-        return total_price
-    
-        
-
-    def __str__(self):
-        
-        self.get_total_price()
-        
-        return f"{self.order_id}"
-
-
 class Review(models.Model):
     RATINGS_RANGE = (
         (1, 'Poor'),

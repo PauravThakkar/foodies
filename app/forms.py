@@ -2,13 +2,13 @@ import re
 from datetime import date
 
 from django import forms
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
 from app.models import *
 from app.models import Review
 from .models import Customer, UserProfile
-from django.contrib.auth.forms import PasswordChangeForm
 
 
 class ReviewForm(forms.ModelForm):
@@ -131,11 +131,11 @@ class FilterForm(forms.Form):
     Search = forms.CharField(required=False, label='Search', widget=forms.TextInput(attrs={'class': 'form-control'}))
     # Cuisine = forms.ChoiceField(required=False, choices=Cuisines, widget=forms.Select(attrs={'class': 'form-select'}))
     ratings_choice = [('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')]
-    Ratings = forms.ChoiceField(choices=ratings_choice, widget=forms.NumberInput(attrs={'type': 'range', 'class': 'form-range', 'min': '1', 'max': '5'}))
+    Ratings = forms.ChoiceField(choices=ratings_choice, widget=forms.NumberInput(
+        attrs={'type': 'range', 'class': 'form-range', 'min': '1', 'max': '5'}))
 
 
 class CustomerForm(forms.ModelForm):
-
     date_of_birth = forms.DateField(label='Date of Birth')
 
     class Meta:
