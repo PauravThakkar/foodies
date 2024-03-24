@@ -15,6 +15,7 @@
 .restaurant-details {
     padding: 20px;
     background-color: #f8f9fa;
+    max-height: 260px;
 }
 
 @media (max-width: 767.98px) {
@@ -41,4 +42,24 @@
 
 .details {
     padding: 20px;
+}
+
+.comment-box {
+    max-width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: antiquewhite;
+   
+}
+
+.text-spacing{
+    letter-spacing: 2px;
+}
+
+.menu-box {
+    transition: all 0.3s ease; /* Add transition for smooth animation */
+}
+
+.menu-box:hover {
+    transform: scale(1.1); /* Increase box size on hover */
 }

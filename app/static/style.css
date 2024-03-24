@@ -58,8 +58,17 @@ body {
 }
 
 .nav-right a {
-    margin-left: 20px;
+    padding: 10px;
+    cursor: pointer !important;
+    border-radius: 5px !important;
+    color: red !important;
+}
 
+.nav-right a:hover {
+    background-color: red !important;
+    color: white !important;
+    margin-left: 20px !important;
+    cursor: pointer !important;
 }
 
 .nav-right {
@@ -163,20 +172,20 @@ body {
 
 .head {
     text-align: center;
-    font-family: "fantasy";
-    font-style: italic;
+    font-family: "Slackside One", cursive;
     margin-top: 40px;
+    color: red;
+    font-weight: bold;
 }
 
-/* Styling for order blocks */
 .order-block {
     position: relative;
     display: inline-block;
     justify-content: space-between;
-    margin-right: 20px;
     width: 400px;
     height: 450px;
-    margin-right: 20px;
+    margin-right: 5px;
+    margin-left: 5px;
     color: black;
     text-align: center;
     line-height: 100px;
@@ -233,7 +242,7 @@ body {
     left: 50%;
     background-color: red;
     border: none;
-    color: black;
+    color: white;
     width: 7rem;
     height: 3rem;
     text-align: center;
@@ -248,7 +257,8 @@ body {
 }
 
 .rate-order-btn:hover {
-    background-color: #e6e6e6;
+    background-color: whitesmoke;
+    color: black;
 }
 
 .logo {
@@ -271,33 +281,33 @@ body {
 
 
 .user-settings-container {
-    width: 900px;
-    margin-left: 225px;
-    margin-right: 250px;
-    padding: 20px;
-    margin-top: 40px;
+    width: 800px; /* Reduced width for better readability */
+    margin: 40px auto;
+    padding: 40px; /* Increased padding for more space */
     background-color: snow;
     border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Added box shadow for depth */
 }
 
 .user-settings-head {
-    margin-bottom: 20px;
+    margin-bottom: 40px; /* Increased margin for better separation */
     font-weight: bolder;
     text-align: center;
     font-family: "Slackside One", cursive;
-    font-style: inherit;
-    margin-top: 20px;
-    color: red;
+    color: red; /* Darker color for better contrast */
 }
 
 .user-settings-form-group {
-    margin-bottom: 20px;
+    margin-bottom: 30px; /* Adjusted margin for better spacing */
 }
 
-.user-settings-form-group label[for="date_of_birth"] {
+label {
+    display: block; /* Ensure labels are on top of inputs */
+    margin-bottom: 10px; /* Added margin for better spacing */
     font-weight: bold;
     font-style: italic;
     font-size: large;
+    color: #555; 
 }
 
 .user-settings-form-group label[for="contact_number"] {
@@ -312,93 +322,45 @@ body {
     font-size: large;
 }
 
-.change-password-form-group label[for="old_password"] {
-    font-weight: bold;
-    font-style: italic;
-    font-size: large;
-}
-
-.change-password-form-group label[for="new_password1"] {
-    font-weight: bold;
-    font-style: italic;
-    font-size: large;
-}
-
-.change-password-form-group label[for="new_password2"] {
-    font-weight: bold;
-    font-style: italic;
-    font-size: large;
-}
-
-
-.user-settings-form-control {
+input[type="text"],
+input[type="password"],
+input[type="file"],
+input[type="date"] {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 15px; /* Increased padding for better input appearance */
+    border: 1px solid #ddd; /* Lighter border color for subtlety */
+    border-radius: 10px; /* Increased border radius for a more rounded appearance */
+    box-sizing: border-box;
+    margin-top: 5px; /* Adjusted margin for better spacing */
+    font-size: 16px; /* Adjusted font size for better readability */
 }
 
 .user-settings-form-control-file {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: #f5f5f5; /* Slightly lighter background color */
 }
 
-.user-settings-btn {
-    padding: 10px 20px;
+.user-settings-btn,
+.change-password-btn {
+    padding: 15px 30px; /* Increased padding for better button appearance */
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 10px;
     color: #fff;
-}
-
-.user-settings-btn:hover {
-    background-color: darkred;
-}
-
-.user-settings-btn-primary {
     background-color: red;
+    font-weight: bold; /* Added font weight for emphasis */
+    text-transform: uppercase; /* Uppercase text for style */
     transition: background-color 0.3s ease;
 }
 
-.change-password-form-group {
-    margin-bottom: 20px;
-}
-
-.change-password-form-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.change-password-form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.change-password-btn {
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    color: #fff;
-}
-
-.change-password-btn-primary {
-    background-color: red;
-}
-
+.user-settings-btn:hover,
 .change-password-btn:hover {
-    background-color: darkred;
+    background-color: darkred; /* Darker hover color for contrast */
 }
 
 .profile-info {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px; /* Adjusted margin for better spacing */
 }
 
 .profile-picture-container {
@@ -421,19 +383,59 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    margin-left: 600px;
-
-}
-
-.user-settings-form-label {
-    font-weight: bold;
-    font-style: italic;
-    font-size: larger;
+    margin-left: 500px;
 }
 
 .username {
     font-weight: bold;
     text-align: center;
+    color: #333;
+}
+
+.ui-datepicker {
+    font-size: 14px;
+}
+
+.ui-datepicker-header {
+    background-color: red;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.ui-datepicker-prev,
+.ui-datepicker-next {
+    background-color: red;
+    margin-left: 0px;
+    margin-right: 35px;
+    padding: 2px 2px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.ui-datepicker-prev span,
+.ui-datepicker-next span {
+    color: #fff; /* White color for navigation button arrows */
+}
+
+.ui-datepicker-calendar {
+    border: none;
+    background-color: snow;
+}
+
+.ui-datepicker-calendar th,
+.ui-datepicker-calendar td {
+    padding: 8px; /* Adjust padding for calendar cells */
+}
+
+.ui-datepicker-calendar a {
+    color: #333; /* Dark text color for calendar dates */
+}
+
+.ui-datepicker-calendar a:hover {
+    background-color: #007bff; /* Premium blue background color on hover */
+    color: #fff; /* White text color on hover */
 }
 
 

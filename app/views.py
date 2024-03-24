@@ -2,53 +2,25 @@ from cart.cart import Cart
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
+from django.shortcuts import render, get_object_or_404
 from django.urls.base import reverse
 from django.views import View
 from paypal.standard.forms import PayPalPaymentsForm
 
 from .forms import FilterForm
 from .forms import LoginForm
-from .forms import ReviewForm, CustomerForm
+from .forms import ReviewForm, CustomerForm, CustomPasswordChangeForm
 from .forms import SignUpForm
-from .models import Customer
-from .models import MenuItem
-from .models import Restaurant
-
-from django.shortcuts import render, get_object_or_404
-from .models import Restaurant
+from .models import *
 
 
-def restaurant_list(request):
-    restaurants = Restaurant.objects.all()
-
-    search_value = "test"
-    # Filter according to name in search
-    filtered_restaurants = restaurants.objects.filter(name__icontains=search_value)
-
-    # Filter according to ratings
-    rating_value = 1
-    filtered_restaurants = filtered_restaurants.objects.filter(rating__gte=rating_value)
-
-    # Filter according to Cuisine
-    cuisine = []
-    filtered_restaurants = filtered_restaurants.objects.filter(cuisine__in=cuisine).all()
-
-    # TODO return proper template
-    return ''
-
-
-def temp_review_view(request, restaurant_id):
+def review_view(request, restaurant_id):
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
-    # TODO: Fetch user form request and add its ID
-    user = get_object_or_404(Customer, pk=2)
-    
-    # Need login required decorator for request.user otherwise getting error 
-    # user = request.user
-    
+    user_id = request.user.id
+    user = get_object_or_404(User, pk=user_id)
     form = ReviewForm()
+
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
@@ -63,9 +35,10 @@ def temp_review_view(request, restaurant_id):
             return render(request, 'review_block.html',
                           {'restaurant_id': restaurant_id, 'message': 'Review Submitted Successfully'})
     else:
+        reviews = Review.objects.filter(restaurant=restaurant)
         return render(request, 'review_block.html',
                       {'review_from': form, 'restaurant_id': restaurant_id, 'restaurant_name': restaurant.name,
-                       'message': ''})
+                       'message': '', 'reviews': reviews})
 
 
 @login_required(login_url='/login/')
@@ -74,26 +47,19 @@ def user_settings(request):
         try:
             customer = Customer.objects.get(username=request.user.username)
         except Customer.DoesNotExist:
-            # Create a new Customer instance if it doesn't exist
             customer = Customer.objects.create(user_ptr=request.user)
     else:
-        # Create a temporary anonymous user for development
         return redirect('/login')
 
     if request.method == 'POST':
-        password_form = PasswordChangeForm(request.user, request.POST)
         customer_form = CustomerForm(request.POST, request.FILES, instance=customer)
-
-        if password_form.is_valid() and customer_form.is_valid():
-            password_form.save()
+        if customer_form.is_valid():
             customer_form.save()
-            return redirect('user_settings')
+            return redirect('Settings')
     else:
-        password_form = PasswordChangeForm(request.user)
         customer_form = CustomerForm(instance=customer)
 
     return render(request, 'user_settings.html', {
-        'password_form': password_form,
         'customer_form': customer_form,
         'customer': customer,
     })
@@ -111,24 +77,24 @@ class StaticOrder:
 
 
 def user_history(request):
-    # Get the current user
-    user = User.objects.get()
+    # Initialize visit count to 0
+    visit_count = 0
 
-    # Static order data
-    static_orders = [
-        StaticOrder(order_id=1, restaurant_name='Restaurant A', item_name='Italian', cuisine_price='$20',
-                    cuisine_quantity='1', totalprice='40'),
-        StaticOrder(order_id=2, restaurant_name='Restaurant B', item_name='Mexican', cuisine_price='$50',
-                    cuisine_quantity='2', totalprice='100'),
-        StaticOrder(order_id=3, restaurant_name='Restaurant C', item_name='Indian', cuisine_price='$15',
-                    cuisine_quantity='1', totalprice='15'),
-        StaticOrder(order_id=4, restaurant_name='Restaurant C', item_name='Indian', cuisine_price='$15',
-                    cuisine_quantity='1', totalprice='15'),
-        # Add more static orders as needed
-    ]
+    # Check if 'visit_count' is already stored in session
+    if 'visit_count' in request.session:
+        visit_count = request.session['visit_count']
+
+    # Increment visit count
+    visit_count += 1
+
+    # Update session with new visit count
+    request.session['visit_count'] = visit_count
+    # Get the current user
+    #user = Customer.objects.all()
+    current_user = request.user
 
     # Filter orders made by the current user
-    user_orders = [order for order in static_orders]
+    user_orders = Order.objects.filter(user=current_user)
 
     # Create a list to hold order details (restaurant name and order ID)
     order_details = []
@@ -139,7 +105,7 @@ def user_history(request):
                               order.quantity, order.totalprice))
 
     # Pass the order details to the template for rendering
-    return render(request, 'user_history.html', {'order_details': order_details})
+    return render(request, 'user_history.html', {'order_details': order_details, 'visit_count': visit_count})
 
 
 def sign_up(request):
@@ -156,20 +122,18 @@ def sign_up(request):
 def app_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
+        next = '/home/'
 
         if form.is_valid():
-            
-            print(form.cleaned_data['username'],"===============")
-            print(form.cleaned_data['password'],":::::::::::::::")
-            myuser = Customer.objects.filter(email = form.cleaned_data['username'], password=form.cleaned_data['password']).first()
-
-            print("---------------", myuser)
-            # myuser = authenticate(email=form.cleaned_data['username'], password=form.cleaned_data['password'])
-            login(request, )
-            return redirect('Settings')  # Redirect to home page after successful login
+            myuser = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            login(request, myuser)
+            return redirect(next)  # Redirect to home page after successful login
     else:
+        message = 'Welcome to Foodies'
+        if request.GET.get('error') is not None:
+            message = 'Please sign in to continue'
         form = LoginForm()
-    return render(request, 'sign_in.html', {'form': form})
+    return render(request, 'sign_in.html', {'form': form, 'message': message})
 
 
 def payment_successful(request):
@@ -180,10 +144,6 @@ def payment_successful(request):
 
 def payment_failed(request):
     return render(request, 'payment_failed.html')
-
-
-def filter_temp(req):
-    return render(req, 'filters.html', {'form': FilterForm})
 
 
 def ask_money(request):
@@ -210,8 +170,22 @@ def ask_money(request):
 
 def home(request):
     restaurants = Restaurant.objects.all()
-    print(restaurants)
-    return render(request, 'home.html', {'restaurants': restaurants})
+    form = FilterForm()
+    if request.method == "POST":
+        form = FilterForm(request.POST)
+        if form.is_valid():
+            search = form.cleaned_data['Search']
+            Cuisince = form.cleaned_data['Cuisine']
+            Ratings = form.cleaned_data['Ratings']
+            if search != '':
+                restaurants = restaurants.filter(name__icontains=search)
+            restaurants = restaurants.filter(cuisines=Cuisince)
+            restaurants = restaurants.filter(avg_rating__gte=Ratings)
+            return render(request, 'home.html', {'restaurants': restaurants, 'form': form})
+    else:
+        return render(request, 'home.html', {'restaurants': restaurants, 'form': form})
+
+
 
 class GetOneMenuByIdView(View):
 
@@ -265,8 +239,7 @@ def homeview(request):
 
 # cart
 
-
-# @login_required(login_url='/login/')
+# @login_required(login_url="login/?error=true&next=/cart/cart_detail/")
 def cart_add(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
@@ -308,6 +281,12 @@ def cart_clear(request):
     cart.clear()
     return redirect("cart_detail")
 
-# @login_required(login_url='/login/')
+
+# @login_required(login_url="/users/login")
+# def cart_detail(request):
+#     return render(request, 'cart/cart_detail.html')
+
+
+@login_required(login_url="/login/?error=true")
 def cart_detail(request):
     return render(request, "cart_details.html")

@@ -1,8 +1,7 @@
-
 {% extends 'base.html' %}
 {% load static %}
 {% block navigation %}
-    {% include 'navbar.html' %}
+{% include 'navbar.html' %}
 {% endblock %}
 {% load cart_tag %}
 {% load static %}
@@ -10,52 +9,38 @@
 
 {% block body_block %}
 
-   
-<div class="container" style="margin-top: 10%;">
-    <div class="row p-3" style="background-color: rgb(218, 180, 132); box-shadow:3px 3px 10px 2px black">
-        <div class="col-md-6 pt-4">
+<div class="container mt-4 p-4 bg-danger rounded">
 
-            <img src="{{ menu_details.image.url }}"
-                 alt="Big Menu Item Image" class="img-fluid mb-4">
-        </div>
-
-
-        <div class="col-md-6 menu-details border" style="background-color: rgb(229, 229, 228);">
-            <div>
-                <div class="col-md-12 mt-3" style="letter-spacing: 3px;">
-                    <h2>{{ menu_details.name }}</h2>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 border bg-light rounded">
+                <div class=" col-sm-12 d-flex justify-content-center align-items-center p-3">
+                    <img class="img-medium rounded" src="{{menu_details.image.url}}" alt="Menu Image">
                 </div>
-                <div class="col-md-12 mt-4">
-                    <div class="row mt-2">
-                        <p style="letter-spacing: 2px;">Description: {{ menu_details.description }}</p>
+                <div class="row details bg-danger d-flex justify-content-between align-items-center p-3 rounded mt-auto text-light"
+                    style="margin-left: 10px; margin-right: 10px;">
+                    <div class="col-md-12 text-center">
+                        <h3 class="text-spacing">
+                            Menu details
+                        </h3>
+
                     </div>
-
-                    <div class="row mt-4">
-                        <p style="letter-spacing: 2px;">Price: $ {{ menu_details.price }}</p>
+                    <div class="col-md-8 menu-details text-spacing">
+                        <h2>{{menu_details.name}}</h2>
+                        <h4>{{menu_details.description}}</h4>
+                        <h5>{{menu_details.category.name}}</h5>
+                        <h5>$ {{menu_details.price}}</h5>
                     </div>
-
-                    <div class="row mt-4">
-                        <p style="letter-spacing: 2px;">Ratings: {{ menu_details.review.ratings }}</p>
+                    <div class="col-sm-4 actions">
+                        <a href="{% url 'cart_add' menu_details.id %}"><button class="btn btn-light text-danger add-to-cart-btn">Add to
+                                cart</button></a>
+                        <!-- Add any actions here, such as buttons for ordering, etc. -->
                     </div>
-
-
-                    <div class="row mt-4 d-flex justify-content-center">
-                        <a href="{% url 'cart_add' menu_details.id %}"><button class="btn btn-success">Add To Cart</button></a>
-                        
-                        <!-- <button type="button" class="btn btn-primary add-to-cart-btn w-100">Add to Cart</button> -->
-                    </div>
-
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 
-<!-- Bootstrap JS and jQuery (for responsive features) -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 {% endblock %}
-
-   

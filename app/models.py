@@ -53,7 +53,6 @@ class MenuItem(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    review = models.ForeignKey("Review", on_delete=models.CASCADE, blank=True, null=True)
 
     image = models.ImageField(upload_to='products/')
     price = models.FloatField()
@@ -70,21 +69,16 @@ class Cuisine(models.Model):
 
 
 class Restaurant(models.Model):
-    type_choices = [('1', 'Indian'),
-                    ('2', 'Mexican'),
-                    ('3', 'Italian')]
-
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
     address = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=15)
     website = models.URLField(blank=True, null=True)
-    cuisines = models.ManyToManyField(Cuisine)
+    cuisines = models.ForeignKey(Cuisine, on_delete=models.CASCADE)
     menus = models.ManyToManyField(MenuItem, null=True, blank=True)
-    review = models.ForeignKey("Review", on_delete = models.CASCADE, null = True, blank = True)
+    review = models.ForeignKey("Review", on_delete = models.CASCADE, null = True, blank = True, related_name = "review_of_restaurant")
     respicture = models.ImageField(null=True, blank=True, upload_to='images/')
-    type = models.CharField(choices=type_choices, default='1', max_length=2)
-
+    avg_ratings = models.FloatField(default=1)
     def __str__(self):
         return self.name
 
@@ -144,7 +138,7 @@ class Review(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     # reference of the restaurant the review was given to
-    # restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=False)
+    restaurant = models.ForeignKey("Restaurant", on_delete=models.CASCADE, null=False, related_name="restaurant_review")
 
     user = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
 
