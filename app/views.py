@@ -7,6 +7,7 @@ from django.urls.base import reverse
 from django.views import View
 from paypal.standard.forms import PayPalPaymentsForm
 
+from Foodies.settings import PAYPAL_EMAIL
 from .forms import FilterForm
 from .forms import LoginForm
 from .forms import ReviewForm, CustomerForm
@@ -14,6 +15,7 @@ from .forms import SignUpForm
 from .models import *
 
 
+@login_required(login_url='/login/')
 def review_view(request, restaurant_id):
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
     user_id = request.user.id
@@ -25,14 +27,11 @@ def review_view(request, restaurant_id):
         if form.is_valid():
             review = form.save(commit=False)
             review.user = user
-        
-            
             review.restaurant = restaurant
             review.save()
-           
-            
+
             return render(request, 'review_block.html',
-                          {'restaurant_id': restaurant_id, 'message': 'Review Submitted Successfully'})
+                          {'restaurant_id': restaurant.id, 'message': 'Review Submitted Successfully'})
     else:
         reviews = Review.objects.filter(restaurant=restaurant)
         return render(request, 'review_block.html',
@@ -65,17 +64,7 @@ def user_settings(request):
     })
 
 
-# Define a class to hold static order data
-class StaticOrder:
-    def __init__(self, order_id, restaurant_name, item_name, cuisine_price, cuisine_quantity, totalprice):
-        self.order_id = order_id
-        self.restaurant_name = restaurant_name
-        self.item_name = item_name
-        self.cuisine_price = cuisine_price
-        self.quantity = cuisine_quantity
-        self.totalprice = totalprice
-
-
+@login_required(login_url='/login/')
 def user_history(request):
     # Initialize visit count to 0
     visit_count = 0
@@ -126,7 +115,7 @@ def app_login(request):
         if form.is_valid():
             myuser = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
             login(request, myuser)
-            
+
             return redirect(next)  # Redirect to home page after successful login
     else:
         message = 'Welcome to Foodies'
@@ -136,6 +125,7 @@ def app_login(request):
     return render(request, 'sign_in.html', {'form': form, 'message': message})
 
 
+@login_required(login_url='/login/')
 def payment_successful(request):
     payer_id = request.GET.get('PayerID')
     price = 0.0
@@ -159,10 +149,12 @@ def payment_successful(request):
     return render(request, 'payment_successful.html')
 
 
+@login_required(login_url='/login/')
 def payment_failed(request):
     return render(request, 'payment_failed.html')
 
 
+@login_required(login_url='/login/')
 def ask_money(request):
     if request.POST:
         price = 0.0
@@ -171,7 +163,7 @@ def ask_money(request):
             price += float(item['price']) * float(item['quantity'])
 
         paypal_dict = {
-            "business": "sb-pkdqf30042076@business.example.com",
+            "business": PAYPAL_EMAIL,
             "amount": price,
             "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
             "return": request.build_absolute_uri(reverse('payment_successful')),
@@ -244,10 +236,9 @@ class GetOneRestaurantByIdView(View):
 
         restaurant_details = self.get_obj(id=id)
 
-       
         context = {
             'restaurant_details': restaurant_details,
-           
+
         }
 
         return render(request, "one_restaurant.html", context=context)
@@ -267,14 +258,12 @@ def cart_add(request, id):
     return redirect("cart_detail")
 
 
-
 # @login_required(login_url='/login/')
 def item_clear(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
     cart.remove(product=menu_item)
     return redirect("cart_detail")
-
 
 
 # @login_required(login_url='/login/')
@@ -285,14 +274,12 @@ def item_increment(request, id):
     return redirect("cart_detail")
 
 
-
 # @login_required(login_url='/login/')
 def item_decrement(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
     cart.decrement(product=menu_item)
     return redirect("cart_detail")
-
 
 
 # @login_required(login_url='/login/')

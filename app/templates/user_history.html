@@ -6,32 +6,35 @@
 {% block navigation %}
     {% include 'navbar.html' %}
 {% endblock %}
-{% block body_block %}
+{% block external %}
     <h1 class="head">User History</h1>
     <br>
     {% if order_details %}
-        {% for order_id, items, price in order_details %}
-            <div class="order-block">
-                <img src="{% static 'images/restaurantlogo.jpg' %}" alt="Logo" class="logo">
-                <div class="order-id">
-                    <h6>Order ID: {{ order_id }}</h6>
-                    <h6><strong>Total Price: ${{ total_price }}</strong></h6>
+        <div class="order-container">
+            {% for order_id, items, price in order_details %}
+                <div class="order-block">
+                    <div class="order-id">
+                        <h6>Order ID: {{ order_id }}</h6>
+                        <h6><strong>Total Price: ${{ price }}</strong></h6>
+                    </div>
+                    <div class="order-details">
+                        <h6>Items:</h6>
+                        <ul>
+                            {% for item in items %}
+                                <li>
+                                    <div class="order-wrapper">
+                                        <img src="/media/{{ item.image }}" alt="Food Image" class="food-image">
+                                        {{ item.name }}
+                                    </div>
+                                </li>
+                                <hr/>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <br>
                 </div>
-                <div class="order-details">
-                    <h6><strong>Restaurant: TODO REMOVE </strong></h6>
-                    <h6>Items:</h6>
-                    <ul>
-                        {% for item in items %}
-                            <img src="{{ item.image }}" alt="Food Image" class="food-image">
-                            <li>{{ item.name }} </li>
-                        {% endfor %}
-                    </ul>
-                    <h6>Price: {{ price }}</h6>
-                </div>
-                <br>
-                <button class="rate-order-btn">Rate Order</button>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     {% else %}
         <p>No orders found.</p>
     {% endif %}
