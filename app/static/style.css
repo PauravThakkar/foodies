@@ -58,8 +58,17 @@ body {
 }
 
 .nav-right a {
-    margin-left: 20px;
+    padding: 10px;
+    cursor: pointer !important;
+    border-radius: 5px !important;
+    color: red !important;
+}
 
+.nav-right a:hover {
+    background-color: red !important;
+    color: white !important;
+    margin-left: 20px !important;
+    cursor: pointer !important;
 }
 
 .nav-right {
