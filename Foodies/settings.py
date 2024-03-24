@@ -123,10 +123,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-STATIC_URL = 'static/'
+PAYPAL_EMAIL = 'sb-pkdqf30042076@business.example.com'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -135,6 +132,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CART_SESSION_ID = 'cart'
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 # STATIC_ROOT = 'static'
 STATICFILES_DIRS = [
