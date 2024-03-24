@@ -90,6 +90,9 @@ class Restaurant(models.Model):
 
 
 class CartMenu(models.Model):
+    """Ths model is map with Order model.
+        This model storing each menu with quentity, and returning CartMenu Object.
+    """
     menu = models.ForeignKey(MenuItem, on_delete = models.CASCADE, null = True, blank = True)
     quantity = models.IntegerField()
 
@@ -102,6 +105,9 @@ class CartMenu(models.Model):
     
     
 class Order(models.Model):
+    """ This model is use for Order history.
+    It will store all the order data which user have placed.
+    """
     order_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
     resturant = models.ForeignKey(Restaurant, on_delete = models.CASCADE, null = True, blank = True)

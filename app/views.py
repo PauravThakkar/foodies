@@ -43,7 +43,7 @@ def restaurant_list(request):
 def temp_review_view(request, restaurant_id):
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
     # TODO: Fetch user form request and add its ID
-    user = get_object_or_404(User, pk=1)
+    user = get_object_or_404(Customer, pk=2)
     
     # Need login required decorator for request.user otherwise getting error 
     # user = request.user
@@ -158,8 +158,14 @@ def app_login(request):
         form = LoginForm(request.POST)
 
         if form.is_valid():
-            myuser = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-            login(request, myuser)
+            
+            print(form.cleaned_data['username'],"===============")
+            print(form.cleaned_data['password'],":::::::::::::::")
+            myuser = Customer.objects.filter(email = form.cleaned_data['username'], password=form.cleaned_data['password']).first()
+
+            print("---------------", myuser)
+            # myuser = authenticate(email=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            login(request, )
             return redirect('Settings')  # Redirect to home page after successful login
     else:
         form = LoginForm()
@@ -260,7 +266,7 @@ def homeview(request):
 # cart
 
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def cart_add(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
@@ -269,7 +275,7 @@ def cart_add(request, id):
 
 
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def item_clear(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
@@ -278,7 +284,7 @@ def item_clear(request, id):
 
 
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def item_increment(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
@@ -287,7 +293,7 @@ def item_increment(request, id):
 
 
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def item_decrement(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
@@ -296,15 +302,12 @@ def item_decrement(request, id):
 
 
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def cart_clear(request):
     cart = Cart(request)
     cart.clear()
     return redirect("cart_detail")
 
-
-
-
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def cart_detail(request):
     return render(request, "cart_details.html")
