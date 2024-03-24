@@ -5,7 +5,7 @@ from . import views
 from .views import *
 
 urlpatterns = [
-    path('ratings/<int:restaurant_id>/', temp_review_view, name='ratings'),
+    path('ratings/<int:restaurant_id>/', review_view, name='ratings'),
     path('settings/', user_settings, name='Settings'),
     path('history/', user_history, name='user_history'),
     path('', sign_up, name='sign_up'),
@@ -15,7 +15,7 @@ urlpatterns = [
     path('paypal/', include("paypal.standard.ipn.urls")),
     path('payment_successful/', payment_successful, name='payment_successful'),
     path('payment_failed/', payment_failed, name='payment_failed'),
-    path('payment/', ask_money, name='payment'),
+    path('checkout/', ask_money, name='checkout'),
     path('payment_successful/', payment_successful, name='payment_successful'),
     path('temp_filter/', filter_temp, name='temp_filter'),
 
@@ -34,3 +34,4 @@ urlpatterns = [
 
     path('accounts/', include('django.contrib.auth.urls')),
 ]
+

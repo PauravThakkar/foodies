@@ -36,7 +36,7 @@ class Category(models.Model):
 class Customer(User):
     date_of_birth = models.DateField(null=True, blank=True, default=None)
     contact_number = models.CharField(max_length=15, null=True, blank=True, default=None)
-    profile_picture = models.ImageField(upload_to='foodies/app/static/images/profile_pictures/', null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
 
     def __str__(self):
         return self.username
@@ -53,28 +53,31 @@ class MenuItem(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    review = models.ForeignKey("Review", on_delete=models.CASCADE, blank=True, null=True)
 
-    image = models.ImageField(upload_to='media/products/')
+    image = models.ImageField(upload_to='products/')
     price = models.FloatField()
 
     def __str__(self):
         return self.name
 
 
-class Restaurant(models.Model):
-    type_choices = [('1', 'Indian'),
-                    ('2', 'Mexican'),
-                    ('3', 'Italian')]
+class Cuisine(models.Model):
+    name = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.name
+
+
+class Restaurant(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
     address = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=15)
     website = models.URLField(blank=True, null=True)
-    type = models.CharField(choices=type_choices, default='1', max_length=2)
+    cuisines = models.ForeignKey(Cuisine, on_delete=models.CASCADE)
     menus = models.ManyToManyField(MenuItem, null=True, blank=True)
-
+    respicture = models.ImageField(null=True, blank=True, upload_to='images/')
+    avg_ratings = models.FloatField(default=1)
     def __str__(self):
         return self.name
 
@@ -100,7 +103,7 @@ class Review(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     # reference of the restaurant the review was given to
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=False)
+    restaurant = models.ForeignKey("Restaurant", on_delete=models.CASCADE, null=False)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
