@@ -15,25 +15,6 @@ from .forms import SignUpForm
 from .models import *
 
 
-def restaurant_list(request):
-    restaurants = Restaurant.objects.all()
-
-    search_value = "test"
-    # Filter according to name in search
-    filtered_restaurants = restaurants.objects.filter(name__icontains=search_value)
-
-    # Filter according to ratings
-    rating_value = 1
-    filtered_restaurants = filtered_restaurants.objects.filter(rating__gte=rating_value)
-
-    # Filter according to Cuisine
-    cuisine = []
-    filtered_restaurants = filtered_restaurants.objects.filter(cuisine__in=cuisine).all()
-
-    # TODO return proper template
-    return ''
-
-
 def review_view(request, restaurant_id):
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
     user_id = request.user.id
@@ -60,28 +41,21 @@ def review_view(request, restaurant_id):
 def user_settings(request):
     if request.user.is_authenticated:
         try:
-            customer = Customer.objects.get(username=request.user.email)
+            customer = Customer.objects.get(username=request.user.username)
         except Customer.DoesNotExist:
-            # Create a new Customer instance if it doesn't exist
             customer = Customer.objects.create(user_ptr=request.user)
     else:
-        # Create a temporary anonymous user for development
         return redirect('/login')
 
     if request.method == 'POST':
-        print('abc')
-        password_form = CustomPasswordChangeForm(request.user, request.POST)
         customer_form = CustomerForm(request.POST, request.FILES, instance=customer)
-
-        if customer_form.is_valid() and customer_form in request.POST:
+        if customer_form.is_valid():
             customer_form.save()
-            return redirect('user_settings')
+            return redirect('Settings')
     else:
-        password_form = CustomPasswordChangeForm(request.user)
         customer_form = CustomerForm(instance=customer)
 
     return render(request, 'user_settings.html', {
-        'password_form': password_form,
         'customer_form': customer_form,
         'customer': customer,
     })
@@ -162,10 +136,6 @@ def payment_successful(request):
 
 def payment_failed(request):
     return render(request, 'payment_failed.html')
-
-
-def filter_temp(req):
-    return render(req, 'filters.html', {'form': FilterForm})
 
 
 def ask_money(request):
