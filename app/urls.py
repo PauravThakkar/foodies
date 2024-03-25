@@ -1,8 +1,13 @@
+import django.contrib.auth
+from django.contrib.auth.views import LoginView
+from django.urls import include
+from django.urls import path
 from django.urls import include, path
 from django.views.generic import RedirectView
 
 from . import views
 from .views import *
+from django.contrib.auth.views import PasswordChangeView
 
 urlpatterns = [
     path('ratings/<int:restaurant_id>/', review_view, name='ratings'),
@@ -17,7 +22,7 @@ urlpatterns = [
     path('payment_failed/', payment_failed, name='payment_failed'),
     path('checkout/', ask_money, name='checkout'),
     path('payment_successful/', payment_successful, name='payment_successful'),
-
+    path('sign_out/', views.sign_out, name='sign_out'),
     path('menu/<int:id>/', views.GetOneMenuByIdView.as_view(), name="get_one_menu"),
     path('restaurant/<int:id>/', views.GetOneRestaurantByIdView.as_view(), name="get_one_restaurant"),
 
@@ -32,4 +37,7 @@ urlpatterns = [
     path('cart/cart-detail/', views.cart_detail, name='cart_detail'),
 
     path('accounts/', include('django.contrib.auth.urls')),
+    path('password-reset/', ResetPasswordView.as_view(), name='password_reset'),
+    path('reset_password_confirm/<uidb64>/<token>/', PasswordConfirmView.as_view(), name='password_reset_confirm'),
+    path('password-reset-done', PasswordResetDoneView, name='password_reset_done')
 ]
