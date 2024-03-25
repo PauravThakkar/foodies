@@ -183,37 +183,22 @@ def payment_failed(request):
 
 @login_required(login_url='/login/')
 def ask_money(request):
-    if request.POST:
-        price = 0.0
+    price = 0.0
 
-        for item in request.session['cart'].values():
-            price += float(item['price']) * float(item['quantity'])
+    for item in request.session['cart'].values():
+        price += float(item['price']) * float(item['quantity'])
 
-        paypal_dict = {
-            "business": PAYPAL_EMAIL,
-            "amount": price,
-            "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
-            "return": request.build_absolute_uri(reverse('payment_successful')),
-            "cancel_return": request.build_absolute_uri(reverse('payment_failed')),
-        }
+    paypal_dict = {
+        "business": PAYPAL_EMAIL,
+        "amount": price,
+        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+        "return": request.build_absolute_uri(reverse('payment_successful')),
+        "cancel_return": request.build_absolute_uri(reverse('payment_failed')),
+    }
 
-        # Create the instance.
-        form = PayPalPaymentsForm(initial=paypal_dict)
-
-        return render(request, "payments.html", {"form": form, 'cart': request.session['cart']})
-    else:
-        price = 0.0
-        for item in request.session['cart'].values():
-            price += float(item['price']) * float(item['quantity'])
-        paypal_dict = {
-            "business": PAYPAL_EMAIL,
-            "amount": price,
-            "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
-            "return": request.build_absolute_uri(reverse('payment_successful')),
-            "cancel_return": request.build_absolute_uri(reverse('payment_failed')),
-        }
-        form = PayPalPaymentsForm(initial=paypal_dict)
-        return render(request, 'payments.html', {"form": form, 'cart': request.session['cart']})
+    # Create the instance.
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    return render(request, "payments.html", {"form": form, 'cart': request.session['cart']})
 
 
 def home(request):
