@@ -1,6 +1,28 @@
 from cart.cart import Cart
-from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
+from django.urls.base import reverse, reverse_lazy
+from django.views import View
+from paypal.standard.forms import PayPalPaymentsForm
+
+from .forms import FilterForm, ResetPasswordChangeForm
+from .forms import LoginForm
+from .forms import ReviewForm, CustomerForm
+from .forms import SignUpForm, ResetPasswordForm
+from .models import Customer
+from .models import MenuItem
+from .models import Restaurant
+
+from django.shortcuts import render, get_object_or_404
+from .models import Restaurant
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.mail import send_mail
 from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
 from django.urls.base import reverse
@@ -110,13 +132,16 @@ def sign_up(request):
 def app_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
-        next = '/home/'
-
         if form.is_valid():
             myuser = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-            login(request, myuser)
-
-            return redirect(next)  # Redirect to home page after successful login
+            if myuser is not None:
+                login(request, myuser)
+                return redirect('home')  # Redirect to home page after successful login
+            else:
+                # If authentication fails, display an error message
+                error_message = "Invalid username or password. Please try again."
+                message = 'Welcome to Foodies'
+                return render(request, 'sign_in.html', {'form': form, 'error_message': error_message, "message": message})
     else:
         message = 'Welcome to Foodies'
         if request.GET.get('error') is not None:
@@ -308,3 +333,25 @@ def cart_detail(request):
     if request.user.is_authenticated:
         status = 'signedIn'
     return render(request, "cart_details.html", {'status': status})
+
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'password_reset.html'
+    email_template_name = 'password_reset_email.html'
+    subject_template_name = 'password_reset_subject.txt'
+    success_message = "We've emailed you instructions for setting your password, " \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you don't receive an email, " \
+                      "please make sure you've entered the address you registered with, and check your spam folder."
+    form = ResetPasswordForm()
+    success_url = reverse_lazy('password_reset_done')
+
+def PasswordResetDoneView(request):
+    return render(request, 'password_reset_done.html')
+
+class PasswordConfirmView(PasswordResetConfirmView):
+    template_name = 'password_reset_confirm.html'
+    success_url = reverse_lazy('home')
+
+
+def password_reset_complete(request):
+    return render(request, 'password_reset_done.html')
