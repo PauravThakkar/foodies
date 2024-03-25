@@ -12,6 +12,8 @@ from django.urls.base import reverse_lazy
 from django.views import View
 from paypal.standard.forms import PayPalPaymentsForm
 
+
+from Foodies.settings import PAYPAL_EMAIL
 from .forms import FilterForm
 from .forms import LoginForm
 from .forms import MenuFilterForm

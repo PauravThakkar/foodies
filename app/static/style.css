@@ -546,7 +546,6 @@ textarea {
     font-size: 1.4rem;
     color: #666;
     margin-bottom: 10px;
-    word-wrap: break-word;
 }
 
 .order-container {
