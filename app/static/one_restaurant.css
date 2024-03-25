@@ -68,10 +68,6 @@
 
 
 
-.menu-box-container-each-menu-box {
-    box-shadow: 1px 1px 3px 2px red;
-    border-radius: 20px;
-}
 
 
 .menu-box-container-each-menu-box-image {
@@ -93,6 +89,7 @@
 .restaurant-box-container {
     box-shadow: 7px 7px 20px 3px red;
     width: 100%;
+    border-radius: 20px;
 
   }
 
@@ -115,3 +112,16 @@
   .restaurant-box-container-details-right-side {
     margin: auto;
   }
+  
+
+  .menu-box-container-each-menu-box {
+    box-shadow: 1px 1px 3px 2px red;
+    border-radius: 20px;
+    transition: all 0.3s ease; /* Adding transition for smooth hover effect */
+}
+
+.menu-box-container-each-menu-box:hover {
+    transform: scale(1.1); /* Scale up the box on hover */
+}
+
+

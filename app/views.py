@@ -1,7 +1,7 @@
 from cart.cart import Cart
-from django.contrib import messages
-from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
@@ -22,16 +22,17 @@ from django.shortcuts import render, get_object_or_404
 from .models import Restaurant
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.core.mail import send_mail
+from django.db.models import Avg
 from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
 from django.urls.base import reverse
+from django.urls.base import reverse_lazy
 from django.views import View
 from paypal.standard.forms import PayPalPaymentsForm
-
-from Foodies.settings import PAYPAL_EMAIL
+from django.contrib.auth import logout
 from .forms import FilterForm
 from .forms import LoginForm
+from .forms import ResetPasswordForm
 from .forms import ReviewForm, CustomerForm
 from .forms import SignUpForm
 from .models import *
@@ -52,8 +53,14 @@ def review_view(request, restaurant_id):
             review.restaurant = restaurant
             review.save()
 
+            average_rating = Review.objects.filter(restaurant=restaurant).aggregate(Avg('ratings'))
+            restaurant.avg_ratings = int(average_rating['ratings__avg'])
+            restaurant.save()
+
             return render(request, 'review_block.html',
-                          {'restaurant_id': restaurant.id, 'message': 'Review Submitted Successfully'})
+                          {'review_from': form, 'restaurant_id': restaurant.id,
+                           'message': 'Review Submitted Successfully',
+                           'reviews': Review.objects.filter(restaurant=restaurant)})
     else:
         reviews = Review.objects.filter(restaurant=restaurant)
         return render(request, 'review_block.html',
@@ -82,40 +89,23 @@ def user_settings(request):
     return render(request, 'user_settings.html', {
         'customer_form': customer_form,
         'customer': customer,
-        'status': 'signedIn'
     })
 
 
 @login_required(login_url='/login/')
 def user_history(request):
-    # Initialize visit count to 0
-    visit_count = 0
-
-    # Check if 'visit_count' is already stored in session
-    if 'visit_count' in request.session:
-        visit_count = request.session['visit_count']
-
-    # Increment visit count
-    visit_count += 1
-
-    # Update session with new visit count
-    request.session['visit_count'] = visit_count
-    # Get the current user
-    # user = Customer.objects.all()
     current_user = request.user
 
-    # Filter orders made by the current user
     user_orders = Order.objects.filter(user=current_user)
 
-    # Create a list to hold order details (restaurant name and order ID)
     order_details = []
 
-    # Iterate through each order to extract restaurant name and order ID
     for order in user_orders.all():
         order_details.append((order.order_id, order.items.all(), order.total))
 
     # Pass the order details to the template for rendering
-    return render(request, 'user_history.html', {'order_details': order_details, 'visit_count': visit_count, 'status': 'signedIn'})
+    return render(request, 'user_history.html',
+                  {'order_details': order_details})
 
 
 def sign_up(request):
@@ -141,7 +131,8 @@ def app_login(request):
                 # If authentication fails, display an error message
                 error_message = "Invalid username or password. Please try again."
                 message = 'Welcome to Foodies'
-                return render(request, 'sign_in.html', {'form': form, 'error_message': error_message, "message": message})
+                return render(request, 'sign_in.html',
+                              {'form': form, 'error_message': error_message, "message": message})
     else:
         message = 'Welcome to Foodies'
         if request.GET.get('error') is not None:
@@ -181,45 +172,27 @@ def payment_failed(request):
 
 @login_required(login_url='/login/')
 def ask_money(request):
-    if request.POST:
-        price = 0.0
+    price = 0.0
 
-        for item in request.session['cart'].values():
-            price += float(item['price']) * float(item['quantity'])
+    for item in request.session['cart'].values():
+        price += float(item['price']) * float(item['quantity'])
 
-        paypal_dict = {
-            "business": PAYPAL_EMAIL,
-            "amount": price,
-            "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
-            "return": request.build_absolute_uri(reverse('payment_successful')),
-            "cancel_return": request.build_absolute_uri(reverse('payment_failed')),
-        }
+    paypal_dict = {
+        "business": PAYPAL_EMAIL,
+        "amount": price,
+        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+        "return": request.build_absolute_uri(reverse('payment_successful')),
+        "cancel_return": request.build_absolute_uri(reverse('payment_failed')),
+    }
 
-        # Create the instance.
-        form = PayPalPaymentsForm(initial=paypal_dict)
-
-        return render(request, "payments.html", {"form": form, 'cart': request.session['cart']})
-    else:
-        price = 0.0
-        for item in request.session['cart'].values():
-            price += float(item['price']) * float(item['quantity'])
-        paypal_dict = {
-            "business": PAYPAL_EMAIL,
-            "amount": price,
-            "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
-            "return": request.build_absolute_uri(reverse('payment_successful')),
-            "cancel_return": request.build_absolute_uri(reverse('payment_failed')),
-        }
-        form = PayPalPaymentsForm(initial=paypal_dict)
-        return render(request, 'payments.html',  {"form": form, 'cart': request.session['cart']})
+    # Create the instance.
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    return render(request, "payments.html", {"form": form, 'cart': request.session['cart']})
 
 
 def home(request):
     restaurants = Restaurant.objects.all()
     form = FilterForm()
-    status = ''
-    if request.user.is_authenticated:
-        status = 'signedIn'
     if request.method == "POST":
         form = FilterForm(request.POST)
         if form.is_valid():
@@ -230,16 +203,19 @@ def home(request):
                 restaurants = restaurants.filter(name__icontains=search)
             restaurants = restaurants.filter(cuisines=Cuisince)
             restaurants = restaurants.filter(avg_ratings__gte=Ratings)
-            return render(request, 'home.html', {'restaurants': restaurants, 'form': form, 'status': status})
+            return render(request, 'home.html', {'restaurants': restaurants, 'form': form})
     else:
         for restaurant in restaurants:
             print(restaurant.respicture.url)
-        return render(request, 'home.html', {'restaurants': restaurants, 'form': form, 'status': status})
+        return render(request, 'home.html', {'restaurants': restaurants, 'form': form})
+
+def sign_out(request):
+    logout(request)
+    return redirect('home')
 
 
 class GetOneMenuByIdView(View):
     def get_obj(self, id):
-        status = ''
         try:
             obj = MenuItem.objects.get(id=id)
         except:
@@ -248,13 +224,9 @@ class GetOneMenuByIdView(View):
         return obj
 
     def get(self, request, id):
-        status = ''
-        if self.request.user.is_authenticated:
-            status = 'signedIn'
         menu_item_details = self.get_obj(id=id)
         context = {
             "menu_details": menu_item_details,
-            'status': status
         }
         return render(request, "one_menu.html", context=context)
 
@@ -350,10 +322,8 @@ def cart_clear(request):
 
 # @login_required(login_url="/login/?error=true")
 def cart_detail(request):
-    status = ''
-    if request.user.is_authenticated:
-        status = 'signedIn'
-    return render(request, "cart_details.html", {'status': status})
+    return render(request, "cart_details.html")
+
 
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     template_name = 'password_reset.html'
@@ -366,8 +336,10 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     form = ResetPasswordForm()
     success_url = reverse_lazy('password_reset_done')
 
+
 def PasswordResetDoneView(request):
     return render(request, 'password_reset_done.html')
+
 
 class PasswordConfirmView(PasswordResetConfirmView):
     template_name = 'password_reset_confirm.html'
