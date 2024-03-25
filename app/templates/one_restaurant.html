@@ -69,7 +69,7 @@
                                 <h4>{{ menu.description }}</h4>
                                 <h5>{{ menu.category.name }}</h5>
                                 <h5>{{ menu.price }}</h5>
-                                
+
                             </div>
                         </div>
                     </a>
@@ -81,119 +81,5 @@
 
     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- <div class="container mt-4 p-4 bg-danger rounded">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="restaurant-box">
-          <img class="img-fluid" src="{{ restaurant_details.respicture.url }}" alt="Restaurant Image" />
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="text-spacing">
-          <div class="restaurant-details bg-light d-flex rounded text-danger" style="margin-right: 20px;">
-            <div class="col-sm-12">
-              <div>
-                <h4>Restaurant details</h4>
-              </div>
-
-
-              <div class="left-side col-sm-9">
-                <h2>{{ restaurant_details.name }}</h2>
-                <p>{{ restaurant_details.description }}</p>
-                <h6>{{ restaurant_details.address }}</h6>
-                <h6>{{ restaurant_details.phone_number }}</h6>
-                <a href="{{ restaurant_details.website }} style=" text-decoration: none;" class="text-danger">
-                  <h6>{{ restaurant_details.website }}</h6>
-                </a>
-                <h6>{{ restaurant_details.get_type_display }}</h6>
-              </div>
-
-              <div class="right-side">
-                <div class="">
-                  {% if restaurant_details.review.ratings == 1 %}
-                  <span class="star text-warning">&starf;</span>
-                  {% elif restaurant_details.review.ratings == 2 %}
-                  <span class="star text-warning">&starf;</span>
-                  <span class="star text-warning">&starf;</span>
-                  {% elif restaurant_details.review.ratings == 3 %}
-                  <span class="star text-warning">&starf;</span><span class="star text-warning">&starf;</span><span
-                    class="star text-warning">&starf;</span>
-                  {% elif restaurant_details.review.ratings == 4 %}
-                  <span class="star text-warning">&starf;</span><span class="star text-warning">&starf;</span><span
-                    class="star text-warning">&starf;</span><span class="star text-warning">&starf;</span>
-                  {% elif restaurant_details.review.ratings == 5 %}
-                  <span class="star text-warning">&starf;</span><span class="star text-warning">&starf;</span><span
-                    class="star text-warning">&starf;</span><span class="star text-warning">&starf;</span><span
-                    class="star text-warning">&starf;</span>
-                  {% else %}
-                  No ratings
-                  {% endif %}
-                </div>
-
-                <div class="mt-5">
-                  <a href="{% url 'ratings' restaurant_details.id  %}"> <button class="btn btn-danger">Add
-                      ratings</button></a>
-                </div>
-              </div>
-
-            </div>
-
-
-          </div>
-
-
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-5 justify-content-center text-spacing">
-
-    <div class="col-md-12 text-danger bg-light text-center">
-      <h3>Menus</h3>
-    </div>
-
-    <div class="col-md-12 mt-5">
-
-      <div class="row">
-
-
-        {% for menu in restaurant_details.menus.all %}
-        <div class="col-md-4">
-          <a href="{% url 'get_one_menu' menu.id %}">
-            <div class="menu-box rounded">
-              <img class="img-fluid rounded" src="{{menu.image.url}}" alt="Page not found" />
-              <div class="details bg-light text-danger border rounded">
-                <h2>{{menu.name}}</h2>
-                <h4>{{menu.description}}</h4>
-                <h5>{{menu.category.name}}</h5>
-                <h5>{{menu.price}}</h5>
-                {% comment %} <h5>Menu review</h5> {% endcomment %}
-              </div>
-            </div>
-          </a>
-        </div>
-
-        {% endfor %}
-
-      </div>
-
-    </div>
-
-  </div>
-</div> -->
 
 {% endblock %}
