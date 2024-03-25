@@ -2,6 +2,7 @@ import re
 from datetime import date
 
 from django import forms
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, PasswordChangeForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
@@ -28,8 +29,15 @@ class ReviewForm(forms.ModelForm):
 class SignUpForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        for fieldname in ['username']:
+            self.fields[fieldname].help_text = None
+        self.fields['password1'].widget.attrs.update({'placeholder': ('Password')})
+        self.fields['password2'].widget.attrs.update({'placeholder': ('Repeat password')})
+
+
         for field in self.fields.values():
             field.label = ''
+
 
     def clean_password1(self):
         password = self.cleaned_data.get('password1')
@@ -76,10 +84,10 @@ class SignUpForm(UserCreationForm):
             'username': forms.TextInput(
                 attrs={'class': 'username-class', 'placeholder': 'Username', 'style': 'border: 1px solid #000'}),
             'password1': forms.PasswordInput(
-                attrs={'class': 'password-class', 'placeholder': 'Password', 'style': 'border: 1px solid #000'},
+                attrs={'class': 'password1-class', 'placeholder': 'Password', 'style': 'border: 1px solid #000'},
             ),
             'password2': forms.PasswordInput(
-                attrs={'class': 'password-class', 'placeholder': 'Password', 'style': 'border: 1px solid #000'}),
+                attrs={'class': 'password2-class', 'placeholder': 'Enter password again', 'style': 'border: 1px solid #000'}),
             'email': forms.EmailInput(
                 attrs={'class': 'email-class', 'placeholder': 'Email', 'style': 'border: 1px solid #000'}),
             'date_of_birth': forms.DateInput(
@@ -96,7 +104,7 @@ class SignUpForm(UserCreationForm):
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'email-class', 'placeholder': 'Email'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'email-class', 'placeholder': 'Username'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'password-class', 'placeholder': 'Password'}))
 
     def __init__(self, *args, **kwargs):
@@ -129,7 +137,8 @@ class UserProfileForm(forms.ModelForm):
 class FilterForm(forms.Form):
     Cuisines = Cuisine.objects.values_list('id', 'name').all()
     Search = forms.CharField(required=False, label='Search', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    Cuisine = forms.ChoiceField(required=False, choices=Cuisines, widget=forms.Select(attrs={'class': 'form-select'}))
+    # Cuisine = forms.ChoiceField(required=False, choices=Cuisines, widget=forms.Select(attrs={'class': 'form-select'}))
+    #Cuisine = forms.ChoiceField(required=False, choices=Cuisines, widget=forms.Select(attrs={'class': 'form-select'}))
     ratings_choice = [('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')]
     Ratings = forms.ChoiceField(choices=ratings_choice, widget=forms.NumberInput(
         attrs={'type': 'range', 'class': 'form-range', 'min': '1', 'max': '5'}))
@@ -142,6 +151,16 @@ class CustomerForm(forms.ModelForm):
         model = Customer
         fields = ('date_of_birth', 'contact_number', 'profile_picture')
 
+class ResetPasswordForm(PasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs.update({'placeholder': ('Enter your email here')})
+    class Meta:
+        model = Customer
+
+
+class ResetPasswordChangeForm(PasswordChangeForm):
+    model = Customer
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     def __init__(self, *args, **kwargs):

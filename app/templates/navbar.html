@@ -5,10 +5,10 @@
     <div class="nav-right">
         <a href={% url 'home' %}>Home</a>
         <a href={% url 'cart_detail' %}><i size="30px" class="fas fa-cart-shopping"></i></a>
-        {% if status == "signedIn" %}
+        {% if request.user.is_authenticated %}
             <a href={% url 'Settings' %}><i class="fas fa-user-circle"></i></a>
             <a href={% url 'user_history' %}><i class="fas fa-history"></i></a>
-            <a ><i class="fas fa-sign-out-alt"></i></a>
+            <a href={% url 'sign_out' %}> <i class="fas fa-sign-out-alt"></i></a>
         {% else %}
             <a href={% url 'app_login' %}>Sign In</a>
             <a href={% url 'sign_up' %}>Register</a>

@@ -49,17 +49,68 @@
     max-height: 200px;
     overflow-y: auto;
     background-color: antiquewhite;
-   
+
 }
 
-.text-spacing{
+.text-spacing {
     letter-spacing: 2px;
 }
 
 .menu-box {
-    transition: all 0.3s ease; /* Add transition for smooth animation */
+    transition: all 0.3s ease;
+    /* Add transition for smooth animation */
 }
 
 .menu-box:hover {
-    transform: scale(1.1); /* Increase box size on hover */
+    transform: scale(1.1);
+    /* Increase box size on hover */
 }
+
+
+
+.menu-box-container-each-menu-box {
+    box-shadow: 1px 1px 3px 2px red;
+    border-radius: 20px;
+}
+
+
+.menu-box-container-each-menu-box-image {
+    min-height: 60%;
+    min-width: 100%;
+
+    max-width: 100%;
+    max-height: 60%;
+
+    height: 60%;
+}
+
+.img-fluid {
+    height: 100%;
+    width: 100%;
+}
+
+
+.restaurant-box-container {
+    box-shadow: 7px 7px 20px 3px red;
+    width: 100%;
+
+  }
+
+  .restaurant-box-container-details-box {
+    margin: 20px;
+  }
+
+
+  .restaurant-box-container-image {
+    max-width: 500px;
+    max-height: 400px;
+  }
+
+  .restaurant-box-container-details {
+    margin: 20px;
+  }
+
+
+  .restaurant-box-container-details-right-side {
+    margin: auto;
+  }
