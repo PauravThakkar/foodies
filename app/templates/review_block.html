@@ -4,22 +4,21 @@
 {% endblock %}
 {% block body_block %}
     {% block review_form %}
-        <h2 class = 'heading-review'>Review {{ restaurant_name }}</h2>
-        {% if message %}
-            <p>{{ message }}</p>
-        {% else %}
-            <form action="{% url 'ratings' restaurant_id %}" method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    {{ review_from.as_p }}
-                </div>
-                <button class="btn btn-primary" type="submit">Submit</button>
-            </form>
-            <hr>
-        {% endif %}
+        <h2 class='heading-review'>Review {{ restaurant_name }}</h2>
+        <form action="{% url 'ratings' restaurant_id %}" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ review_from.as_p }}
+            </div>
+            {% if message %}
+                <p class="success">{{ message }}</p>
+            {% endif %}
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+        <hr>
     {% endblock %}
     {% block list_reviews %}
-        <h2 class ='heading-review'>Reviews</h2>
+        <h2 class='heading-review'>Reviews</h2>
         <br>
         {% if reviews %}
             <ul>
@@ -32,7 +31,7 @@
                         <p><strong>Comment:</strong>
                             <span>{{ review.comment }}</span>
                         </p>
-                    <hr>
+                        <hr>
                     </li>
                 {% endfor %}
             </ul>
