@@ -366,3 +366,9 @@ input[type="date"] {
     background-color: #007bff; /* Premium blue background color on hover */
     color: #fff; /* White text color on hover */
 }
+
+.order-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: space-evenly;
+}
