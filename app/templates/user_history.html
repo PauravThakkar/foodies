@@ -11,23 +11,28 @@
     <br>
     {% if order_details %}
         <div class="order-container">
-            {% for order_id, restaurant_name, item_name, cuisine_price, quantity, total_price in order_details %}
-                <div class="order-block">
-                    <img src="{% static 'images/restaurantlogo.jpg' %}" alt="Logo" class="logo">
-                    <div class="order-id">
-                        <h6>Order ID: {{ order_id }}</h6>
-                        <h6><strong>Total Price: ${{ total_price }}</strong></h6>
-                    </div>
-                    <div class="order-details">
-                        <h6><strong>Restaurant: {{ restaurant_name }}</strong></h6>
-                        <h6>Item: {{ item_name }}</h6>
-                        <h6>Price: {{ cuisine_price }}</h6>
-                        <h6>Quantity: {{ quantity }}</h6>
-                    </div>
-                    <img src="{% static 'images/fooditem.jpg' %}" alt="Food Image" class="food-image">
-                    <br>
+        {% for order_id, items, price in order_details %}
+            <div class="order-block">
+                <img src="{% static 'images/restaurantlogo.jpg' %}" alt="Logo" class="logo">
+                <div class="order-id">
+                    <h6>Order ID: {{ order_id }}</h6>
+                    <h6><strong>Total Price: ${{ total_price }}</strong></h6>
                 </div>
-            {% endfor %}
+                <div class="order-details">
+                    <h6><strong>Restaurant: TODO REMOVE </strong></h6>
+                    <h6>Items:</h6>
+                    <ul>
+                        {% for item in items %}
+                            <img src="{{ item.image }}" alt="Food Image" class="food-image">
+                            <li>{{ item.name }} </li>
+                        {% endfor %}
+                    </ul>
+                    <h6>Price: {{ price }}</h6>
+                </div>
+                <br>
+                <button class="rate-order-btn">Rate Order</button>
+            </div>
+        {% endfor %}
         </div>
     {% else %}
         <p>No orders found.</p>
