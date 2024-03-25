@@ -22,13 +22,13 @@
 
             <div class="col-md-6 border restaurant-box-container-details d-flex">
 
-                <div class=" col-md-9 restaurant-box-container-details-left-side">
+                <div class=" col-md-9 restaurant-box-container-details-left-side text-dark">
                     <h2>{{ restaurant_details.name }}</h2>
                     <p>{{ restaurant_details.description }}</p>
                     <h6>{{ restaurant_details.address }}</h6>
                     <h6>{{ restaurant_details.phone_number }}</h6>
                     {% if restaurant_details.website %}
-                        <a href="{{ restaurant_details.website }}" style=" text-decoration: none;" class="text-danger">
+                        <a href="{{ restaurant_details.website }}" style=" text-decoration: none;" class="">
                             <h6>{{ restaurant_details.website }}</h6>
                         </a>
                     {% endif %}
@@ -64,7 +64,7 @@
                             <div class="menu-box-container-each-menu-box-image">
                                 <img class="img-fluid rounded" src="{{ menu.image.url }}" alt="Page not found"/>
                             </div>
-                            <div class="menu-box-container-each-menu-box-details text-danger">
+                            <div class="menu-box-container-each-menu-box-details text-dark">
                                 <h2>{{ menu.name }}</h2>
                                 <h4>{{ menu.description }}</h4>
                                 <h5>{{ menu.category.name }}</h5>
