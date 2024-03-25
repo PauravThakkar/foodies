@@ -8,7 +8,7 @@
         {% if status == "signedIn" %}
             <a href={% url 'Settings' %}><i class="fas fa-user-circle"></i></a>
             <a href={% url 'user_history' %}><i class="fas fa-history"></i></a>
-            <a ><i class="fas fa-sign-out-alt"></i></a>
+            <a href={% url 'sign_out' %}> <i class="fas fa-sign-out-alt"></i></a>
         {% else %}
             <a href={% url 'app_login' %}>Sign In</a>
             <a href={% url 'sign_up' %}>Register</a>

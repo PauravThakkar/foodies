@@ -10,6 +10,7 @@ from django.urls.base import reverse, reverse_lazy
 from django.views import View
 from paypal.standard.forms import PayPalPaymentsForm
 
+from Foodies.settings import PAYPAL_EMAIL
 from .forms import FilterForm, ResetPasswordChangeForm
 from .forms import LoginForm
 from .forms import ReviewForm, CustomerForm
@@ -28,8 +29,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls.base import reverse
 from django.views import View
 from paypal.standard.forms import PayPalPaymentsForm
-
-from Foodies.settings import PAYPAL_EMAIL
+from django.contrib.auth import logout
 from .forms import FilterForm
 from .forms import LoginForm
 from .forms import ReviewForm, CustomerForm
@@ -235,6 +235,10 @@ def home(request):
         for restaurant in restaurants:
             print(restaurant.respicture.url)
         return render(request, 'home.html', {'restaurants': restaurants, 'form': form, 'status': status})
+
+def sign_out(request):
+    logout(request)
+    return redirect('home')
 
 
 class GetOneMenuByIdView(View):
