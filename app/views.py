@@ -10,8 +10,7 @@ from django.urls.base import reverse, reverse_lazy
 from django.views import View
 from paypal.standard.forms import PayPalPaymentsForm
 
-from Foodies.settings import PAYPAL_EMAIL
-from .forms import FilterForm, ResetPasswordChangeForm
+from .forms import FilterForm, ResetPasswordChangeForm, MenuFilterForm
 from .forms import LoginForm
 from .forms import ReviewForm, CustomerForm
 from .forms import SignUpForm, ResetPasswordForm
@@ -243,15 +242,37 @@ class GetOneRestaurantByIdView(View):
         return obj
 
     def get(self, request, id):
-
         restaurant_details = self.get_obj(id=id)
-
+        form = MenuFilterForm()
         context = {
             'restaurant_details': restaurant_details,
-
+            "form": form
         }
-
         return render(request, "one_restaurant.html", context=context)
+
+    def post(self, request, id):
+        restaurant_details = self.get_obj(id=id)
+        form = MenuFilterForm(request.POST)
+        print(restaurant_details.menus.all())
+
+        if form.is_valid():
+            category = form.cleaned_data['Category']
+            if category:
+                menus = restaurant_details.menus.all().filter(category=category)
+                restaurant_details.menus.set(menus)
+            search_query = form.cleaned_data['Search']
+
+            if search_query:
+                menus = restaurant_details.menus.all().filter(name__icontains=search_query)
+                restaurant_details.menus.set(menus)
+            context = {
+                'restaurant_details': restaurant_details,
+                "form": form
+            }
+            return render(request, "one_restaurant.html", context=context)
+        else:
+            print(form.errors)
+
 
 
 def homeview(request):

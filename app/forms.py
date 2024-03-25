@@ -143,6 +143,10 @@ class FilterForm(forms.Form):
     Ratings = forms.ChoiceField(choices=ratings_choice, widget=forms.NumberInput(
         attrs={'type': 'range', 'class': 'form-range', 'min': '1', 'max': '5'}))
 
+class MenuFilterForm(forms.Form):
+    categories = Category.objects.values_list('id', 'name').all()
+    Search = forms.CharField(required=False, label='Search', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    Category = forms.ChoiceField(required=False, choices=categories, widget=forms.Select(attrs={'class': 'form-select'}))
 
 class CustomerForm(forms.ModelForm):
     date_of_birth = forms.DateField(label='Date of Birth')
