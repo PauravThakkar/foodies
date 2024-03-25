@@ -204,16 +204,17 @@ body {
     display: inline-block;
     justify-content: space-between;
     width: 400px;
-    height: 450px;
+    height: inherit;
     margin-right: 5px;
     margin-left: 5px;
     color: black;
     text-align: center;
-    line-height: 100px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     border-radius: 30px;
     font-size: larger;
     margin-bottom: 35px;
+    padding-bottom: inherit;
+
 
 }
 
@@ -257,31 +258,6 @@ body {
 
 }
 
-.rate-order-btn {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    background-color: red;
-    border: none;
-    color: white;
-    width: 7rem;
-    height: 3rem;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    line-height: 3rem;
-    cursor: pointer;
-    border-radius: 10px;
-
-
-}
-
-.rate-order-btn:hover {
-    background-color: whitesmoke;
-    color: black;
-}
-
 .logo {
     position: absolute;
     top: 15px;
@@ -293,11 +269,12 @@ body {
 }
 
 .food-image {
-    width: 100%; /* Adjust the width to fit the container */
+    width: 50%; /* Adjust the width to fit the container */
     height: auto; /* Maintain aspect ratio */
     max-height: 120px; /* Limit the maximum height */
-    object-fit: cover; /* Maintain aspect ratio and cover the container */
+    object-fit: fill; /* Maintain aspect ratio and cover the container */
     border-radius: 15px; /* Add rounded corners */
+
 }
 
 
@@ -566,4 +543,38 @@ textarea {
   font-size: 1.4rem;
   color: #666;
   margin-bottom: 10px;
+}
+
+.order-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: space-evenly;
+}
+
+.order-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
+}
+
+.order-wrapper img {
+    height: 50px;
+    width: 50px !important;
+    border-radius: 25px;
+}
+
+/*.order-wrapper span {*/
+/*    font-size: small;*/
+/*    flex: 1;*/
+
+/*}*/
+
+.heading-review {
+    font-size: 50px; /* Adjust font size as needed */
+    font-weight: bolder;
+    color: red;
+    font-family:"Slackside One", cursive;
+    padding-top: 5px;
 }

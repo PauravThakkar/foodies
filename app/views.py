@@ -1,6 +1,29 @@
 from cart.cart import Cart
-from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
+from django.urls.base import reverse, reverse_lazy
+from django.views import View
+from paypal.standard.forms import PayPalPaymentsForm
+
+from Foodies.settings import PAYPAL_EMAIL
+from .forms import FilterForm, ResetPasswordChangeForm
+from .forms import LoginForm
+from .forms import ReviewForm, CustomerForm
+from .forms import SignUpForm, ResetPasswordForm
+from .models import Customer
+from .models import MenuItem
+from .models import Restaurant
+
+from django.shortcuts import render, get_object_or_404
+from .models import Restaurant
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.mail import send_mail
 from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
 from django.urls.base import reverse
@@ -14,6 +37,7 @@ from .forms import SignUpForm
 from .models import *
 
 
+@login_required(login_url='/login/')
 def review_view(request, restaurant_id):
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
     user_id = request.user.id
@@ -25,14 +49,11 @@ def review_view(request, restaurant_id):
         if form.is_valid():
             review = form.save(commit=False)
             review.user = user
-        
-            
             review.restaurant = restaurant
             review.save()
-           
-            
+
             return render(request, 'review_block.html',
-                          {'restaurant_id': restaurant_id, 'message': 'Review Submitted Successfully'})
+                          {'restaurant_id': restaurant.id, 'message': 'Review Submitted Successfully'})
     else:
         reviews = Review.objects.filter(restaurant=restaurant)
         return render(request, 'review_block.html',
@@ -61,19 +82,11 @@ def user_settings(request):
     return render(request, 'user_settings.html', {
         'customer_form': customer_form,
         'customer': customer,
+        'status': 'signedIn'
     })
 
-# Define a class to hold static order data
-class StaticOrder:
-    def __init__(self, order_id, restaurant_name, item_name, cuisine_price, cuisine_quantity, totalprice):
-        self.order_id = order_id
-        self.restaurant_name = restaurant_name
-        self.item_name = item_name
-        self.cuisine_price = cuisine_price
-        self.quantity = cuisine_quantity
-        self.totalprice = totalprice
 
-
+@login_required(login_url='/login/')
 def user_history(request):
     # Initialize visit count to 0
     visit_count = 0
@@ -102,7 +115,7 @@ def user_history(request):
         order_details.append((order.order_id, order.items.all(), order.total))
 
     # Pass the order details to the template for rendering
-    return render(request, 'user_history.html', {'order_details': order_details, 'visit_count': visit_count})
+    return render(request, 'user_history.html', {'order_details': order_details, 'visit_count': visit_count, 'status': 'signedIn'})
 
 
 def sign_up(request):
@@ -119,13 +132,16 @@ def sign_up(request):
 def app_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
-        next = '/home/'
-
         if form.is_valid():
             myuser = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-            login(request, myuser)
-            
-            return redirect(next)  # Redirect to home page after successful login
+            if myuser is not None:
+                login(request, myuser)
+                return redirect('home')  # Redirect to home page after successful login
+            else:
+                # If authentication fails, display an error message
+                error_message = "Invalid username or password. Please try again."
+                message = 'Welcome to Foodies'
+                return render(request, 'sign_in.html', {'form': form, 'error_message': error_message, "message": message})
     else:
         message = 'Welcome to Foodies'
         if request.GET.get('error') is not None:
@@ -134,6 +150,7 @@ def app_login(request):
     return render(request, 'sign_in.html', {'form': form, 'message': message})
 
 
+@login_required(login_url='/login/')
 def payment_successful(request):
     payer_id = request.GET.get('PayerID')
     price = 0.0
@@ -157,10 +174,12 @@ def payment_successful(request):
     return render(request, 'payment_successful.html')
 
 
+@login_required(login_url='/login/')
 def payment_failed(request):
     return render(request, 'payment_failed.html')
 
 
+@login_required(login_url='/login/')
 def ask_money(request):
     if request.POST:
         price = 0.0
@@ -169,7 +188,7 @@ def ask_money(request):
             price += float(item['price']) * float(item['quantity'])
 
         paypal_dict = {
-            "business": "sb-pkdqf30042076@business.example.com",
+            "business": PAYPAL_EMAIL,
             "amount": price,
             "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
             "return": request.build_absolute_uri(reverse('payment_successful')),
@@ -180,6 +199,19 @@ def ask_money(request):
         form = PayPalPaymentsForm(initial=paypal_dict)
 
         return render(request, "payments.html", {"form": form, 'cart': request.session['cart']})
+    else:
+        price = 0.0
+        for item in request.session['cart'].values():
+            price += float(item['price']) * float(item['quantity'])
+        paypal_dict = {
+            "business": PAYPAL_EMAIL,
+            "amount": price,
+            "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+            "return": request.build_absolute_uri(reverse('payment_successful')),
+            "cancel_return": request.build_absolute_uri(reverse('payment_failed')),
+        }
+        form = PayPalPaymentsForm(initial=paypal_dict)
+        return render(request, 'payments.html',  {"form": form, 'cart': request.session['cart']})
 
 
 def home(request):
@@ -197,7 +229,7 @@ def home(request):
             if search != '':
                 restaurants = restaurants.filter(name__icontains=search)
             restaurants = restaurants.filter(cuisines=Cuisince)
-            restaurants = restaurants.filter(avg_rating__gte=Ratings)
+            restaurants = restaurants.filter(avg_ratings__gte=Ratings)
             return render(request, 'home.html', {'restaurants': restaurants, 'form': form, 'status': status})
     else:
         for restaurant in restaurants:
@@ -246,10 +278,9 @@ class GetOneRestaurantByIdView(View):
 
         restaurant_details = self.get_obj(id=id)
 
-       
         context = {
             'restaurant_details': restaurant_details,
-           
+
         }
 
         return render(request, "one_restaurant.html", context=context)
@@ -269,14 +300,12 @@ def cart_add(request, id):
     return redirect("cart_detail")
 
 
-
 # @login_required(login_url='/login/')
 def item_clear(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
     cart.remove(product=menu_item)
     return redirect("cart_detail")
-
 
 
 # @login_required(login_url='/login/')
@@ -287,14 +316,12 @@ def item_increment(request, id):
     return redirect("cart_detail")
 
 
-
 # @login_required(login_url='/login/')
 def item_decrement(request, id):
     cart = Cart(request)
     menu_item = MenuItem.objects.get(id=id)
     cart.decrement(product=menu_item)
     return redirect("cart_detail")
-
 
 
 # @login_required(login_url='/login/')
@@ -310,3 +337,25 @@ def cart_detail(request):
     if request.user.is_authenticated:
         status = 'signedIn'
     return render(request, "cart_details.html", {'status': status})
+
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'password_reset.html'
+    email_template_name = 'password_reset_email.html'
+    subject_template_name = 'password_reset_subject.txt'
+    success_message = "We've emailed you instructions for setting your password, " \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you don't receive an email, " \
+                      "please make sure you've entered the address you registered with, and check your spam folder."
+    form = ResetPasswordForm()
+    success_url = reverse_lazy('password_reset_done')
+
+def PasswordResetDoneView(request):
+    return render(request, 'password_reset_done.html')
+
+class PasswordConfirmView(PasswordResetConfirmView):
+    template_name = 'password_reset_confirm.html'
+    success_url = reverse_lazy('home')
+
+
+def password_reset_complete(request):
+    return render(request, 'password_reset_done.html')
