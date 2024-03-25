@@ -54,7 +54,9 @@ def review_view(request, restaurant_id):
             review.save()
 
             return render(request, 'review_block.html',
-                          {'restaurant_id': restaurant.id, 'message': 'Review Submitted Successfully'})
+                          {'review_from': form, 'restaurant_id': restaurant.id,
+                           'message': 'Review Submitted Successfully',
+                           'reviews': Review.objects.filter(restaurant=restaurant)})
     else:
         reviews = Review.objects.filter(restaurant=restaurant)
         return render(request, 'review_block.html',
