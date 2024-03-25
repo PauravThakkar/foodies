@@ -55,7 +55,6 @@ def review_view(request, restaurant_id):
             review.save()
 
             average_rating = Review.objects.filter(restaurant=restaurant).aggregate(Avg('ratings'))
-            print(average_rating)
             restaurant.avg_ratings = int(average_rating['ratings__avg'])
             restaurant.save()
 
