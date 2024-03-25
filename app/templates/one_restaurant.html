@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block navigation %}
-{% include 'navbar.html' %}
+    {% include 'navbar.html' %}
 {% endblock %}
 {% load cart_tag %}
 {% load static %}
@@ -11,71 +11,76 @@
 
 
 
-<div class="container mt-5 restaurant-box-container" style="border-radius: 30px;">
+    <div class="container border mt-5 rounded restaurant-box-container">
 
-  <div class="restaurant-box-container-details-box border d-flex">
+        <div class="restaurant-box-container-details-box d-flex">
 
-    <div class="col-md-6 restaurant-box-container-image">
-      <img class="img-fluid" src="{{ restaurant_details.respicture.url }}" alt="Restaurant Image" />
+            <div class="col-md-6 restaurant-box-container-image">
+                <img class="img-fluid" src="{{ restaurant_details.respicture.url }}" alt="Restaurant Image"/>
 
-    </div>
+            </div>
 
-    <div class="col-md-6 border restaurant-box-container-details d-flex">
+            <div class="col-md-6 border restaurant-box-container-details d-flex">
 
-      <div class=" col-md-9 restaurant-box-container-details-left-side">
-        <h2>{{ restaurant_details.name }}</h2>
-        <p>{{ restaurant_details.description }}</p>
-        <h6>{{ restaurant_details.address }}</h6>
-        <h6>{{ restaurant_details.phone_number }}</h6>
-        <a href="{{ restaurant_details.website }} style=" text-decoration: none;" class="text-danger">
-          <h6>{{ restaurant_details.website }}</h6>
-        </a>
-       
-      </div>
+                <div class=" col-md-9 restaurant-box-container-details-left-side">
+                    <h2>{{ restaurant_details.name }}</h2>
+                    <p>{{ restaurant_details.description }}</p>
+                    <h6>{{ restaurant_details.address }}</h6>
+                    <h6>{{ restaurant_details.phone_number }}</h6>
+                    {% if restaurant_details.website %}
+                        <a href="{{ restaurant_details.website }}" style=" text-decoration: none;" class="text-danger">
+                            <h6>{{ restaurant_details.website }}</h6>
+                        </a>
+                    {% endif %}
+                    <h6>{{ restaurant_details.get_type_display }}</h6>
+                    <h6>Average Ratings: {{ restaurant_details.avg_ratings }}/5</h6>
+                </div>
 
-      <div class="col-md-3 restaurant-box-container-details-right-side justify-content-center">
-        <a href="{% url 'ratings' restaurant_details.id  %}"> <button type="button" class="btn btn-primary ">Add
-            ratings</button></a>
-      </div>
+                <div class="col-md-3 restaurant-box-container-details-right-side justify-content-center">
+                    <a href="{% url 'ratings' restaurant_details.id %}">
+                        <button type="button" class="btn btn-primary ">Add
+                            ratings
+                        </button>
+                    </a>
+                </div>
 
-    </div>
+            </div>
 
-  </div>
-
-
-
-
-
-  <!-- Menu -->
-
-
-  <div class="row mt-5 ">
-    <div class="col-md-12 border text-center text-danger" style="margin-bottom: 30px;">
-      <h3>Menus</h3>
-    </div>
-
-    {% for menu in restaurant_details.menus.all %}
-    <div class="col-md-4 mt-5"> <!-- Adjust column size based on your requirement -->
-      <a href="{% url 'get_one_menu' menu.id %}">
-        <div class="menu-box-container-each-menu-box border p-4">
-          <div class="menu-box-container-each-menu-box-image">
-            <img class="img-fluid rounded" src="{{ menu.image.url }}" alt="Page not found" />
-          </div>
-          <div class="menu-box-container-each-menu-box-details text-danger">
-            <h2>{{ menu.name }}</h2>
-            <h4>{{ menu.description }}</h4>
-            <h5>{{ menu.category.name }}</h5>
-            <h5>{{ menu.price }}</h5>
-          </div>
         </div>
-      </a>
+
+
+        <!-- Menu -->
+
+
+        <div class="row mt-5 ">
+            <div class="col-md-12 text-center text-danger" style="margin-bottom: 30px;">
+                <h3>Menus</h3>
+            </div>
+
+            {% for menu in restaurant_details.menus.all %}
+                <div class="col-md-4 mt-5"> <!-- Adjust column size based on your requirement -->
+                    <a href="{% url 'get_one_menu' menu.id %}">
+                        <div class="menu-box-container-each-menu-box border p-4">
+                            <div class="menu-box-container-each-menu-box-image">
+                                <img class="img-fluid rounded" src="{{ menu.image.url }}" alt="Page not found"/>
+                            </div>
+                            <div class="menu-box-container-each-menu-box-details text-danger">
+                                <h2>{{ menu.name }}</h2>
+                                <h4>{{ menu.description }}</h4>
+                                <h5>{{ menu.category.name }}</h5>
+                                <h5>{{ menu.price }}</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+            {% endfor %}
+        </div>
+
     </div>
 
 
-    {% endfor %}
-  </div>
-
-</div>
 
 
 
@@ -88,9 +93,7 @@
 
 
 
-
-
-<!-- <div class="container mt-4 p-4 bg-danger rounded">
+    <!-- <div class="container mt-4 p-4 bg-danger rounded">
   <div class="container">
     <div class="row">
       <div class="col-md-6">
