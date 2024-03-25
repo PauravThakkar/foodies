@@ -95,6 +95,7 @@
 
   .restaurant-box-container-details-box {
     margin: 20px;
+    word-wrap: break-word;
   }
 
 
