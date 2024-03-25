@@ -1,125 +1,132 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block navigation %}
-{% include 'navbar.html' %}
+    {% include 'navbar.html' %}
 {% endblock %}
 {% load cart_tag %}
 
 {% block body_block %}
 
-{% if request.session.cart|length == 0 %}
-<center>
-    <h1 style="color: rgb(255, 0, 0);">Your cart is empty</h1> <img src="{% static 'images/empty_cart.png' %}" alt=""
-        style="width: 100px;" />
-</center>
+    {% if request.session.cart|length == 0 %}
+        <center>
+            <h1 style="color: rgb(255, 0, 0);">Your cart is empty</h1> <img src="{% static 'images/empty_cart.png' %}"
+                                                                            alt=""
+                                                                            style="width: 100px;"/>
+        </center>
 
-<div class="text-center" style="margin-top: 100px;">
+        <div class="text-center" style="margin-top: 100px;">
 
-    <center> <a href="{% url 'home' %}"><button class="btn btn-danger">Go to home</button></a>
-    </center>
-</div>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-{% else %}
-
-
-
-<div class="container">
-    <table class="table table-bordered text-center mt-4">
-        <thead class="thead-dark">
-            <tr class="bg-danger">
-                <th scope="col">Item</th>
-                <th scope="col">Description</th>
-                <th scope="col">Price</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Total</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for key, value in request.session.cart.items %}
-            <tr class="">
-                <td><a href=""><img src="{{ value.image }}" alt="" style="width: 160px; height: 200px;"></a></td>
-                <td>
-                    <h4><a href="">{{ value.name }}</a></h4>
-                </td>
-                <td>
-                    <p style="font-size: larger;">{{ value.price }}</p>
-                </td>
-                <td class="d-flex">
-                    <div class=" col-md-12 d-flex justify-content-between">
-                        <div class="col-md-2">
-                            <a id="increment_btn" class="btn btn-danger"
-                                href="{% url 'item_increment' value.product_id %}">+</a>
-                        </div>
-                        <input id="quantity_id" class="form-control text-center cart_quantity_input" type="text"
-                            name="quantity" value="{{ value.quantity }}" autocomplete="off" size="" readonly>
-                        <div class="input-group-append">
-                            <a id="decrement_btn" class="btn btn-danger cart_quantity_down"
-                                href="{% url 'item_decrement' value.product_id %}">-</a>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <p style="font-size: larger;" class="cart_total_price">{{ value.price|multiply:value.quantity }}
-                    </p>
-                </td>
-                <td>
-                    <a class="btn btn-danger cart_quantity_delete" href="{% url 'item_clear' key %}"><i
-                            class="fa fa-times"></i></a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <div class="row">
-        <div class="col-md-3">
-            <a href="{% url 'cart_clear' %}">
-                <button class="btn btn-danger"> Clear </button>
+            <center><a href="{% url 'home' %}">
+                <button class="btn btn-danger">Go to home</button>
             </a>
+            </center>
         </div>
-        <div class="col-md-3">
-            <a href="{% url 'checkout' %}"> <button class="btn btn-danger"> Checkout </button> </a>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+    {% else %}
 
+
+
+        <div class="container">
+            <table class="table table-bordered text-center mt-4">
+                <thead class="thead-dark">
+                <tr class="bg-danger">
+                    <th scope="col">Item</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for key, value in request.session.cart.items %}
+                    <tr class="">
+                        <td><a href=""><img src="{{ value.image }}" alt="" style="width: 160px; height: 200px;"></a>
+                        </td>
+                        <td>
+                            <h4><a href="">{{ value.name }}</a></h4>
+                        </td>
+                        <td>
+                            <p style="font-size: larger;">{{ value.price }}</p>
+                        </td>
+                        <td class="d-flex">
+                            <div class=" col-md-12 d-flex justify-content-between">
+                                <div class="col-md-2">
+                                    <a id="increment_btn" class="btn btn-danger"
+                                       href="{% url 'item_increment' value.product_id %}">+</a>
+                                </div>
+                                <input id="quantity_id" class="form-control text-center cart_quantity_input" type="text"
+                                       name="quantity" value="{{ value.quantity }}" autocomplete="off" size="" readonly>
+                                <div class="input-group-append">
+                                    <a id="decrement_btn" class="btn btn-danger cart_quantity_down"
+                                       href="{% url 'item_decrement' value.product_id %}">-</a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p style="font-size: larger;"
+                               class="cart_total_price">{{ value.price|multiply:value.quantity }}
+                            </p>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger cart_quantity_delete" href="{% url 'item_clear' key %}"><i
+                                    class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <a href="{% url 'cart_clear' %}">
+                        <button class="btn btn-danger"> Clear</button>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a href="{% url 'checkout' %}">
+                        <button class="btn btn-danger"> Checkout</button>
+                    </a>
+
+                </div>
+
+                <div class="col-md d-flex border justify-content-center">
+
+                    <h4> Total: $ <span style="font-size: 15px; font-weight: 800;">{{ cart_total_amount }}</span></h4>
+                </div>
+            </div>
         </div>
 
-        <div class="col-md d-flex border justify-content-center">
-
-            <h4> Total: $ <span style="font-size: 15px; font-weight: 800;">{{ cart_total_amount }}</span></h4>
-        </div>
-    </div>
-</div>
 
 
 
 
+        <script>
+            document.getElementById('decrement_btn').addEventListener('click', function (event) {
+                var quantityInput = document.getElementById('quantity_id');
+                var quantity = parseInt(quantityInput.value);
 
-<script>
-    document.getElementById('decrement_btn').addEventListener('click', function (event) {
-        var quantityInput = document.getElementById('quantity_id');
-        var quantity = parseInt(quantityInput.value);
+                // Check if quantity is greater than 1
+                if (quantity > 1) {
+                    // If quantity is greater than 1, decrement
+                    quantityInput.value = quantity - 1;
+                } else {
+                    // Prevent default action (following the link) if quantity is 1 or less
+                    event.preventDefault();
+                    alert('Quantity cannot be less than 1');
+                }
+            });
+        </script>
 
-        // Check if quantity is greater than 1
-        if (quantity > 1) {
-            // If quantity is greater than 1, decrement
-            quantityInput.value = quantity - 1;
-        } else {
-            // Prevent default action (following the link) if quantity is 1 or less
-            event.preventDefault();
-            alert('Quantity cannot be less than 1');
-        }
-    });
-</script>
-
-{% endif %}
+    {% endif %}
 
 {% endblock %}

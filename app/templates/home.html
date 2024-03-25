@@ -6,7 +6,8 @@
 {% block custom_imports %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Rubik:wght@400;500;600;700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Rubik:wght@400;500;600;700&family=Shadows+Into+Light&display=swap"
+          rel="stylesheet">
     <!-- Preload images -->
     <link rel="preload" as="image" href="{% static 'images/hero-banner.png' %}" media="min-width(768px)">
     <link rel="preload" as="image" href="{% static 'images/hero-banner-bg.png' %}" media="min-width(768px)">
@@ -18,31 +19,38 @@
 {% endblock %}
 {% block external %}
     <div class="hero" id="home" style="background-image:url('{% static 'images/hero-bg.jpg' %}')">
-        <div >
+        <div>
             <div class="hero-content">
                 <h2 class="h1 hero-title">Super delicious Food in town!</h2>
             </div>
             <figure class="hero-banner">
-                <img src="{% static 'images/hero-banner-bg.png' %}" width="820" height="716" alt="" aria-hidden="true" class="w-100 hero-img-bg">
-                <img src="{% static 'images/hero-banner.png' %}" width="700" height="637" loading="lazy" alt="Burger" class="w-100 hero-img">
+                <img src="{% static 'images/hero-banner-bg.png' %}" width="820" height="716" alt="" aria-hidden="true"
+                     class="w-100 hero-img-bg">
+                <img src="{% static 'images/hero-banner.png' %}" width="700" height="637" loading="lazy" alt="Burger"
+                     class="w-100 hero-img">
             </figure>
         </div>
     </div>
     <div class="food-menu" id="food-menu">
-        <div >
-        {% include 'filters.html' %}
+        <div>
+            {% include 'filters.html' %}
             <ul class="food-menu-list">
                 {% for restaurant in restaurants %}
-                <li>
-                    <div class="food-menu-card">
-                        <div class="card-banner">
-                            <img src={{ restaurant.respicture.url }} width="300" height="300" loading="lazy" alt="Balista" class="w-100">
-                            <a  href="{% url 'get_one_restaurant' restaurant.id %}" class="btn food-menu-btn">View Restaurant</a>
+                    <li>
+                        <div class="food-menu-card">
+                            <div class="card-banner">
+                                <img src={{ restaurant.respicture.url }} width="300" height="300" loading="lazy"
+                                     alt="Balista" class="w-100">
+                                <a href="{% url 'get_one_restaurant' restaurant.id %}" class="btn food-menu-btn">View
+                                    Restaurant</a>
+                            </div>
+                            <div class=" card-title">
+                                <div>{{ restaurant.name }}</div>
+                                <div><i class="fas fa-map-pin"></i>{{ restaurant.address }}</div>
+                            </div>
+                            <h5 class="h5 card-content">{{ restaurant.description }}</h5>
                         </div>
-                        <div class=" card-title"><div>{{ restaurant.name }}</div><div><i class="fas fa-map-pin"></i>{{ restaurant.address }}</div></div>
-                        <h5 class="h5 card-content">{{ restaurant.description }}</h5>
-                    </div>
-                </li>
+                    </li>
                 {% endfor %}
             </ul>
         </div>

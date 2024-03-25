@@ -1,13 +1,8 @@
-import django.contrib.auth
-from django.contrib.auth.views import LoginView
-from django.urls import include
-from django.urls import path
 from django.urls import include, path
 from django.views.generic import RedirectView
 
 from . import views
 from .views import *
-from django.contrib.auth.views import PasswordChangeView
 
 urlpatterns = [
     path('ratings/<int:restaurant_id>/', review_view, name='ratings'),
