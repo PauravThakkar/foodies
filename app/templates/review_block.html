@@ -17,4 +17,26 @@
             </form>
         {% endif %}
     {% endblock %}
+
+    {% block list_reviews %}
+        <h2>Reviews</h2>
+        {% if reviews %}
+            <ul>
+                {% for review in reviews %}
+                    <li>
+                        <p>
+                            user: {{ review.user }} : {{ review.ratings }} stars
+                        </p>
+                        <p>date: {{ review.timestamp }}</p>
+                        <p>comment:
+                            <span>{{ review.comment }}</span>
+                        </p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No reviews yet</p>
+        {% endif %}
+    {% endblock %}
+
 {% endblock %}
