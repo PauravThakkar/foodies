@@ -138,6 +138,7 @@ class FilterForm(forms.Form):
     Cuisines = Cuisine.objects.values_list('id', 'name').all()
     Search = forms.CharField(required=False, label='Search', widget=forms.TextInput(attrs={'class': 'form-control'}))
     # Cuisine = forms.ChoiceField(required=False, choices=Cuisines, widget=forms.Select(attrs={'class': 'form-select'}))
+    #Cuisine = forms.ChoiceField(required=False, choices=Cuisines, widget=forms.Select(attrs={'class': 'form-select'}))
     ratings_choice = [('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')]
     Ratings = forms.ChoiceField(choices=ratings_choice, widget=forms.NumberInput(
         attrs={'type': 'range', 'class': 'form-range', 'min': '1', 'max': '5'}))

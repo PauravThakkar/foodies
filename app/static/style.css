@@ -570,3 +570,11 @@ textarea {
 /*    flex: 1;*/
 
 /*}*/
+
+.heading-review {
+    font-size: 50px; /* Adjust font size as needed */
+    font-weight: bolder;
+    color: red;
+    font-family:"Slackside One", cursive;
+    padding-top: 5px;
+}
