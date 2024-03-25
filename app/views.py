@@ -132,13 +132,16 @@ def sign_up(request):
 def app_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
-        next = '/home/'
-
         if form.is_valid():
             myuser = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-            login(request, myuser)
-
-            return redirect(next)  # Redirect to home page after successful login
+            if myuser is not None:
+                login(request, myuser)
+                return redirect('home')  # Redirect to home page after successful login
+            else:
+                # If authentication fails, display an error message
+                error_message = "Invalid username or password. Please try again."
+                message = 'Welcome to Foodies'
+                return render(request, 'sign_in.html', {'form': form, 'error_message': error_message, "message": message})
     else:
         message = 'Welcome to Foodies'
         if request.GET.get('error') is not None:

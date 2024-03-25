@@ -57,9 +57,10 @@
             <form method="post" action="{% url 'app_login' %}" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
+                <p>{{ error_message }}</p>
         <button type="submit"> SIGN IN</button>
                  <a href="{% url 'sign_up' %}" class="link-to-login">New to foodies?</a>
-                  <a href = "#" class="forgot-password" > Forgot password?</a>
+                  <a href = "{% url 'password_reset' %}" class="forgot-password" > Forgot password?</a>
 
     </form>
     </div>
