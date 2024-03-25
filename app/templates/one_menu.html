@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block navigation %}
-{% include 'navbar.html' %}
+    {% include 'navbar.html' %}
 {% endblock %}
 {% load cart_tag %}
 {% load static %}
@@ -10,68 +10,72 @@
 {% block body_block %}
 
 
-<style>
-    .menu-container {
-        box-shadow: 1px 1px 3px 1px red;
-        border-radius: 20px;
-        height: 700px;
-    }
+    <style>
+        .menu-container {
+            box-shadow: 1px 1px 3px 1px red;
+            border-radius: 20px;
+            height: 700px;
+        }
 
-    .menu-container-image {
-        border-radius: 20px;
-    }
+        .menu-container-image {
+            border-radius: 20px;
+        }
 
-    .menu-container-box-image {
-        width: 100%;
-        height: 60%;
-    }
+        .menu-container-box-image {
+            width: 100%;
+            height: 60%;
+        }
 
-    .menu-container-details {
+        .menu-container-details {
 
-        border-radius: 20px;
+            border-radius: 20px;
 
-    }
+        }
 
-    .add-to-cart-btn {
-        background-color: red;
-        border-radius: 10px;
-        border: none;
-    }
+        .add-to-cart-btn {
+            background-color: red;
+            border-radius: 10px;
+            border: none;
+        }
 
 
-</style>
-<div class="container mt-4 p-4 bg-white rounded">
+    </style>
+    <div class="container mt-4 p-4 bg-white rounded">
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8 bg-light menu-container">
-                <div class=" col-sm-12 d-flex justify-content-center align-items-center p-3 menu-container-box-image">
-                    <img class="img-medium menu-container-image" src="{{ menu_details.image.url}}" alt="Menu Image">
-                </div>
-                <div class="row details menu-container-details d-flex justify-content-between align-items-center p-3 rounded mt-auto text-danger"
-                    style="margin-left: 10px; margin-right: 10px;">
-                    <div class="col-md-12 text-center">
-                        <h3 class="text-spacing">
-                            Menu details
-                        </h3>
-
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 bg-light menu-container">
+                    <div class=" col-sm-12 d-flex justify-content-center align-items-center p-3 menu-container-box-image">
+                        <img class="img-medium menu-container-image" src="{{ menu_details.image.url }}"
+                             alt="Menu Image">
                     </div>
-                    <div class="col-md-8 text-spacing">
-                        <h2>{{menu_details.name}}</h2>
-                        <h4>{{menu_details.description}}</h4>
-                        <h5>{{menu_details.category.name}}</h5>
-                        <h5>$ {{menu_details.price}}</h5>
-                    </div>
-                    <div class="col-sm-4 actions">
-                        <a href="{% url 'cart_add' menu_details.id %}"><button class="text-white p-3 add-to-cart-btn">Add to
-                                cart</button></a>
-                        <!-- Add any actions here, such as buttons for ordering, etc. -->
+                    <div class="row details menu-container-details d-flex justify-content-between align-items-center p-3 rounded mt-auto text-danger"
+                         style="margin-left: 10px; margin-right: 10px;">
+                        <div class="col-md-12 text-center">
+                            <h3 class="text-spacing">
+                                Menu details
+                            </h3>
+
+                        </div>
+                        <div class="col-md-8 text-spacing">
+                            <h2>{{ menu_details.name }}</h2>
+                            <h4>{{ menu_details.description }}</h4>
+                            <h5>{{ menu_details.category.name }}</h5>
+                            <h5>$ {{ menu_details.price }}</h5>
+                        </div>
+                        <div class="col-sm-4 actions">
+                            <a href="{% url 'cart_add' menu_details.id %}">
+                                <button class="text-white p-3 add-to-cart-btn">Add to
+                                    cart
+                                </button>
+                            </a>
+                            <!-- Add any actions here, such as buttons for ordering, etc. -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</div>
+    </div>
 
 {% endblock %}

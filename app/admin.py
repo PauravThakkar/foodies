@@ -7,7 +7,7 @@ from .models import *
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
 
-    
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['order_id']

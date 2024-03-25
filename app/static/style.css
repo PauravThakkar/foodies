@@ -123,11 +123,11 @@ body {
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
-    margin-top: 0!important;
+    margin-top: 0 !important;
     padding: 20px;
 }
 
-.card-banner img{
+.card-banner img {
     height: 250px !important;
     width: 300px !important;
     border-radius: 50px;
@@ -141,6 +141,7 @@ body {
     justify-content: center;
     gap: 10px;
 }
+
 .filters-form input, button {
     margin: 0 !important;
     padding: 0 !important;
@@ -305,7 +306,7 @@ label {
     font-weight: bold;
     font-style: italic;
     font-size: large;
-    color: #555; 
+    color: #555;
 }
 
 .user-settings-form-group label[for="contact_number"] {
@@ -439,110 +440,112 @@ input[type="date"] {
 
 /* Body and Typography */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
-  margin: 0;
-  padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
 }
 
 h1, h2, h3 {
-  font-family: 'Helvetica Neue', sans-serif;
-  font-weight: bold;
-  color: #222;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    color: #222;
 }
 
 h1 {
-  font-size: 2.5rem;
+    font-size: 2.5rem;
 }
 
 h2 {
-  font-size: 2rem;
+    font-size: 2rem;
 }
 
 h3 {
-  font-size: 1.5rem;
+    font-size: 1.5rem;
 }
 
 p {
-  font-size: 1rem;
-  line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.6;
 }
 
 /* Links */
 a {
-  color: #007bff;
-  text-decoration: none;
+    color: #007bff;
+    text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 /* Containers */
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .section {
-  padding: 40px 0;
+    padding: 40px 0;
 }
 
 /* Buttons */
 .btn {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  text-align: center;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-  background-color: #0056b3;
+    background-color: #0056b3;
 }
 
 /* Form Styles */
 input[type="text"],
 input[type="email"],
 textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  font-size: 1rem;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 1rem;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  h1 {
-    font-size: 2rem;
-  }
-  h2 {
-    font-size: 1.8rem;
-  }
-  h3 {
-    font-size: 1.3rem;
-  }
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    h3 {
+        font-size: 1.3rem;
+    }
 }
 
 .card-title {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 5px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
 }
 
 .card-content {
-  font-size: 1.4rem;
-  color: #666;
-  margin-bottom: 10px;
+    font-size: 1.4rem;
+    color: #666;
+    margin-bottom: 10px;
 }
 
 .order-container {
@@ -575,7 +578,7 @@ textarea {
     font-size: 50px; /* Adjust font size as needed */
     font-weight: bolder;
     color: red;
-    font-family:"Slackside One", cursive;
+    font-family: "Slackside One", cursive;
     padding-top: 5px;
 }
 
@@ -611,11 +614,11 @@ textarea {
     justify-content: space-evenly;
     height: fit-content;
     border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5) ;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 
 }
 
-.order-item-image{
+.order-item-image {
     max-width: 100%;
     max-height: 250px;
     border-radius: 5px;

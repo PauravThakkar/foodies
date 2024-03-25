@@ -4,16 +4,16 @@
 {% block body_block %}
     <h1 class="summary-heading">Order Summary!</h1>
     <div class="order-item">
-    {% for item in cart.values %}
-        <div class="card">
-            <img src="{{ item.image }}" alt="{{ item.product.name }}" class="order-item-image" >
-            <div class="order-item-detail">
-                <p class="item-name"> Item Name: {{ item.name }} </p>
-                <p class ="item-quantity">Quantity: {{ item.quantity }} </p>
-                <p class="item-price">Price: ${{ item.price|multiply:item.quantity }}</p>
+        {% for item in cart.values %}
+            <div class="card">
+                <img src="{{ item.image }}" alt="{{ item.product.name }}" class="order-item-image">
+                <div class="order-item-detail">
+                    <p class="item-name"> Item Name: {{ item.name }} </p>
+                    <p class="item-quantity">Quantity: {{ item.quantity }} </p>
+                    <p class="item-price">Price: ${{ item.price|multiply:item.quantity }}</p>
+                </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
     </div>
     {{ form.render }}
 {% endblock %}

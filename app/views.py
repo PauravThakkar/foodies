@@ -1,27 +1,8 @@
 from cart.cart import Cart
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render, redirect
-from django.urls.base import reverse, reverse_lazy
-from django.views import View
-from paypal.standard.forms import PayPalPaymentsForm
-
-from Foodies.settings import PAYPAL_EMAIL
-from .forms import FilterForm, ResetPasswordChangeForm
-from .forms import LoginForm
-from .forms import ReviewForm, CustomerForm
-from .forms import SignUpForm, ResetPasswordForm
-from .models import Customer
-from .models import MenuItem
-from .models import Restaurant
-
-from django.shortcuts import render, get_object_or_404
-from .models import Restaurant
-from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Avg
 from django.shortcuts import redirect
@@ -30,7 +11,8 @@ from django.urls.base import reverse
 from django.urls.base import reverse_lazy
 from django.views import View
 from paypal.standard.forms import PayPalPaymentsForm
-from django.contrib.auth import logout
+
+from Foodies.settings import PAYPAL_EMAIL
 from .forms import FilterForm
 from .forms import LoginForm
 from .forms import ResetPasswordForm
@@ -209,6 +191,7 @@ def home(request):
         for restaurant in restaurants:
             print(restaurant.respicture.url)
         return render(request, 'home.html', {'restaurants': restaurants, 'form': form})
+
 
 def sign_out(request):
     logout(request)
