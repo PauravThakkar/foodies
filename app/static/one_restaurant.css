@@ -67,9 +67,6 @@
 }
 
 
-
-
-
 .menu-box-container-each-menu-box-image {
     min-height: 60%;
     min-width: 100%;
@@ -91,30 +88,30 @@
     width: 100%;
     border-radius: 20px;
 
-  }
+}
 
-  .restaurant-box-container-details-box {
+.restaurant-box-container-details-box {
     margin: 20px;
     word-wrap: break-word;
-  }
+}
 
 
-  .restaurant-box-container-image {
+.restaurant-box-container-image {
     max-width: 500px;
     max-height: 400px;
-  }
+}
 
-  .restaurant-box-container-details {
+.restaurant-box-container-details {
     margin: 20px;
-  }
+}
 
 
-  .restaurant-box-container-details-right-side {
+.restaurant-box-container-details-right-side {
     margin: auto;
-  }
-  
+}
 
-  .menu-box-container-each-menu-box {
+
+.menu-box-container-each-menu-box {
     box-shadow: 1px 1px 3px 2px red;
     border-radius: 20px;
     transition: all 0.3s ease; /* Adding transition for smooth hover effect */

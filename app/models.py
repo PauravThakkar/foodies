@@ -95,12 +95,11 @@ class Order(models.Model):
 
     def __str__(self):
         return self.order_id
-    
+
     def get_total_price(self):
         return self.menu.price * self.quantity
-    
-    
-    
+
+
 class Review(models.Model):
     RATINGS_RANGE = (
         (1, 'Poor'),

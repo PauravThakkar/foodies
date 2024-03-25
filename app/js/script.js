@@ -1,7 +1,6 @@
 'use strict';
 
 
-
 /**
  * navbar toggle
  */
@@ -11,17 +10,16 @@ const navbarLinks = document.querySelectorAll("[data-nav-link]");
 const menuToggleBtn = document.querySelector("[data-menu-toggle-btn]");
 
 menuToggleBtn.addEventListener("click", function () {
-  navbar.classList.toggle("active");
-  this.classList.toggle("active");
+    navbar.classList.toggle("active");
+    this.classList.toggle("active");
 });
 
 for (let i = 0; i < navbarLinks.length; i++) {
-  navbarLinks[i].addEventListener("click", function () {
-    navbar.classList.toggle("active");
-    menuToggleBtn.classList.toggle("active");
-  });
+    navbarLinks[i].addEventListener("click", function () {
+        navbar.classList.toggle("active");
+        menuToggleBtn.classList.toggle("active");
+    });
 }
-
 
 
 /**
@@ -32,15 +30,14 @@ const header = document.querySelector("[data-header]");
 const backTopBtn = document.querySelector("[data-back-top-btn]");
 
 window.addEventListener("scroll", function () {
-  if (window.scrollY >= 100) {
-    header.classList.add("active");
-    backTopBtn.classList.add("active");
-  } else {
-    header.classList.remove("active");
-    backTopBtn.classList.remove("active");
-  }
+    if (window.scrollY >= 100) {
+        header.classList.add("active");
+        backTopBtn.classList.add("active");
+    } else {
+        header.classList.remove("active");
+        backTopBtn.classList.remove("active");
+    }
 });
-
 
 
 /**
@@ -55,12 +52,11 @@ const searchCloseBtn = document.querySelector("[data-search-close-btn]");
 const searchBoxElems = [searchBtn, searchSubmitBtn, searchCloseBtn];
 
 for (let i = 0; i < searchBoxElems.length; i++) {
-  searchBoxElems[i].addEventListener("click", function () {
-    searchContainer.classList.toggle("active");
-    document.body.classList.toggle("active");
-  });
+    searchBoxElems[i].addEventListener("click", function () {
+        searchContainer.classList.toggle("active");
+        document.body.classList.toggle("active");
+    });
 }
-
 
 
 /**
@@ -74,19 +70,19 @@ let lastScrollPos = 0;
 
 window.addEventListener("scroll", function () {
 
-  let deliveryBoyTopPos = deliveryBoy.getBoundingClientRect().top;
+    let deliveryBoyTopPos = deliveryBoy.getBoundingClientRect().top;
 
-  if (deliveryBoyTopPos < 500 && deliveryBoyTopPos > -250) {
-    let activeScrollPos = window.scrollY;
+    if (deliveryBoyTopPos < 500 && deliveryBoyTopPos > -250) {
+        let activeScrollPos = window.scrollY;
 
-    if (lastScrollPos < activeScrollPos) {
-      deliveryBoyMove += 1;
-    } else {
-      deliveryBoyMove -= 1;
+        if (lastScrollPos < activeScrollPos) {
+            deliveryBoyMove += 1;
+        } else {
+            deliveryBoyMove -= 1;
+        }
+
+        lastScrollPos = activeScrollPos;
+        deliveryBoy.style.transform = `translateX(${deliveryBoyMove}px)`;
     }
-
-    lastScrollPos = activeScrollPos;
-    deliveryBoy.style.transform = `translateX(${deliveryBoyMove}px)`;
-  }
 
 });

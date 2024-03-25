@@ -150,4 +150,3 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'pauravthakkar252@gmail.com'
 EMAIL_HOST_PASSWORD = 'qzrz wlgd yqys zucv'
 EMAIL_USE_SSL = False
-
