@@ -13,11 +13,18 @@
     <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
 
+       <!-- custom static file for restaurant css -->
+       <link rel="stylesheet" href="{% static 'one_restaurant.css' %}"/>
+       <!-- custom static file for menu css  -->
+       <link rel="stylesheet" href="{% static 'one_menu.css' %}" />
+  
+     
 
     {% block custom_imports %}
     {% endblock %}
 
     <title> Foodies - {% block title %} Welcome! {% endblock %}</title>
+
 
 
     {% comment %} cart  {% endcomment %}
@@ -49,6 +56,8 @@
     {% block navigation %}
     {% endblock %}
     {% block filter %}
+    {% endblock %}
+    {% block external %}
     {% endblock %}
     <div class="container">
         {% block body_block %}

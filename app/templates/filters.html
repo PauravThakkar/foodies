@@ -1,13 +1,9 @@
-{% extends 'base.html' %}
-{% block navigation %}
-    {% include 'navbar.html' %}
-{% endblock %}
-{% block filter %}
-    <div class="filters">
-        <form class="filters-form" method="get" action="{% url 'temp_filter' %}">
-            {{ form.as_p }}
-            <button class="btn btn-primary" type="submit">Filter</button>
-        </form>
 
-    </div>
-{% endblock %}
+<div class="filters">
+    <form class="filters-form" method="post" action="/home/">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary filters-button" type="submit">Filter</button>
+    </form>
+
+</div>
