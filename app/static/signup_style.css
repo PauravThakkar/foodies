@@ -1,4 +1,4 @@
-.username-class, .password-class, .email-class, .dob-class, .contact-class {
+.username-class, .password-class, .password1-class, .password2-class, .email-class, .dob-class, .contact-class {
      /* Makes the background transparent */
     border: 1px solid black; /* Adds a light border */
     border-radius: 4px; /* Rounds the corners */
@@ -8,12 +8,43 @@
     margin: 10px;
 
 }
+.reset-email-class{
+    width: 50%;
+    border: 1px solid black;
+
+}
  p {
     font-size: small;
 }
 
 input::placeholder {
     color: #000; /* Lightens the placeholder text color */
+}
+
+#id_password1 {
+    border: 1px solid black; /* Adds a light border */
+    border-radius: 4px; /* Rounds the corners */
+    color: #333; /* Text color */
+    padding: 15px; /* Adds some padding inside the input fields */
+   width: 145%;
+    margin: 10px;
+}
+
+#id_password2 {
+    border: 1px solid black; /* Adds a light border */
+    border-radius: 4px; /* Rounds the corners */
+    color: #333; /* Text color */
+    padding: 15px; /* Adds some padding inside the input fields */
+   width: 145%;
+    margin: 10px;
+}
+#id_email{
+   border: 1px solid black; /* Adds a light border */
+    border-radius: 4px; /* Rounds the corners */
+    color: #333; /* Text color */
+    padding: 15px; /* Adds some padding inside the input fields */
+   width: 145%;
+    margin: 10px;
 }
 
 button {
