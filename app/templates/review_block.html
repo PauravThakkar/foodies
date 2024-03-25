@@ -4,7 +4,7 @@
 {% endblock %}
 {% block body_block %}
     {% block review_form %}
-        <h2>Review {{ restaurant_name }}</h2>
+        <h2 class = 'heading-review'>Review {{ restaurant_name }}</h2>
         {% if message %}
             <p>{{ message }}</p>
         {% else %}
@@ -15,22 +15,24 @@
                 </div>
                 <button class="btn btn-primary" type="submit">Submit</button>
             </form>
+            <hr>
         {% endif %}
     {% endblock %}
-
     {% block list_reviews %}
-        <h2>Reviews</h2>
+        <h2 class ='heading-review'>Reviews</h2>
+        <br>
         {% if reviews %}
             <ul>
                 {% for review in reviews %}
                     <li>
                         <p>
-                            user: {{ review.user }} : {{ review.ratings }} stars
+                            <strong>User: </strong>{{ review.user }} has given {{ review.ratings }} stars
                         </p>
-                        <p>date: {{ review.timestamp }}</p>
-                        <p>comment:
+                        <p><strong>On date:</strong> {{ review.timestamp }}</p>
+                        <p><strong>Comment:</strong>
                             <span>{{ review.comment }}</span>
                         </p>
+                    <hr>
                     </li>
                 {% endfor %}
             </ul>
