@@ -1,19 +1,21 @@
 .username-class, .password-class, .password1-class, .password2-class, .email-class, .dob-class, .contact-class {
-     /* Makes the background transparent */
+    /* Makes the background transparent */
     border: 1px solid black; /* Adds a light border */
     border-radius: 4px; /* Rounds the corners */
     color: #333; /* Text color */
     padding: 15px; /* Adds some padding inside the input fields */
-   width: 145%;
+    width: 145%;
     margin: 10px;
 
 }
-.reset-email-class{
+
+.reset-email-class {
     width: 50%;
     border: 1px solid black;
 
 }
- p {
+
+p {
     font-size: small;
 }
 
@@ -26,7 +28,7 @@ input::placeholder {
     border-radius: 4px; /* Rounds the corners */
     color: #333; /* Text color */
     padding: 15px; /* Adds some padding inside the input fields */
-   width: 145%;
+    width: 145%;
     margin: 10px;
 }
 
@@ -35,15 +37,16 @@ input::placeholder {
     border-radius: 4px; /* Rounds the corners */
     color: #333; /* Text color */
     padding: 15px; /* Adds some padding inside the input fields */
-   width: 145%;
+    width: 145%;
     margin: 10px;
 }
-#id_email{
-   border: 1px solid black; /* Adds a light border */
+
+#id_email {
+    border: 1px solid black; /* Adds a light border */
     border-radius: 4px; /* Rounds the corners */
     color: #333; /* Text color */
     padding: 15px; /* Adds some padding inside the input fields */
-   width: 145%;
+    width: 145%;
     margin: 10px;
 }
 

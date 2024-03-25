@@ -40,7 +40,7 @@
 }
 
 .details {
- 
+
     margin-bottom: 20px;
 }
 
@@ -51,16 +51,16 @@
     /* Maintain aspect ratio */
 }
 
-.text-spacing{
+.text-spacing {
     letter-spacing: 2px;
 }
 
 .add-to-cart-btn {
     transition: all 0.3s ease; /* Add transition for smooth animation */
-  
+
 }
 
 .add-to-cart-btn:hover {
     transform: scale(1.1); /* Increase box size on hover */
-   
+
 }

@@ -8,32 +8,35 @@
 {% endblock %}
 {% block body_block %}
     <div class="user-settings-container">
-    <h1 class="user-settings-head">User Settings</h1>
-    <div class="profile-info">
-        <div class="profile-picture-container">
-            <img src="{% if customer.profile_picture %}{{ customer.profile_picture.url }}{% else %}{% static 'images/food.jpg' %}{% endif %}" alt="Profile Picture" class="profile-picture">
+        <h1 class="user-settings-head">User Settings</h1>
+        <div class="profile-info">
+            <div class="profile-picture-container">
+                <img src="
+
+                        {% if customer.profile_picture %}{{ customer.profile_picture.url }}{% else %}{% static 'images/food.jpg' %}{% endif %}"
+                     alt="Profile Picture" class="profile-picture">
+            </div>
+            <div class="username-container">
+                <label for="username" class="user-settings-form-label">UserName</label>
+                <span id="username" class="username">{{ customer.username }}</span>
+            </div>
         </div>
-        <div class="username-container">
-            <label for="username" class="user-settings-form-label">UserName</label>
-            <span id="username" class="username">{{ customer.username }}</span>
-        </div>
-    </div>
-    <form method="post" enctype="multipart/form-data" class="user-settings-form">
-        {% csrf_token %}
-        {{ customer_form.as_p }}
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-                <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-                <script>
-                    $( function() {
-                        $( "#id_date_of_birth" ).datepicker({
-                            changeMonth: true,
-                            changeYear: true,
-                            yearRange: "-100:+0",
-                            dateFormat: "yy-mm-dd" 
-                        });
+        <form method="post" enctype="multipart/form-data" class="user-settings-form">
+            {% csrf_token %}
+            {{ customer_form.as_p }}
+            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            <script>
+                $(function () {
+                    $("#id_date_of_birth").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        yearRange: "-100:+0",
+                        dateFormat: "yy-mm-dd"
                     });
-                </script>
-        <button type="submit" class="user-settings-btn user-settings-btn-primary">Save Changes</button>
-    </form>
+                });
+            </script>
+            <button type="submit" class="user-settings-btn user-settings-btn-primary">Save Changes</button>
+        </form>
     </div>
 {% endblock %}
