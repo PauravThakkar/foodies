@@ -65,52 +65,23 @@
 
             </div>
             {% for menu in restaurant_details.menus.all %}
-            <div class="col-md-4 mt-5"> <!-- Adjust column size based on your requirement -->
-                <a href="{% url 'get_one_menu' menu.id %}">
-                    <div class="menu-box-container-each-menu-box border p-4">
-                        <div class="menu-box-container-each-menu-box-image">
-                            <img class="img-fluid rounded" src="{{ menu.image.url }}" alt="Page not found"/>
-                        </div>
-                        <div class="menu-box-container-each-menu-box-details text-danger">
-                            <h2>{{ menu.name }}</h2>
-                            <h4>{{ menu.description }}</h4>
-                            <h5>{{ menu.category.name }}</h5>
-                            <h5>{{ menu.price }}</h5>
-                        </div>
-                    </div>
-
-
-                    <!-- Menu -->
-
-
-                    <div class="row mt-5 ">
-                        <div class="col-md-12 text-center text-danger" style="margin-bottom: 30px;">
-                            <h3>Menus</h3>
-                        </div>
-
-                        {% for menu in restaurant_details.menus.all %}
-                            <div class="col-md-4 mt-5"> <!-- Adjust column size based on your requirement -->
-                                <a href="{% url 'get_one_menu' menu.id %}">
-                                    <div class="menu-box-container-each-menu-box border p-4">
-                                        <div class="menu-box-container-each-menu-box-image">
-                                            <img class="img-fluid rounded" src="{{ menu.image.url }}"
-                                                 alt="Page not found"/>
-                                        </div>
-                                        <div class="menu-box-container-each-menu-box-details text-dark">
-                                            <h2>{{ menu.name }}</h2>
-                                            <h4>{{ menu.description }}</h4>
-                                            <h5>{{ menu.category.name }}</h5>
-                                            <h5>{{ menu.price }}</h5>
-                                        </div>
-                                    </div>
-                                </a>
+                <div class="col-md-4 mt-5"> <!-- Adjust column size based on your requirement -->
+                    <a href="{% url 'get_one_menu' menu.id %}">
+                        <div class="menu-box-container-each-menu-box border p-4">
+                            <div class="menu-box-container-each-menu-box-image">
+                                <img class="img-fluid rounded" src="{{ menu.image.url }}" alt="Page not found"/>
                             </div>
-
-
-                        {% endfor %}
-                    </div>
-
-            </div>
+                            <div class="menu-box-container-each-menu-box-details text-danger">
+                                <h2>{{ menu.name }}</h2>
+                                <h4>{{ menu.description }}</h4>
+                                <h5>{{ menu.category.name }}</h5>
+                                <h5>{{ menu.price }}</h5>
+                            </div>
+                        
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
 
 
 {% endblock %}
