@@ -23,6 +23,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Restaurant
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Avg
 from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
 from django.urls.base import reverse
@@ -52,6 +53,11 @@ def review_view(request, restaurant_id):
             review.user = user
             review.restaurant = restaurant
             review.save()
+
+            average_rating = Review.objects.filter(restaurant=restaurant).aggregate(Avg('ratings'))
+            print(average_rating)
+            restaurant.avg_ratings = int(average_rating['ratings__avg'])
+            restaurant.save()
 
             return render(request, 'review_block.html',
                           {'review_from': form, 'restaurant_id': restaurant.id,
@@ -90,35 +96,18 @@ def user_settings(request):
 
 @login_required(login_url='/login/')
 def user_history(request):
-    # Initialize visit count to 0
-    visit_count = 0
-
-    # Check if 'visit_count' is already stored in session
-    if 'visit_count' in request.session:
-        visit_count = request.session['visit_count']
-
-    # Increment visit count
-    visit_count += 1
-
-    # Update session with new visit count
-    request.session['visit_count'] = visit_count
-    # Get the current user
-    # user = Customer.objects.all()
     current_user = request.user
 
-    # Filter orders made by the current user
     user_orders = Order.objects.filter(user=current_user)
 
-    # Create a list to hold order details (restaurant name and order ID)
     order_details = []
 
-    # Iterate through each order to extract restaurant name and order ID
     for order in user_orders.all():
         order_details.append((order.order_id, order.items.all(), order.total))
 
     # Pass the order details to the template for rendering
     return render(request, 'user_history.html',
-                  {'order_details': order_details, 'visit_count': visit_count})
+                  {'order_details': order_details})
 
 
 def sign_up(request):
