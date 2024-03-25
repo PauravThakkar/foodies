@@ -10,7 +10,7 @@ from django.urls.base import reverse, reverse_lazy
 from django.views import View
 from paypal.standard.forms import PayPalPaymentsForm
 
-from .forms import FilterForm, ResetPasswordChangeForm
+from .forms import FilterForm, ResetPasswordChangeForm, MenuFilterForm
 from .forms import LoginForm
 from .forms import ReviewForm, CustomerForm
 from .forms import SignUpForm, ResetPasswordForm
@@ -262,7 +262,6 @@ class GetOneMenuByIdView(View):
 class GetOneRestaurantByIdView(View):
 
     def get_obj(self, id):
-
         try:
             obj = Restaurant.objects.get(id=id)
         except:
@@ -271,15 +270,34 @@ class GetOneRestaurantByIdView(View):
         return obj
 
     def get(self, request, id):
-
         restaurant_details = self.get_obj(id=id)
-
+        form = MenuFilterForm()
         context = {
             'restaurant_details': restaurant_details,
-
+            "form": form
         }
-
         return render(request, "one_restaurant.html", context=context)
+
+    def post(self, request, id):
+        restaurant_details = self.get_obj(id=id)
+        form = MenuFilterForm(request.POST)
+        print(restaurant_details.menus.all())
+        if form.is_valid():
+            # category = form.cleaned_data['Category']
+            # if category:
+            #     restaurant_details = restaurant_details.menus.all().filter(category=category)
+            search_query = form.cleaned_data['Search']
+
+            if search_query:
+                restaurant_details = restaurant_details.menus.all().filter(name__icontains=search_query)
+            context = {
+                'restaurant_details': restaurant_details,
+                "form": form
+            }
+            return render(request, "one_restaurant.html", context=context)
+        else:
+            print(form.errors)
+
 
 
 def homeview(request):

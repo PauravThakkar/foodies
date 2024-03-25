@@ -708,10 +708,12 @@ body.active { overflow: hidden; }
 }
 
 .food-menu-card {
-  padding: 40px 0;
+  padding: 40px 10px;
   box-shadow: 0 3px 10px rgba(224, 99, 99, 0.5);
   border: 1px red !important;
   border-radius: 20px;
+  max-width: 30vw !important;
+
 }
 
 .food-menu-card:focus-within { outline: 1px auto -webkit-focus-ring-color; }

@@ -34,8 +34,8 @@
       </div>
 
       <div class="col-md-3 restaurant-box-container-details-right-side justify-content-center">
-        <a href="{% url 'ratings' restaurant_details.id  %}"> <button type="button" class="btn btn-primary ">Add
-            ratings</button></a>
+{#        <a href="{% url 'ratings' restaurant_details.id  %}"> <button type="button" class="btn btn-primary ">Add#}
+{#            ratings</button></a>#}
       </div>
 
     </div>
@@ -53,7 +53,14 @@
     <div class="col-md-12 border text-center text-danger" style="margin-bottom: 30px;">
       <h3>Menus</h3>
     </div>
+    <div class="menu-filters">
+        <form class="filters-form" method="post" action={% url 'get_one_restaurant' restaurant_details.id %}>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary filters-button" type="submit">Filter</button>
+        </form>
 
+    </div>
     {% for menu in restaurant_details.menus.all %}
     <div class="col-md-4 mt-5"> <!-- Adjust column size based on your requirement -->
       <a href="{% url 'get_one_menu' menu.id %}">
@@ -141,8 +148,6 @@
                 </div>
 
                 <div class="mt-5">
-                  <a href="{% url 'ratings' restaurant_details.id  %}"> <button class="btn btn-danger">Add
-                      ratings</button></a>
                 </div>
               </div>
 
